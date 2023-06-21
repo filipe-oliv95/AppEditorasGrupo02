@@ -1,39 +1,42 @@
-import { StyleSheet,
+import {
+    StyleSheet,
     Text,
     View,
     TextInput,
     TouchableOpacity
- } 
- from "react-native";
+}
+    from "react-native";
 
- import { useState, useContext } from "react";
- import  AxiosInstance  from "../../api/AxiosInstance";
- import { DataContext } from "../../context/DataContext";
+import { useState, useContext } from "react";
+import AxiosInstance from "../../api/AxiosInstance";
+import { DataContext } from "../../context/DataContext";
+import { Ionicons } from '@expo/vector-icons';
 
- const Login = ({navigation}) => {
+const Login = ({ navigation }) => {
 
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
-    const {armazenarDadosUsuario} = useContext(DataContext);
+    const { armazenarDadosUsuario } = useContext(DataContext);
+    const [hidePass, setHidePass] = useState(true);
 
     const handleLogin = async () => {
         console.log(`E-mail: ${email} - Senha: ${senha}`);
 
-        try{
-            const resultado = await AxiosInstance.post('/auth/signin',{
+        try {
+            const resultado = await AxiosInstance.post('/auth/signin', {
                 username: email,
                 password: senha
             });
 
-            if(resultado.status === 200){
+            if (resultado.status === 200) {
                 var jwtToken = resultado.data;
                 armazenarDadosUsuario(jwtToken["accessToken"]);
 
                 navigation.navigate("Main");
-            }else{
+            } else {
                 console.log('erro ao realizar o login');
             }
-        }catch(error){
+        } catch (error) {
             console.log('erro durante o processo de login: ' + error);
         }
     }
@@ -49,20 +52,30 @@ import { StyleSheet,
                 value={email}
             />
             <Text style={styles.txtinput} >Senha:</Text>
-            <TextInput
-                style={styles.input}
-                placeholder="Senha"
-                onChangeText={setSenha}
-                value={senha}
-            />
+            <View style={styles.inputArea}>
+                <TextInput
+                    style={styles.inputSenha}
+                    placeholder="Senha"
+                    onChangeText={setSenha}
+                    value={senha}
+                    secureTextEntry={hidePass}
+                />
+                <TouchableOpacity style={styles.icon} onPress={() => setHidePass(!hidePass)}>
+                    { hidePass ?
+                    <Ionicons name="eye" color="#07261d" />
+                    :
+                    <Ionicons name="eye-off" color="#07261d" />
+                    }
+                </TouchableOpacity>
+            </View>
             <TouchableOpacity style={styles.button} onPress={() => handleLogin()} >
                 <Text style={styles.txtButton}>Login</Text>
             </TouchableOpacity>
         </View>
     );
- }
+}
 
- const styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#51cba6',
@@ -82,11 +95,34 @@ import { StyleSheet,
         backgroundColor: '#a8e5d3',
         borderRadius: 13,
         width: 200,
-        height: 30, 
+        height: 30,
         margin: 5,
         padding: 3,
         borderTopLeftRadius: 2,
         borderBottomRightRadius: 2,
+    },
+    inputArea: {
+        flexDirection: 'row',
+    },
+    inputSenha: {
+        backgroundColor: '#a8e5d3',
+        borderBottomLeftRadius: 13,
+        borderTopLeftRadius: 2,
+        width: 170,
+        height: 30,
+        marginTop: 5,
+        padding: 3,
+    },
+    icon: {
+        width: 30,
+        height: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#a8e5d3',
+        marginTop: 5,
+        borderBottomRightRadius: 2,
+        borderTopRightRadius: 13,
+
     },
     button: {
         display: 'flex',
@@ -101,6 +137,6 @@ import { StyleSheet,
     txtButton: {
         color: '#66d2b1',
     },
- })
+})
 
- export default Login;
+export default Login;
