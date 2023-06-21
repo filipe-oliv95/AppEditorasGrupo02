@@ -36,18 +36,26 @@ const ItemEditora = ({ img, nomeEditora, id }) => {
     )
 };
 
-const ItemLivro = ({ img, nomeLivro }) => {
+const ItemLivro = ({ img, nomeLivro, id }) => {
+
+    const navigation = useNavigation();
+
+    const handlePress = () => {
+        navigation.navigate('Livro', { livroId: id });
+    }
 
     return (
-        <View style={styles.itemLivro}>
-            <Image
-                style={styles.itemPhoto}
-                source={{ uri: `data:image/png;base64,${img}` }}
-            />
-            <View style={styles.itemTextContainerLivro}>
-                <Text style={styles.itemTextLivro}>{nomeLivro}</Text>
+        <TouchableOpacity onPress={handlePress}>
+            <View style={styles.itemLivro}>
+                <Image
+                    style={styles.itemPhoto}
+                    source={{ uri: `data:image/png;base64,${img}` }}
+                />
+                <View style={styles.itemTextContainerLivro}>
+                    <Text style={styles.itemTextLivro}>{nomeLivro}</Text>
+                </View>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 };
 
@@ -98,7 +106,7 @@ const Home = () => {
                     <Text style={styles.sectionHeader}>LIVROS</Text>
                     <FlatList
                         data={dadosLivro}
-                        renderItem={({ item }) => <ItemLivro nomeLivro={item.nomeLivro} img={item.img} />}
+                        renderItem={({ item }) => <ItemLivro nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} />}
                         keyExtractor={item => item.codigoLivro}
                         horizontal
                         showsHorizontalScrollIndicator={false}
