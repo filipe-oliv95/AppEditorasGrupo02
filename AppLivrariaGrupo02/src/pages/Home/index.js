@@ -114,18 +114,20 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         zIndex: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.9)',
+        backgroundColor: '#51cba6',
     },
     sectionHeader: {
         fontWeight: '800',
         fontSize: 18,
-        color: '#f4f4f4',
+        color: '#04140f',
         marginTop: 20,
         marginLeft: 10,
+        
     },
     itemPhoto: {
         width: 200,
         height: 200,
+        borderRadius: 13,
     },
     itemEditora: {
         margin: 10,
@@ -142,18 +144,19 @@ const styles = StyleSheet.create({
         height: '100%',
         position: 'absolute',
         backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        borderRadius: 13,
     },
     itemLivro: {
         margin: 10,
     },
     itemTextLivro: {
-        color: 'rgba(0, 0, 0, 0.7)',
+        color: '#66d2b1',
         fontSize: 18,
         marginVertical: 5,
         marginHorizontal: 10,
     },
     itemTextContainerLivro: {
-        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+        backgroundColor: '#07261d',
         borderBottomStartRadius: 5,
         borderBottomEndRadius: 5,
     },
