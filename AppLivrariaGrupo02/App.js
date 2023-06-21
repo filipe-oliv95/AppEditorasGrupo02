@@ -18,7 +18,11 @@ const Tab = createBottomTabNavigator();
 
 function Tabs({ navigation }) {
   return (
-    <Tab.Navigator initialRouteName='Home' >
+    <Tab.Navigator
+      initialRouteName='Home'
+      screenOptions={{
+        tabBarLabel: () => null,
+      }}>
       <Tab.Screen
         name="Home"
         component={Home}
@@ -33,7 +37,7 @@ function Tabs({ navigation }) {
         options={{
           headerShown: false,
           tabBarIcon: (tabInfo) => (
-            <AiOutlineSearch name="home" size={24} />
+            <AiOutlineSearch name="search" size={24} />
           ),
         }} />
       <Tab.Screen
@@ -42,7 +46,7 @@ function Tabs({ navigation }) {
         options={{
           headerShown: false,
           tabBarIcon: (tabInfo) => (
-            <AiFillHeart name="home" size={24} />
+            <AiFillHeart name="heart" size={24} />
           ),
         }} />
       <Tab.Screen
@@ -51,7 +55,7 @@ function Tabs({ navigation }) {
         options={{
           headerShown: false,
           tabBarIcon: (tabInfo) => (
-            <FaShoppingCart name="home" size={24} />
+            <FaShoppingCart name="cart" size={24} />
           ),
         }} />
     </Tab.Navigator>

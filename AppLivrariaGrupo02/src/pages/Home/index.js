@@ -61,8 +61,8 @@ const ItemLivro = ({ img, nomeLivro, id }) => {
 
 const Home = () => {
     const { dadosUsuario } = useContext(DataContext);
-    const [dadosEditora, setDadosEditora] = useState();
-    const [dadosLivro, setDadosLivro] = useState();
+    const [dadosEditora, setDadosEditora] = useState([]);
+    const [dadosLivro, setDadosLivro] = useState([]);
 
     useEffect(() => {
         getAllEditoras();
@@ -111,6 +111,10 @@ const Home = () => {
                         horizontal
                         showsHorizontalScrollIndicator={false}
                     />
+                    <Text style={styles.sectionHeader}>DESTAQUE</Text>
+                    {dadosEditora.length > 0 &&
+                        <ItemEditora nomeEditora={dadosEditora[0].nomeEditora} img={dadosEditora[0].img} id={dadosEditora[0].codigoEditora} />
+                    }
                 </ScrollView>
             </View>
         </View>
@@ -130,7 +134,7 @@ const styles = StyleSheet.create({
         color: '#04140f',
         marginTop: 20,
         marginLeft: 10,
-        
+
     },
     itemPhoto: {
         width: 200,
