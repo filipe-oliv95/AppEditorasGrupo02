@@ -27,10 +27,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   menuWrapper: {
-    width: 100,
+    // width: 100,
+    flex: 1,
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    flex: 1,
   },
   menuItem: {
     fontSize: 18,

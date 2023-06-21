@@ -23,9 +23,9 @@ const Header = ({ title }) => {
           />
         </TouchableOpacity>
         <Text style={styles.headerText}>{ title }</Text>
+      </View>
       <View style={styles.sidedbarContainer}>
         {sidebarOpen && <Sidebar />}
-      </View>
       </View>
     </View>
   );
@@ -51,7 +51,6 @@ const styles = StyleSheet.create({
     color: 'rgba(255, 255, 255, 0.9)',
   },
   sidedbarContainer: {
-
   },
 });
 
