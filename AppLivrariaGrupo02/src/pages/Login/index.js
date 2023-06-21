@@ -29,7 +29,7 @@ import { StyleSheet,
                 var jwtToken = resultado.data;
                 armazenarDadosUsuario(jwtToken["accessToken"]);
 
-                navigation.navigate("Home");
+                navigation.navigate("Main");
             }else{
                 console.log('erro ao realizar o login');
             }

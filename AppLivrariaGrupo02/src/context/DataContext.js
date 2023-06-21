@@ -20,8 +20,8 @@ export const DataProvider = ({ children }) => {
 
         setDadosUsuarios({
             id: usuario?.id,
-            nome: usuario.username,
-            email: usuario.email,
+            nome: usuario?.username,
+            email: usuario?.email,
             token: jwt
         })
     }
