@@ -2,6 +2,8 @@ import React, { useContext, useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { DataContext } from '../../context/DataContext';
 import AxiosInstance from '../../api/AxiosInstance';
+import { AiFillHeart } from 'react-icons/ai';
+
 
 const Livro = ({ route }) => {
   const { dadosUsuario } = useContext(DataContext);
@@ -38,16 +40,28 @@ const Livro = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.itemLivros}>
-          <Image 
-            style={styles.itemPhoto}
-            source={{ uri: `data:image/png;base64,${livro.img}` }}
-          />
-          <View style={styles.itemTextContainer}>
-            <Text style={styles.itemTextLivros}>{livro.nomeLivro}</Text>
-            <Text style={styles.itemTextLivros}>{livro.codigoLivro}</Text>
+      <View style={styles.contentContainer}>
+        <Image 
+          style={styles.itemPhoto}
+          source={{ uri: `data:image/png;base64,${livro.img}` }}
+        />
+        <View style={styles.itemContent}>
+          <Text style={styles.itemTextLivros}>{livro.nomeLivro}</Text>
+          <Text style={styles.itemTextLivros}>{livro.autorDTO.nomeAutor}</Text>
+          <Text>R$ 564</Text>
+          <TouchableOpacity style={styles.button} onPress={() => console.log("comprar pressionado")} >
+            <Text style={styles.txtButton}>COMPRAR</Text>
+          </TouchableOpacity>
+          <View style={styles.favoriteBtn}>
+            <Text>FAVORITAR</Text>
+            <AiFillHeart 
+              fontWeight='800' 
+              size={20} 
+              color='rgba(120, 255, 255, 0.9)' 
+            />
           </View>
         </View>
+      </View>
     </View>
   );
 };
@@ -56,9 +70,26 @@ const Livro = ({ route }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
+    flex: 1,    
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  contentContainer: {
+    padding: 15,
+    backgroundColor: 'white',
+    borderColor: '#555',
+    borderWidth: 1,
+    display: 'flex',
+    gap: 10, 
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  itemContent: {
+    // margin: 10,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    height: '100%',
   },
   loadingText: {
     fontSize: 18,
@@ -77,20 +108,31 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
   },
-  itemLivros: {
-    margin: 10,
-  },
   itemTextLivros: {
     color: 'rgba(0, 0, 0, 0.7)',
     fontSize: 18,
     marginVertical: 5,
     marginHorizontal: 10,
   },
-  itemTextContainer: {
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    borderBottomStartRadius: 5,
-    borderBottomEndRadius: 5,
-  },
+
+  button: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#07261d',
+    // marginTop: 10,
+    width: '100%',
+    height: 30,
+    borderRadius: 13,
+},
+txtButton: {
+    color: '#66d2b1',
+},
+favoriteBtn: {
+  display: 'flex',
+  flexDirection: 'row',
+  padding: 5,
+}
 });
 
 export default Livro;
