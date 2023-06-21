@@ -1,17 +1,17 @@
 import 'react-native-gesture-handler';
-import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { DataProvider } from './src/context/DataContext';
-
-import Login from "./src/pages/Login";
-import Home from "./src/pages/Home";
-import Favoritos from "./src/pages/Favoritos";
+import { AiTwotoneHome, AiOutlineSearch, AiFillHeart } from "react-icons/ai";
+import { FaShoppingCart } from "react-icons/fa";
 import Carrinho from "./src/pages/Carrinho";
-import Editoras from "./src/pages/Editoras";
 import Editora from "./src/pages/Editora";
+import Editoras from "./src/pages/Editoras";
+import Favoritos from "./src/pages/Favoritos";
+import Home from "./src/pages/Home";
 import Livro from "./src/pages/Livro";
+import Login from "./src/pages/Login";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -19,10 +19,41 @@ const Tab = createBottomTabNavigator();
 function Tabs({ navigation }) {
   return (
     <Tab.Navigator initialRouteName='Home' >
-      <Tab.Screen name="Home" component={Home} options={{ headerShown: false }} />
-      <Tab.Screen name="Busca" component={Editoras} options={{ headerShown: false }} />
-      <Tab.Screen name="Favoritos" component={Favoritos} options={{ headerShown: false }} />
-      <Tab.Screen name="Carrinho" component={Carrinho} options={{ headerShown: false }} />
+      <Tab.Screen
+        name="Home"
+        component={Home}
+        options={{
+          headerShown: false,
+          tabBarIcon: (tabInfo) => (
+            <AiTwotoneHome name="home" size={24} />
+          ),
+        }} />
+      <Tab.Screen name="Busca"
+        component={Editoras}
+        options={{
+          headerShown: false,
+          tabBarIcon: (tabInfo) => (
+            <AiOutlineSearch name="home" size={24} />
+          ),
+        }} />
+      <Tab.Screen
+        name="Favoritos"
+        component={Favoritos}
+        options={{
+          headerShown: false,
+          tabBarIcon: (tabInfo) => (
+            <AiFillHeart name="home" size={24} />
+          ),
+        }} />
+      <Tab.Screen
+        name="Carrinho"
+        component={Carrinho}
+        options={{
+          headerShown: false,
+          tabBarIcon: (tabInfo) => (
+            <FaShoppingCart name="home" size={24} />
+          ),
+        }} />
     </Tab.Navigator>
   );
 }
