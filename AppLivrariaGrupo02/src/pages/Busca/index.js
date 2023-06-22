@@ -132,18 +132,20 @@ const Busca = () => {
                     onChangeText={onChangeSearch}
                     value={searchQuery}
                 />
-                <Text style={styles.sectionHeader}>Resultado:</Text>
+                
                 {(editorasFiltradas.length === 0 && livrosFiltrados.length === 0) ? (
                     <Text style={styles.errorText}>Nenhum item encontrado</Text>
                 ) : (
                     <View style={styles.float}>
-                        <FlatList
+                        <Text style={styles.sectionHeader}>Resultado Livros:</Text>
+                        <FlatList style={styles.list}
                             data={livrosFiltrados}
                             renderItem={({ item }) => <ItemLivro nomeAutor={item.autorDTO.nomeAutor} nomeEditora={item.editoraDTO.nomeEditora} nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} />}
                             keyExtractor={item => item.codigoLivro}
                             showsHorizontalScrollIndicator={false}
                         />
-                        <FlatList
+                        <Text style={styles.sectionHeader}>Resultado Editoras:</Text>
+                        <FlatList style={styles.list}
                             data={editorasFiltradas}
                             renderItem={({ item }) => <ItemEditora nomeEditora={item.nomeEditora} img={item.img} id={item.codigoEditora} />}
                             keyExtractor={item => item.codigoEditora}
@@ -182,6 +184,9 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 13
     },
     float: {
+        height: '90%',
+    },
+    list: {
         height: '80%',
     },
     destaqueItemPhoto: {
