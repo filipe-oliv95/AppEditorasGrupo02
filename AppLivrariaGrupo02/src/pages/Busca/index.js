@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { DataContext } from '../../context/DataContext';
 import { ScrollView } from 'react-native-gesture-handler';
+import { Searchbar } from 'react-native-paper';
 import AxiosInstance from '../../api/AxiosInstance';
 import Header from '../../components/Header'
 import {
@@ -59,15 +60,37 @@ const ItemLivro = ({ img, nomeLivro, id }) => {
     )
 };
 
-const Home = () => {
+const Busca = () => {
     const { dadosUsuario } = useContext(DataContext);
     const [dadosEditora, setDadosEditora] = useState([]);
     const [dadosLivro, setDadosLivro] = useState([]);
+
+    const [searchQuery, setSearchQuery] = React.useState('');
+    const [editorasFiltradas, setEditorasFiltradas] = useState([]);
+    const [livrosFiltrados, setLivrosFiltrados] = useState([]);
+  
+    const onChangeSearch = query => setSearchQuery(query);
 
     useEffect(() => {
         getAllEditoras();
         getAllLivros();
     }, [])
+
+    console.log(dadosEditora)
+
+    useEffect(() => {
+        if (dadosEditora) {
+          const filteredEditoras = dadosEditora.filter(item => item.nomeEditora.toLowerCase().includes(searchQuery.toLowerCase()));
+          setEditorasFiltradas(filteredEditoras);
+        }
+      }, [searchQuery, dadosEditora]);
+
+    useEffect(() => {
+        if (dadosLivro) {
+          const filteredLivros = dadosLivro.filter(item => item.nomeLivro.toLowerCase().includes(searchQuery.toLowerCase()));
+          setLivrosFiltrados(filteredLivros);
+        }
+      }, [searchQuery, dadosEditora]);
 
     const getAllEditoras = async () => {
         await AxiosInstance.get(
@@ -94,32 +117,32 @@ const Home = () => {
         <View style={styles.container}>
             <View style={{ flex: 1 }}>
                 <Header title='Home'></Header>
+                <Searchbar
+                    placeholder="Título, editora ou autor"
+                    style={styles.searchBar}
+                    onChangeText={onChangeSearch}
+                    value={searchQuery}
+                /> 
                 <ScrollView showsVerticalScrollIndicator={false}>
-                    <Text style={styles.sectionHeader}>EDITORAS</Text>
-                        <FlatList
-                            data={dadosEditora}
-                            renderItem={({ item }) => <ItemEditora nomeEditora={item.nomeEditora} img={item.img} id={item.codigoEditora} />}
-                            keyExtractor={item => item.codigoEditora}
-                            horizontal
-                            showsHorizontalScrollIndicator={false}
-                        />
-                    <Text style={styles.sectionHeader}>LIVROS</Text>
-                        <FlatList
-                            data={dadosLivro}
-                            renderItem={({ item }) => <ItemLivro nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} />}
-                            keyExtractor={item => item.codigoLivro}
-                            horizontal
-                            showsHorizontalScrollIndicator={false}
-                        />
-                    <Text style={styles.sectionHeader}>DESTAQUE</Text>
-                    {dadosEditora.length > 0 &&
-                        <ItemEditora
-                            nomeEditora={dadosEditora[0].nomeEditora}
-                            img={dadosEditora[0].img}
-                            id={dadosEditora[0].codigoEditora}
-                            destaque={true}
-                        />
-                    }
+                    <Text style={styles.sectionHeader}>Resultado:</Text>
+                    {(editorasFiltradas.length === 0 && livrosFiltrados.length === 0) ? (
+                        <Text style={styles.errorText}>Nenhum item encontrado</Text>
+                        ) : (
+                        <View>
+                            <FlatList
+                                data={editorasFiltradas}
+                                renderItem={({ item }) => <ItemEditora nomeEditora={item.nomeEditora} img={item.img} id={item.codigoEditora} />}
+                                keyExtractor={item => item.codigoEditora}
+                                showsHorizontalScrollIndicator={false}
+                            />
+                            <FlatList
+                                data={livrosFiltrados}
+                                renderItem={({ item }) => <ItemLivro nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} />}
+                                keyExtractor={item => item.codigoLivro}
+                                showsHorizontalScrollIndicator={false}
+                            />
+                        </View>
+                    )}  
                 </ScrollView>
             </View>
         </View>
@@ -192,4 +215,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default Home;
+export default Busca;

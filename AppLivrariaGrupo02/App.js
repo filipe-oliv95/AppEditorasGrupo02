@@ -11,6 +11,7 @@ import Favoritos from "./src/pages/Favoritos";
 import Home from "./src/pages/Home";
 import Livro from "./src/pages/Livro";
 import Login from "./src/pages/Login";
+import Busca from "./src/pages/Busca";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -32,7 +33,7 @@ function Tabs({ navigation }) {
           ),
         }} />
       <Tab.Screen name="Busca"
-        component={Editoras}
+        component={Busca}
         options={{
           headerShown: false,
           tabBarIcon: (tabInfo) => (
