@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react
 import { DataContext } from '../../context/DataContext';
 import { Searchbar } from 'react-native-paper';
 import AxiosInstance from '../../api/AxiosInstance';
+import { Ionicons, Entypo } from '@expo/vector-icons';
 
 const LivrosEditora = ({ imagem, nomeLivro, codigoLivro }) => {
   const navigation = useNavigation();
@@ -23,6 +24,7 @@ const LivrosEditora = ({ imagem, nomeLivro, codigoLivro }) => {
             <Text style={styles.itemTextLivros}>{nomeLivro}</Text>
             <Text style={styles.itemTextLivros}>ver livro</Text>
           </View>
+        <Entypo style={styles.icon} name="arrow-with-circle-right" size={40} color="#66d2b1" />
         </View>
     </TouchableOpacity>
   )
@@ -86,6 +88,7 @@ const Editora = ({ route }) => {
               renderItem={({ item }) => <LivrosEditora imagem={item.imagem} nomeLivro={item.nomeLivro} codigoLivro={item.codigoLivro} />}
               keyExtractor={item => item.codigoLivro}
               showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={false}
           />
         )}
       </View>
@@ -105,6 +108,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     width: '100%',
+    height: '80%',
   },
   sectionHeader: {
     fontSize: 20,
@@ -126,14 +130,22 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   itemPhoto: {
-    width: 200,
-    height: 200,
+    width: 100,
+    height: 100,
     backgroundColor: '#a8e5d3',
-    borderTopLeftRadius: 13,
-    borderTopRightRadius: 13,
+    borderRadius: 5,
+    borderBottomLeftRadius: 13
   },
   itemLivros: {
+    display: 'flex',
+    flexDirection: 'row',
+    backgroundColor: '#07261d',
     margin: 10,
+    padding: 0,
+    alignItems: 'center',
+    borderRadius: 13,
+    borderTopLeftRadius: 5,
+    borderBottomRightRadius: 5,
   },
   itemTextLivros: {
     color: '#66d2b1',
@@ -143,12 +155,16 @@ const styles = StyleSheet.create({
   },
   itemTextContainer: {
     backgroundColor: '#07261d',
-    borderBottomStartRadius: 13,
-    borderBottomEndRadius: 13,
+    borderBottomStartRadius: 5,
+    borderBottomEndRadius: 5,
   },
   searchBar: {
     margin: 10,
     backgroundColor: '#a8e5d3',
+  },
+  icon: {
+    marginLeft: 'auto',
+    marginRight: 15,
   },
 });
 
