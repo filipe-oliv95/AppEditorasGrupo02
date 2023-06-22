@@ -2,8 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { DataContext } from '../../context/DataContext';
 import AxiosInstance from '../../api/AxiosInstance';
-import { AiFillHeart } from 'react-icons/ai';
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Livro = ({ route }) => {
   const { dadosUsuario } = useContext(DataContext);
@@ -41,7 +40,7 @@ const Livro = ({ route }) => {
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
-        <Image 
+        <Image
           style={styles.itemPhoto}
           source={{ uri: `data:image/png;base64,${livro.img}` }}
         />
@@ -54,10 +53,10 @@ const Livro = ({ route }) => {
           </TouchableOpacity>
           <View style={styles.favoriteBtn}>
             <Text>FAVORITAR</Text>
-            <AiFillHeart 
-              fontWeight='800' 
-              size={20} 
-              color='rgba(120, 255, 255, 0.9)' 
+            <Icon
+              name='heart'
+              size={20}
+              color='rgba(120, 255, 255, 0.9)'
             />
           </View>
         </View>
@@ -70,7 +69,7 @@ const Livro = ({ route }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,    
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -80,7 +79,7 @@ const styles = StyleSheet.create({
     borderColor: '#555',
     borderWidth: 1,
     display: 'flex',
-    gap: 10, 
+    gap: 10,
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -123,15 +122,15 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 30,
     borderRadius: 13,
-},
-txtButton: {
+  },
+  txtButton: {
     color: '#66d2b1',
-},
-favoriteBtn: {
-  display: 'flex',
-  flexDirection: 'row',
-  padding: 5,
-}
+  },
+  favoriteBtn: {
+    display: 'flex',
+    flexDirection: 'row',
+    padding: 5,
+  }
 });
 
 export default Livro;
