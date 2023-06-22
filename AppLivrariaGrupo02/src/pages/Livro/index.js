@@ -88,7 +88,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    // height: '100%',
   },
   loadingText: {
     fontSize: 18,
