@@ -3,7 +3,9 @@ import { useNavigation } from '@react-navigation/native';
 import { DataContext } from '../../context/DataContext';
 import { ScrollView } from 'react-native-gesture-handler';
 import AxiosInstance from '../../api/AxiosInstance';
+
 import { MaterialIcons } from '@expo/vector-icons';
+
 
 import {
     StatusBar,
@@ -20,7 +22,7 @@ const ItemEditora = ({ img, nomeEditora, id, destaque, showStars }) => {
     const navigation = useNavigation();
 
     const handlePress = () => {
-        navigation.navigate('EditoraLivros', { editoraId: id });
+        navigation.navigate('Editora', { editoraId: id });
     }
 
     return (
@@ -123,6 +125,7 @@ const Home = () => {
                         horizontal
                         showsHorizontalScrollIndicator={false}
                     />
+
                     <Text style={styles.sectionHeader}>DESTAQUE</Text>
                     {dadosEditora.length > 0 &&
                         <ItemEditora

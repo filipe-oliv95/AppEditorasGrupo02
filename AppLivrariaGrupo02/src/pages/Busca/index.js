@@ -4,6 +4,9 @@ import { DataContext } from '../../context/DataContext';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Searchbar } from 'react-native-paper';
 import AxiosInstance from '../../api/AxiosInstance';
+
+import { useFocusEffect } from '@react-navigation/native';
+
 import { Ionicons, Entypo } from '@expo/vector-icons';
 
 import {
@@ -82,10 +85,12 @@ const Busca = () => {
 
     const onChangeSearch = query => setSearchQuery(query);
 
-    useEffect(() => {
+    useFocusEffect(
+        React.useCallback(() => {
         getAllEditoras();
         getAllLivros();
     }, [])
+    );
 
     console.log(dadosEditora)
 
