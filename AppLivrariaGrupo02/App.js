@@ -73,6 +73,7 @@ const App = () => {
           <Stack.Screen name="Editoras" component={Editoras} />
           <Stack.Screen name="EditoraLivros" component={Editora} options={{ headerShown: true }} />
           <Stack.Screen name="Livro" component={Livro} options={{ headerShown: true }} />
+          <Stack.Screen name="Favoritos" component={Favoritos} options={{ headerShown: true }} />
         </Stack.Navigator>
       </NavigationContainer>
     </DataProvider>
