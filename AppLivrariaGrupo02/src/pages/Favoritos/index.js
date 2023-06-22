@@ -27,11 +27,12 @@ const Favoritos = () => {
         keyExtractor={(item) => item.codigoLivro.toString()}
         renderItem={({ item }) => (
           <View style={styles.itemContainer}>
-            <Image
+            {/* <Image  // NÃO USAR AS IMAGENS, MUITO GRANDE PARA O STORAGE
               style={styles.itemPhoto}
               source={{ uri: `data:image/png;base64,${item.img}` }}
-            />
+            /> */}
             <Text>{item.nomeLivro}</Text>
+            <Text>{item.nomeAutor}</Text>
           </View>
         )}
       />

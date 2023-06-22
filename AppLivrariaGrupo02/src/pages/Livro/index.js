@@ -15,6 +15,7 @@ const Livro = ({ route }) => {
   }, []);
 
   const getLivroById = async () => {
+    // await AsyncStorage.clear(); // NÃO REMOVER limpa o asyncstorage quando dá o erro "Row too big to fit into CursorWindow"
     try {
       const response = await AxiosInstance.get(`/livros/${livroId}`, {
         headers: { Authorization: `Bearer ${dadosUsuario?.token}` },
@@ -41,7 +42,12 @@ const Livro = ({ route }) => {
       if (favoriteBooks.some(item => item.codigoLivro === livro.codigoLivro)) {
         alert('O livro já está na lista de favoritos!');
       } else {
-        favoriteBooks.push(livro);
+        const livroToSave = {  // para reduzir os dados salvos no asyncstorage          
+          codigoLivro: livro.codigoLivro,
+          nomeLivro: livro.nomeLivro,
+          nomeAutor: livro.autorDTO.nomeAutor,
+        }
+        favoriteBooks.push(livroToSave);
         await AsyncStorage.setItem('favoriteBooks', JSON.stringify(favoriteBooks));
         alert('Livro adicionado aos favoritos!');
       }
