@@ -11,12 +11,10 @@ const Header = ({ title }) => {
     setSidebarOpen(!sidebarOpen);
   }
 
-  onPress = { toggleSidebar }
-
   return (
     <View style={styles.container}>
       <View style={styles.headerContent}>
-        <TouchableOpacity >
+        <TouchableOpacity onPress={toggleSidebar} >
           <Icon
             name='bars'
             size={20}
