@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import { AiOutlineMenu } from 'react-icons/ai';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { TouchableOpacity } from 'react-native-web';
 import Sidebar from '../Sidebar'
 
 const Header = ({ title }) => {
-  
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -16,13 +16,13 @@ const Header = ({ title }) => {
     <View style={styles.container}>
       <View style={styles.headerContent}>
         <TouchableOpacity onPress={toggleSidebar}>
-          <AiOutlineMenu 
-            fontWeight='800' 
-            size={20} 
-            color='rgba(255, 255, 255, 0.9)' 
+          <Icon
+            name='bars'
+            size={20}
+            color='rgba(255, 255, 255, 0.9)'
           />
         </TouchableOpacity>
-        <Text style={styles.headerText}>{ title }</Text>
+        <Text style={styles.headerText}>{title}</Text>
       </View>
       <View style={styles.sidedbarContainer}>
         {sidebarOpen && <Sidebar />}
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'rgba(0, 0, 0, 1)',
   },
-  headerContent:{
+  headerContent: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
