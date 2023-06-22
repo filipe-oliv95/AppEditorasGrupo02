@@ -3,7 +3,6 @@ import { useNavigation } from '@react-navigation/native';
 import { DataContext } from '../../context/DataContext';
 import { ScrollView } from 'react-native-gesture-handler';
 import AxiosInstance from '../../api/AxiosInstance';
-import Header from '../../components/Header'
 import {
     StyleSheet,
     Text,
@@ -93,24 +92,23 @@ const Home = () => {
     return (
         <View style={styles.container}>
             <View style={{ flex: 1 }}>
-                <Header title='Home'></Header>
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <Text style={styles.sectionHeader}>EDITORAS</Text>
-                        <FlatList
-                            data={dadosEditora}
-                            renderItem={({ item }) => <ItemEditora nomeEditora={item.nomeEditora} img={item.img} id={item.codigoEditora} />}
-                            keyExtractor={item => item.codigoEditora}
-                            horizontal
-                            showsHorizontalScrollIndicator={false}
-                        />
+                    <FlatList
+                        data={dadosEditora}
+                        renderItem={({ item }) => <ItemEditora nomeEditora={item.nomeEditora} img={item.img} id={item.codigoEditora} />}
+                        keyExtractor={item => item.codigoEditora}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                    />
                     <Text style={styles.sectionHeader}>LIVROS</Text>
-                        <FlatList
-                            data={dadosLivro}
-                            renderItem={({ item }) => <ItemLivro nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} />}
-                            keyExtractor={item => item.codigoLivro}
-                            horizontal
-                            showsHorizontalScrollIndicator={false}
-                        />
+                    <FlatList
+                        data={dadosLivro}
+                        renderItem={({ item }) => <ItemLivro nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} />}
+                        keyExtractor={item => item.codigoLivro}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                    />
                     <Text style={styles.sectionHeader}>DESTAQUE</Text>
                     {dadosEditora.length > 0 &&
                         <ItemEditora

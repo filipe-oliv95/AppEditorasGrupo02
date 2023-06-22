@@ -4,7 +4,6 @@ import { DataContext } from '../../context/DataContext';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Searchbar } from 'react-native-paper';
 import AxiosInstance from '../../api/AxiosInstance';
-import Header from '../../components/Header'
 import { Ionicons, Entypo } from '@expo/vector-icons';
 
 import {
@@ -127,7 +126,6 @@ const Busca = () => {
     return (
         <View style={styles.container}>
             <View style={{ flex: 1 }}>
-                <Header title='Busca'></Header>
                 <Searchbar
                     placeholder="Busque por título ou editora"
                     style={styles.searchBar}
