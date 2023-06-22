@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
   itemPhoto: {
     width: 200,
     height: 200,
-    backgroundColor: '#a8e5d3',
+    backgroundColor: '#aa8e5d3',
     borderRadius: 13,
   },
   itemTextLivros: {
