@@ -1,5 +1,4 @@
 import React from 'react';
-import Header from '../../components/Header'
 import {
   StyleSheet,
   Text,
@@ -13,8 +12,7 @@ import {
 const Carrinho = () => {
   return (
     <View>
-      <Header title='CARRINHO' />
-      <Text>CARRINHO</Text>
+      <Text style={styles.h1}>CARRINHO</Text>
     </View>
   );
 };
@@ -22,6 +20,9 @@ const Carrinho = () => {
 
 
 const styles = StyleSheet.create({
+  h1: {
+    fontSize: 60,
+  }
 
 });
 
