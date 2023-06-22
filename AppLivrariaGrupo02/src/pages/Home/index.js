@@ -6,6 +6,7 @@ import AxiosInstance from '../../api/AxiosInstance';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import {
+    StatusBar,
     StyleSheet,
     Text,
     View,
@@ -24,6 +25,7 @@ const ItemEditora = ({ img, nomeEditora, id, destaque, showStars }) => {
 
     return (
         <TouchableOpacity onPress={handlePress}>
+            <StatusBar style="light" />
             <View style={styles.itemEditora}>
                 <Image
                     style={destaque ? styles.destaqueItemPhoto : styles.itemPhoto}
