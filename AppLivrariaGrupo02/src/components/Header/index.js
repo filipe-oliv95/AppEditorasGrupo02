@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { TouchableOpacity } from 'react-native-web';
 import Sidebar from '../Sidebar'
 
 const Header = ({ title }) => {
@@ -12,10 +11,12 @@ const Header = ({ title }) => {
     setSidebarOpen(!sidebarOpen);
   }
 
+  onPress = { toggleSidebar }
+
   return (
     <View style={styles.container}>
       <View style={styles.headerContent}>
-        <TouchableOpacity onPress={toggleSidebar}>
+        <TouchableOpacity >
           <Icon
             name='bars'
             size={20}
