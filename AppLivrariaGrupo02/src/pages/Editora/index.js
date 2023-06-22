@@ -14,7 +14,6 @@ const LivrosEditora = ({ imagem, nomeLivro, codigoLivro }) => {
   
   return (
     <TouchableOpacity onPress={handlePress}>
-         
         <View style={styles.itemLivros}>
           <Image 
             style={styles.itemPhoto}
@@ -71,24 +70,25 @@ const Editora = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      
+      <Text style={styles.nomeEditora}>{editora.nomeEditora}</Text>
       <Searchbar
-          placeholder="Search"
+          placeholder="Busque pelo nome do livro"
           style={styles.searchBar}
           onChangeText={onChangeSearch}
           value={searchQuery}
       /> 
-
-      <Text style={styles.nomeEditora}>{editora.nomeEditora}</Text>
-
-      <Text style={styles.sectionHeader}>LIVROS</Text>
+      <View style={styles.itemsContainer}>
+        {livrosFiltrados.length === 0 ? (
+          <Text style={styles.sectionHeader}>Nenhum livro encontrado</Text>
+        ) : (
           <FlatList
-              // data={editora.listaLivrosDTO}
               data={livrosFiltrados}
               renderItem={({ item }) => <LivrosEditora imagem={item.imagem} nomeLivro={item.nomeLivro} codigoLivro={item.codigoLivro} />}
               keyExtractor={item => item.codigoLivro}
               showsHorizontalScrollIndicator={false}
           />
+        )}
+      </View>
     </View>
   );
 };
@@ -100,6 +100,15 @@ const styles = StyleSheet.create({
     flex: 1,
     // justifyContent: 'center',
     // alignItems: 'center',
+  },
+  itemsContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '100%',
+  },
+  sectionHeader: {
+    fontSize: 20,
   },
   loadingText: {
     fontSize: 18,
