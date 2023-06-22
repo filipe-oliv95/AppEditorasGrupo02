@@ -5,6 +5,8 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Searchbar } from 'react-native-paper';
 import AxiosInstance from '../../api/AxiosInstance';
 import Header from '../../components/Header'
+import { Ionicons, Entypo } from '@expo/vector-icons';
+
 import {
     StyleSheet,
     Text,
@@ -24,20 +26,24 @@ const ItemEditora = ({ img, nomeEditora, id, destaque }) => {
 
     return (
         <TouchableOpacity onPress={handlePress}>
-            <View style={styles.itemEditora}>
+            <View style={styles.containerItem}>
                 <Image
                     style={destaque ? styles.destaqueItemPhoto : styles.itemPhoto}
                     source={{ uri: `data:image/png;base64,${img}` }}
                 />
-                <View style={styles.itemTextContainerEditora}>
-                    <Text style={styles.itemTextEditoras}>{nomeEditora}</Text>
+                <View style={styles.itemTextContainer}>
+                    <View style={styles.itemBox}>
+                        <Text style={styles.itemTitle}>{nomeEditora}</Text>
+                        <Text style={styles.itemTextName}>Editora</Text>
+                    </View>
                 </View>
+                <Entypo style={styles.icon} name="arrow-with-circle-right" size={40} color="grey" />
             </View>
         </TouchableOpacity>
     )
 };
 
-const ItemLivro = ({ img, nomeLivro, id }) => {
+const ItemLivro = ({ img, nomeLivro, nomeAutor, nomeEditora, id }) => {
 
     const navigation = useNavigation();
 
@@ -47,16 +53,21 @@ const ItemLivro = ({ img, nomeLivro, id }) => {
 
     return (
         <TouchableOpacity onPress={handlePress}>
-            <View style={styles.itemLivro}>
-                <Image
-                    style={styles.itemPhoto}
-                    source={{ uri: `data:image/png;base64,${img}` }}
-                />
-                <View style={styles.itemTextContainerLivro}>
-                    <Text style={styles.itemTextLivro}>{nomeLivro}</Text>
+        <View style={styles.containerItem}>
+            <Image
+                style={styles.itemPhoto}
+                source={{ uri: `data:image/png;base64,${img}` }}
+            />
+            <View style={styles.itemTextContainer}>
+                <View style={styles.itemBox}>
+                    <Text style={styles.itemTitle}>{nomeLivro}</Text>
+                    <Text style={styles.itemTextName}>{nomeAutor}</Text>
+                    <Text style={styles.itemTextName}>{nomeEditora}</Text>
                 </View>
             </View>
-        </TouchableOpacity>
+            <Entypo style={styles.icon} name="arrow-with-circle-right" size={40} color="grey" />
+        </View>
+    </TouchableOpacity>
     )
 };
 
@@ -116,9 +127,9 @@ const Busca = () => {
     return (
         <View style={styles.container}>
             <View style={{ flex: 1 }}>
-                <Header title='Home'></Header>
+                <Header title='Busca'></Header>
                 <Searchbar
-                    placeholder="Título, editora ou autor"
+                    placeholder="Busque por título ou editora"
                     style={styles.searchBar}
                     onChangeText={onChangeSearch}
                     value={searchQuery}
@@ -130,15 +141,15 @@ const Busca = () => {
                         ) : (
                         <View>
                             <FlatList
-                                data={editorasFiltradas}
-                                renderItem={({ item }) => <ItemEditora nomeEditora={item.nomeEditora} img={item.img} id={item.codigoEditora} />}
-                                keyExtractor={item => item.codigoEditora}
+                                data={livrosFiltrados}
+                                renderItem={({ item }) => <ItemLivro nomeAutor={item.autorDTO.nomeAutor} nomeEditora={item.editoraDTO.nomeEditora} nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} />}
+                                keyExtractor={item => item.codigoLivro}
                                 showsHorizontalScrollIndicator={false}
                             />
                             <FlatList
-                                data={livrosFiltrados}
-                                renderItem={({ item }) => <ItemLivro nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} />}
-                                keyExtractor={item => item.codigoLivro}
+                                data={editorasFiltradas}
+                                renderItem={({ item }) => <ItemEditora nomeEditora={item.nomeEditora} img={item.img} id={item.codigoEditora} />}
+                                keyExtractor={item => item.codigoEditora}
                                 showsHorizontalScrollIndicator={false}
                             />
                         </View>
@@ -167,51 +178,52 @@ const styles = StyleSheet.create({
         marginLeft: 10,
     },
     itemPhoto: {
-        width: 200,
-        height: 200,
-        borderRadius: 13,
+        width: 100,
+        height: 100,
+        borderRadius: 10,
     },
     destaqueItemPhoto: {
         width: 400,
         height: 200,
         borderRadius: 13,
     },
-    itemEditora: {
-        margin: 10,
-    },
-    itemTextEditoras: {
-        color: 'rgba(255, 255, 255, 0.9)',
-        fontSize: 18,
-    },
-    itemTextContainerEditora: {
+    containerItem: {
         display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-        borderRadius: 13,
-    },
-    itemLivro: {
+        flexDirection: 'row',
+        backgroundColor: 'rgba(255, 255, 255, 0.9)',
         margin: 10,
+        alignItems: 'center',
+        borderRadius: 10,
     },
-    itemTextLivro: {
-        color: '#66d2b1',
-        fontSize: 18,
-        marginVertical: 5,
-        marginHorizontal: 10,
+    itemTextContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'left',
+        justifyContent: 'center',
     },
-    itemTextContainerLivro: {
-        backgroundColor: '#07261d',
-        borderBottomStartRadius: 5,
-        borderBottomEndRadius: 5,
+    itemTitle: {
+        fontSize: 20,
+    },
+    itemTextName: {
+        fontSize: 15,
+        color: 'grey',
+    },
+    itemBox: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+        padding: 10,
     },
     errorText: {
         color: 'grey',
         marginLeft: 10,
         fontSize: 18,
-    }
+    },
+    icon: {
+        marginLeft: 'auto',
+        marginRight: 15,
+    },
 
 });
 
