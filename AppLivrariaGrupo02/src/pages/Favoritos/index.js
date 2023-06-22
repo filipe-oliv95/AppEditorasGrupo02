@@ -54,6 +54,8 @@ const Favoritos = () => {
             </View>
           </View>
         )}
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );
@@ -64,20 +66,22 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#51cba6',
   },
   sectionHeader: {
+    marginTop: 15,
     fontSize: 30,
-
+    color: '#04140f',
   },
   contentContainer: {
     padding: 15,
-    backgroundColor: 'white',
-    borderColor: '#555',
-    borderWidth: 1,
+    backgroundColor: '#07261d',
+    borderRadius: 13,
     display: 'flex',
     gap: 10,
     flexDirection: 'column',
     alignItems: 'center',
+    marginTop: 10,
   },
   itemContent: {
     // margin: 10,
@@ -89,9 +93,11 @@ const styles = StyleSheet.create({
   itemPhoto: {
     width: 200,
     height: 200,
+    backgroundColor: '#a8e5d3',
+    borderRadius: 13,
   },
   itemTextLivros: {
-    color: 'rgba(0, 0, 0, 0.7)',
+    color: '#66d2b1',
     fontSize: 18,
     marginVertical: 5,
     marginHorizontal: 10,
