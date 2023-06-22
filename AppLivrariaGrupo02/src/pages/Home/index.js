@@ -4,6 +4,7 @@ import { DataContext } from '../../context/DataContext';
 import { ScrollView } from 'react-native-gesture-handler';
 import AxiosInstance from '../../api/AxiosInstance';
 import Header from '../../components/Header'
+
 import {
     StyleSheet,
     Text,
@@ -18,7 +19,7 @@ const ItemEditora = ({ img, nomeEditora, id, destaque }) => {
     const navigation = useNavigation();
 
     const handlePress = () => {
-        navigation.navigate('EditoraLivros', { editoraId: id });
+        navigation.navigate('Editora', { editoraId: id });
     }
 
     return (
@@ -92,7 +93,7 @@ const Home = () => {
 
     return (
         <View style={styles.container}>
-            <View style={{ flex: 1 }}>
+              <View style={{ flex: 1 }}>
                 <Header title='Home'></Header>
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <Text style={styles.sectionHeader}>EDITORAS</Text>
@@ -102,7 +103,7 @@ const Home = () => {
                             keyExtractor={item => item.codigoEditora}
                             horizontal
                             showsHorizontalScrollIndicator={false}
-                        />
+                            />
                     <Text style={styles.sectionHeader}>LIVROS</Text>
                         <FlatList
                             data={dadosLivro}
@@ -110,7 +111,7 @@ const Home = () => {
                             keyExtractor={item => item.codigoLivro}
                             horizontal
                             showsHorizontalScrollIndicator={false}
-                        />
+                            />
                     <Text style={styles.sectionHeader}>DESTAQUE</Text>
                     {dadosEditora.length > 0 &&
                         <ItemEditora
@@ -118,8 +119,8 @@ const Home = () => {
                             img={dadosEditora[0].img}
                             id={dadosEditora[0].codigoEditora}
                             destaque={true}
-                        />
-                    }
+                            />
+                        }
                 </ScrollView>
             </View>
         </View>

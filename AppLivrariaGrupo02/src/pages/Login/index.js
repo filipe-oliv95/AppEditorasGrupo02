@@ -33,7 +33,7 @@ const Login = ({ navigation }) => {
                 var jwtToken = resultado.data;
                 armazenarDadosUsuario(jwtToken["accessToken"]);
                 console.log(jwtToken);
-                navigation.navigate("Main");
+                navigation.navigate("Home");
             } else {
                 console.log('erro ao realizar o login');
             }
