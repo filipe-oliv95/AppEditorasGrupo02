@@ -3,7 +3,8 @@ import {
     Text,
     View,
     TextInput,
-    TouchableOpacity
+    TouchableOpacity,
+    StatusBar,
 }
     from "react-native";
 
@@ -44,6 +45,7 @@ const Login = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
+            <StatusBar style="light" />
             <Text style={styles.txt} >Bem Vindo</Text>
             <Text style={styles.txtinput} >Email:</Text>
             <TextInput
@@ -62,10 +64,10 @@ const Login = ({ navigation }) => {
                     secureTextEntry={hidePass}
                 />
                 <TouchableOpacity style={styles.icon} onPress={() => setHidePass(!hidePass)}>
-                    { hidePass ?
-                    <Ionicons name="eye" color="#07261d" />
-                    :
-                    <Ionicons name="eye-off" color="#07261d" />
+                    {hidePass ?
+                        <Ionicons name="eye" color="#07261d" />
+                        :
+                        <Ionicons name="eye-off" color="#07261d" />
                     }
                 </TouchableOpacity>
             </View>

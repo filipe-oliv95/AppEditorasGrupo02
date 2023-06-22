@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar } from 'react-native';
 import { DataContext } from '../../context/DataContext';
 import AxiosInstance from '../../api/AxiosInstance';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -56,6 +56,7 @@ const Livro = ({ route }) => {
 
   return (
     <View style={styles.container}>
+      <StatusBar style="light" />
       <View style={styles.contentContainer}>
         <Text style={styles.itemTextLivros}>{livro.nomeLivro}</Text>
         <Image
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    
+
     gap: 5,
   },
   loadingText: {

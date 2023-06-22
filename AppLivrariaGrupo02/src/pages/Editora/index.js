@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image, StatusBar } from 'react-native';
 import { DataContext } from '../../context/DataContext';
 import { Searchbar } from 'react-native-paper';
 import AxiosInstance from '../../api/AxiosInstance';
@@ -12,20 +12,20 @@ const LivrosEditora = ({ imagem, nomeLivro, codigoLivro }) => {
   const handlePress = () => {
     navigation.navigate('Livro', { livroId: codigoLivro });
   }
-  
+
   return (
     <TouchableOpacity onPress={handlePress}>
-        <View style={styles.itemLivros}>
-          <Image 
-            style={styles.itemPhoto}
-            source={{ uri: `data:image/png;base64,${imagem}` }}
-          />
-          <View style={styles.itemTextContainer}>
-            <Text style={styles.itemTextLivros}>{nomeLivro}</Text>
-            <Text style={styles.itemTextLivros}>ver livro</Text>
-          </View>
-        <Entypo style={styles.icon} name="arrow-with-circle-right" size={40} color="#66d2b1" />
+      <View style={styles.itemLivros}>
+        <Image
+          style={styles.itemPhoto}
+          source={{ uri: `data:image/png;base64,${imagem}` }}
+        />
+        <View style={styles.itemTextContainer}>
+          <Text style={styles.itemTextLivros}>{nomeLivro}</Text>
+          <Text style={styles.itemTextLivros}>ver livro</Text>
         </View>
+        <Entypo style={styles.icon} name="arrow-with-circle-right" size={40} color="#66d2b1" />
+      </View>
     </TouchableOpacity>
   )
 };
@@ -72,23 +72,24 @@ const Editora = ({ route }) => {
 
   return (
     <View style={styles.container}>
+      <StatusBar style="light" />
       <Text style={styles.nomeEditora}>{editora.nomeEditora}</Text>
       <Searchbar
-          placeholder="Busque pelo nome do livro"
-          style={styles.searchBar}
-          onChangeText={onChangeSearch}
-          value={searchQuery}
-      /> 
+        placeholder="Busque pelo nome do livro"
+        style={styles.searchBar}
+        onChangeText={onChangeSearch}
+        value={searchQuery}
+      />
       <View style={styles.itemsContainer}>
         {livrosFiltrados.length === 0 ? (
           <Text style={styles.sectionHeader}>Nenhum livro encontrado</Text>
         ) : (
           <FlatList
-              data={livrosFiltrados}
-              renderItem={({ item }) => <LivrosEditora imagem={item.imagem} nomeLivro={item.nomeLivro} codigoLivro={item.codigoLivro} />}
-              keyExtractor={item => item.codigoLivro}
-              showsHorizontalScrollIndicator={false}
-              showsVerticalScrollIndicator={false}
+            data={livrosFiltrados}
+            renderItem={({ item }) => <LivrosEditora imagem={item.imagem} nomeLivro={item.nomeLivro} codigoLivro={item.codigoLivro} />}
+            keyExtractor={item => item.codigoLivro}
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
           />
         )}
       </View>
