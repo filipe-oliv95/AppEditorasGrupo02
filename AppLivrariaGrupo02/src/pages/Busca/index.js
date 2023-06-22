@@ -53,21 +53,21 @@ const ItemLivro = ({ img, nomeLivro, nomeAutor, nomeEditora, id }) => {
 
     return (
         <TouchableOpacity onPress={handlePress}>
-        <View style={styles.containerItem}>
-            <Image
-                style={styles.itemPhoto}
-                source={{ uri: `data:image/png;base64,${img}` }}
-            />
-            <View style={styles.itemTextContainer}>
-                <View style={styles.itemBox}>
-                    <Text style={styles.itemTitle}>{nomeLivro}</Text>
-                    <Text style={styles.itemTextName}>{nomeAutor}</Text>
-                    <Text style={styles.itemTextName}>{nomeEditora}</Text>
+            <View style={styles.containerItem}>
+                <Image
+                    style={styles.itemPhoto}
+                    source={{ uri: `data:image/png;base64,${img}` }}
+                />
+                <View style={styles.itemTextContainer}>
+                    <View style={styles.itemBox}>
+                        <Text style={styles.itemTitle}>{nomeLivro}</Text>
+                        <Text style={styles.itemTextName}>{nomeAutor}</Text>
+                        <Text style={styles.itemTextName}>{nomeEditora}</Text>
+                    </View>
                 </View>
+                <Entypo style={styles.icon} name="arrow-with-circle-right" size={40} color="grey" />
             </View>
-            <Entypo style={styles.icon} name="arrow-with-circle-right" size={40} color="grey" />
-        </View>
-    </TouchableOpacity>
+        </TouchableOpacity>
     )
 };
 
@@ -79,7 +79,7 @@ const Busca = () => {
     const [searchQuery, setSearchQuery] = React.useState('');
     const [editorasFiltradas, setEditorasFiltradas] = useState([]);
     const [livrosFiltrados, setLivrosFiltrados] = useState([]);
-  
+
     const onChangeSearch = query => setSearchQuery(query);
 
     useEffect(() => {
@@ -91,17 +91,17 @@ const Busca = () => {
 
     useEffect(() => {
         if (dadosEditora) {
-          const filteredEditoras = dadosEditora.filter(item => item.nomeEditora.toLowerCase().includes(searchQuery.toLowerCase()));
-          setEditorasFiltradas(filteredEditoras);
+            const filteredEditoras = dadosEditora.filter(item => item.nomeEditora.toLowerCase().includes(searchQuery.toLowerCase()));
+            setEditorasFiltradas(filteredEditoras);
         }
-      }, [searchQuery, dadosEditora]);
+    }, [searchQuery, dadosEditora]);
 
     useEffect(() => {
         if (dadosLivro) {
-          const filteredLivros = dadosLivro.filter(item => item.nomeLivro.toLowerCase().includes(searchQuery.toLowerCase()));
-          setLivrosFiltrados(filteredLivros);
+            const filteredLivros = dadosLivro.filter(item => item.nomeLivro.toLowerCase().includes(searchQuery.toLowerCase()));
+            setLivrosFiltrados(filteredLivros);
         }
-      }, [searchQuery, dadosEditora]);
+    }, [searchQuery, dadosEditora]);
 
     const getAllEditoras = async () => {
         await AxiosInstance.get(
@@ -133,28 +133,26 @@ const Busca = () => {
                     style={styles.searchBar}
                     onChangeText={onChangeSearch}
                     value={searchQuery}
-                /> 
-                <ScrollView showsVerticalScrollIndicator={false}>
-                    <Text style={styles.sectionHeader}>Resultado:</Text>
-                    {(editorasFiltradas.length === 0 && livrosFiltrados.length === 0) ? (
-                        <Text style={styles.errorText}>Nenhum item encontrado</Text>
-                        ) : (
-                        <View>
-                            <FlatList
-                                data={livrosFiltrados}
-                                renderItem={({ item }) => <ItemLivro nomeAutor={item.autorDTO.nomeAutor} nomeEditora={item.editoraDTO.nomeEditora} nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} />}
-                                keyExtractor={item => item.codigoLivro}
-                                showsHorizontalScrollIndicator={false}
-                            />
-                            <FlatList
-                                data={editorasFiltradas}
-                                renderItem={({ item }) => <ItemEditora nomeEditora={item.nomeEditora} img={item.img} id={item.codigoEditora} />}
-                                keyExtractor={item => item.codigoEditora}
-                                showsHorizontalScrollIndicator={false}
-                            />
-                        </View>
-                    )}  
-                </ScrollView>
+                />
+                <Text style={styles.sectionHeader}>Resultado:</Text>
+                {(editorasFiltradas.length === 0 && livrosFiltrados.length === 0) ? (
+                    <Text style={styles.errorText}>Nenhum item encontrado</Text>
+                ) : (
+                    <View>
+                        <FlatList
+                            data={livrosFiltrados}
+                            renderItem={({ item }) => <ItemLivro nomeAutor={item.autorDTO.nomeAutor} nomeEditora={item.editoraDTO.nomeEditora} nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} />}
+                            keyExtractor={item => item.codigoLivro}
+                            showsHorizontalScrollIndicator={false}
+                        />
+                        <FlatList
+                            data={editorasFiltradas}
+                            renderItem={({ item }) => <ItemEditora nomeEditora={item.nomeEditora} img={item.img} id={item.codigoEditora} />}
+                            keyExtractor={item => item.codigoEditora}
+                            showsHorizontalScrollIndicator={false}
+                        />
+                    </View>
+                )}
             </View>
         </View>
     );
@@ -198,7 +196,7 @@ const styles = StyleSheet.create({
     itemTextContainer: {
         display: 'flex',
         flexDirection: 'row',
-        alignItems: 'left',
+        alignItems: 'flex-start',
         justifyContent: 'center',
     },
     itemTitle: {
