@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
   },
   itemTextLivros: {
     color: '#66d2b1',
-    fontSize: 18,
+    fontSize: 16,
     marginVertical: 5,
     marginHorizontal: 10,
   },
