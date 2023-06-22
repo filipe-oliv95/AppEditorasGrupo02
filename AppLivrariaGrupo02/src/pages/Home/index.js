@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 
 
-const ItemEditora = ({ img, nomeEditora, id }) => {
+const ItemEditora = ({ img, nomeEditora, id, destaque }) => {
     const navigation = useNavigation();
 
     const handlePress = () => {
@@ -25,7 +25,7 @@ const ItemEditora = ({ img, nomeEditora, id }) => {
         <TouchableOpacity onPress={handlePress}>
             <View style={styles.itemEditora}>
                 <Image
-                    style={styles.itemPhoto}
+                    style={destaque ? styles.destaqueItemPhoto : styles.itemPhoto}
                     source={{ uri: `data:image/png;base64,${img}` }}
                 />
                 <View style={styles.itemTextContainerEditora}>
@@ -113,7 +113,12 @@ const Home = () => {
                     />
                     <Text style={styles.sectionHeader}>DESTAQUE</Text>
                     {dadosEditora.length > 0 &&
-                        <ItemEditora nomeEditora={dadosEditora[0].nomeEditora} img={dadosEditora[0].img} id={dadosEditora[0].codigoEditora} />
+                        <ItemEditora
+                            nomeEditora={dadosEditora[0].nomeEditora}
+                            img={dadosEditora[0].img}
+                            id={dadosEditora[0].codigoEditora}
+                            destaque={true}
+                        />
                     }
                 </ScrollView>
             </View>
@@ -138,6 +143,11 @@ const styles = StyleSheet.create({
     },
     itemPhoto: {
         width: 200,
+        height: 200,
+        borderRadius: 13,
+    },
+    destaqueItemPhoto: {
+        width: 400,
         height: 200,
         borderRadius: 13,
     },
