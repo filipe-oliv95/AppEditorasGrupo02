@@ -3,6 +3,8 @@ import { useNavigation } from '@react-navigation/native';
 import { DataContext } from '../../context/DataContext';
 import { ScrollView } from 'react-native-gesture-handler';
 import AxiosInstance from '../../api/AxiosInstance';
+import { MaterialIcons } from '@expo/vector-icons';
+
 import {
     StyleSheet,
     Text,
@@ -13,7 +15,7 @@ import {
 } from 'react-native';
 
 
-const ItemEditora = ({ img, nomeEditora, id, destaque }) => {
+const ItemEditora = ({ img, nomeEditora, id, destaque, showStars }) => {
     const navigation = useNavigation();
 
     const handlePress = () => {
@@ -27,6 +29,16 @@ const ItemEditora = ({ img, nomeEditora, id, destaque }) => {
                     style={destaque ? styles.destaqueItemPhoto : styles.itemPhoto}
                     source={{ uri: `data:image/png;base64,${img}` }}
                 />
+                {showStars && (
+                    <View style={styles.starsContainer}>
+                        <MaterialIcons name="star" size={32} style={styles.starSelected} />
+                        <MaterialIcons name="star" size={32} style={styles.starSelected} />
+                        <MaterialIcons name="star" size={32} style={styles.starSelected} />
+                        <MaterialIcons name="star" size={32} style={styles.starSelected} />
+                        <MaterialIcons name="star-border" size={32} style={styles.starUnselected} />
+                    </View>
+                )}
+
                 <View style={styles.itemTextContainerEditora}>
                     <Text style={styles.itemTextEditoras}>{nomeEditora}</Text>
                 </View>
@@ -116,6 +128,7 @@ const Home = () => {
                             img={dadosEditora[0].img}
                             id={dadosEditora[0].codigoEditora}
                             destaque={true}
+                            showStars={true}
                         />
                     }
                 </ScrollView>
@@ -162,6 +175,7 @@ const styles = StyleSheet.create({
     },
     itemEditora: {
         margin: 10,
+        position: 'relative',
     },
     itemTextEditoras: {
         color: 'rgba(255, 255, 255, 0.9)',
@@ -195,8 +209,25 @@ const styles = StyleSheet.create({
         color: 'grey',
         marginLeft: 10,
         fontSize: 18,
+    },
+    starsContainer: {
+        position: 'absolute',
+        bottom: -9,
+        right: 0,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginBottom: 10,
+        zIndex: 1,
+        backgroundColor: 'rgba(255,255,255,0.5)',
+        borderRadius: 10,
+    },
+    starUnselected: {
+        color: '#888',
+        marginHorizontal: 2,
+    },
+    starSelected: {
+        color: 'black',
     }
-
 });
 
 export default Home;
