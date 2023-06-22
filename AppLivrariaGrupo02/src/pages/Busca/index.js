@@ -7,6 +7,7 @@ import AxiosInstance from '../../api/AxiosInstance';
 import { Ionicons, Entypo } from '@expo/vector-icons';
 
 import {
+    StatusBar,
     StyleSheet,
     Text,
     View,
@@ -125,6 +126,7 @@ const Busca = () => {
 
     return (
         <View style={styles.container}>
+            <StatusBar style="light" />
             <View style={{ flex: 1 }}>
                 <Searchbar
                     placeholder="Busque por título ou editora"

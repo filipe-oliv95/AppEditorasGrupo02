@@ -6,12 +6,14 @@ import {
   SectionList,
   Image,
   FlatList,
+  StatusBar,
 } from 'react-native';
 
 
 const Carrinho = () => {
   return (
     <View>
+      <StatusBar style="light" />
       <Text style={styles.h1}>CARRINHO</Text>
     </View>
   );
