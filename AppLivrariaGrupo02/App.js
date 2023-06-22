@@ -3,8 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { DataProvider } from './src/context/DataContext';
-import { AiTwotoneHome, AiOutlineSearch, AiFillHeart } from "react-icons/ai";
-import { FaShoppingCart } from "react-icons/fa";
+import Icon from 'react-native-vector-icons/FontAwesome';
 import Carrinho from "./src/pages/Carrinho";
 import Editora from "./src/pages/Editora";
 import Editoras from "./src/pages/Editoras";
@@ -29,7 +28,7 @@ function Tabs({ navigation }) {
         options={{
           headerShown: false,
           tabBarIcon: (tabInfo) => (
-            <AiTwotoneHome name="home" size={24} />
+            <Icon name="home" size={24} />
           ),
         }} />
       <Tab.Screen name="Busca"
@@ -37,7 +36,7 @@ function Tabs({ navigation }) {
         options={{
           headerShown: false,
           tabBarIcon: (tabInfo) => (
-            <AiOutlineSearch name="search" size={24} />
+            <Icon name="search" size={24} />
           ),
         }} />
       <Tab.Screen
@@ -46,7 +45,7 @@ function Tabs({ navigation }) {
         options={{
           headerShown: false,
           tabBarIcon: (tabInfo) => (
-            <AiFillHeart name="heart" size={24} />
+            <Icon name="heart" size={24} />
           ),
         }} />
       <Tab.Screen
@@ -55,7 +54,7 @@ function Tabs({ navigation }) {
         options={{
           headerShown: false,
           tabBarIcon: (tabInfo) => (
-            <FaShoppingCart name="cart" size={24} />
+            <Icon name="shopping-cart" size={24} />
           ),
         }} />
     </Tab.Navigator>
