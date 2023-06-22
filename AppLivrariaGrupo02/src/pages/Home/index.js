@@ -3,9 +3,12 @@ import { useNavigation } from '@react-navigation/native';
 import { DataContext } from '../../context/DataContext';
 import { ScrollView } from 'react-native-gesture-handler';
 import AxiosInstance from '../../api/AxiosInstance';
-import Header from '../../components/Header'
+
+import { MaterialIcons } from '@expo/vector-icons';
+
 
 import {
+    StatusBar,
     StyleSheet,
     Text,
     View,
@@ -15,7 +18,7 @@ import {
 } from 'react-native';
 
 
-const ItemEditora = ({ img, nomeEditora, id, destaque }) => {
+const ItemEditora = ({ img, nomeEditora, id, destaque, showStars }) => {
     const navigation = useNavigation();
 
     const handlePress = () => {
@@ -29,6 +32,16 @@ const ItemEditora = ({ img, nomeEditora, id, destaque }) => {
                     style={destaque ? styles.destaqueItemPhoto : styles.itemPhoto}
                     source={{ uri: `data:image/png;base64,${img}` }}
                 />
+                {showStars && (
+                    <View style={styles.starsContainer}>
+                        <MaterialIcons name="star" size={32} style={styles.starSelected} />
+                        <MaterialIcons name="star" size={32} style={styles.starSelected} />
+                        <MaterialIcons name="star" size={32} style={styles.starSelected} />
+                        <MaterialIcons name="star" size={32} style={styles.starSelected} />
+                        <MaterialIcons name="star-border" size={32} style={styles.starUnselected} />
+                    </View>
+                )}
+
                 <View style={styles.itemTextContainerEditora}>
                     <Text style={styles.itemTextEditoras}>{nomeEditora}</Text>
                 </View>
@@ -49,7 +62,7 @@ const ItemLivro = ({ img, nomeLivro, id }) => {
         <TouchableOpacity onPress={handlePress}>
             <View style={styles.itemLivro}>
                 <Image
-                    style={styles.itemPhoto}
+                    style={styles.itemPhotoLivro}
                     source={{ uri: `data:image/png;base64,${img}` }}
                 />
                 <View style={styles.itemTextContainerLivro}>
@@ -93,25 +106,26 @@ const Home = () => {
 
     return (
         <View style={styles.container}>
-              <View style={{ flex: 1 }}>
-                <Header title='Home'></Header>
+            <StatusBar style="light" />
+            <View style={{ flex: 1 }}>
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <Text style={styles.sectionHeader}>EDITORAS</Text>
-                        <FlatList
-                            data={dadosEditora}
-                            renderItem={({ item }) => <ItemEditora nomeEditora={item.nomeEditora} img={item.img} id={item.codigoEditora} />}
-                            keyExtractor={item => item.codigoEditora}
-                            horizontal
-                            showsHorizontalScrollIndicator={false}
-                            />
+                    <FlatList
+                        data={dadosEditora}
+                        renderItem={({ item }) => <ItemEditora nomeEditora={item.nomeEditora} img={item.img} id={item.codigoEditora} />}
+                        keyExtractor={item => item.codigoEditora}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                    />
                     <Text style={styles.sectionHeader}>LIVROS</Text>
-                        <FlatList
-                            data={dadosLivro}
-                            renderItem={({ item }) => <ItemLivro nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} />}
-                            keyExtractor={item => item.codigoLivro}
-                            horizontal
-                            showsHorizontalScrollIndicator={false}
-                            />
+                    <FlatList
+                        data={dadosLivro}
+                        renderItem={({ item }) => <ItemLivro nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} />}
+                        keyExtractor={item => item.codigoLivro}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                    />
+
                     <Text style={styles.sectionHeader}>DESTAQUE</Text>
                     {dadosEditora.length > 0 &&
                         <ItemEditora
@@ -119,8 +133,9 @@ const Home = () => {
                             img={dadosEditora[0].img}
                             id={dadosEditora[0].codigoEditora}
                             destaque={true}
-                            />
-                        }
+                            showStars={true}
+                        />
+                    }
                 </ScrollView>
             </View>
         </View>
@@ -147,15 +162,25 @@ const styles = StyleSheet.create({
     itemPhoto: {
         width: 200,
         height: 200,
+        backgroundColor: '#a8e5d3',
         borderRadius: 13,
     },
-    destaqueItemPhoto: {
-        width: 400,
+    itemPhotoLivro: {
+        width: 200,
         height: 200,
+        backgroundColor: '#a8e5d3',
+        borderTopLeftRadius: 13,
+        borderTopRightRadius: 13,
+    },
+    destaqueItemPhoto: {
+        width: '100%',
+        height: 200,
+        backgroundColor: '#a8e5d3',
         borderRadius: 13,
     },
     itemEditora: {
         margin: 10,
+        position: 'relative',
     },
     itemTextEditoras: {
         color: 'rgba(255, 255, 255, 0.9)',
@@ -168,7 +193,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         position: 'absolute',
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        backgroundColor: 'rgba(0, 0, 0, 0.6)',
         borderRadius: 13,
     },
     itemLivro: {
@@ -189,8 +214,25 @@ const styles = StyleSheet.create({
         color: 'grey',
         marginLeft: 10,
         fontSize: 18,
+    },
+    starsContainer: {
+        position: 'absolute',
+        bottom: -9,
+        right: 0,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginBottom: 10,
+        zIndex: 1,
+        backgroundColor: 'rgba(255,255,255,0.5)',
+        borderRadius: 10,
+    },
+    starUnselected: {
+        color: '#888',
+        marginHorizontal: 2,
+    },
+    starSelected: {
+        color: 'black',
     }
-
 });
 
 export default Home;

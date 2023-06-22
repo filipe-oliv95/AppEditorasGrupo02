@@ -4,11 +4,13 @@ import { DataContext } from '../../context/DataContext';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Searchbar } from 'react-native-paper';
 import AxiosInstance from '../../api/AxiosInstance';
-import Header from '../../components/Header'
+
 import { useFocusEffect } from '@react-navigation/native';
+
 import { Ionicons, Entypo } from '@expo/vector-icons';
 
 import {
+    StatusBar,
     StyleSheet,
     Text,
     View,
@@ -38,7 +40,7 @@ const ItemEditora = ({ img, nomeEditora, id, destaque }) => {
                         <Text style={styles.itemTextName}>Editora</Text>
                     </View>
                 </View>
-                <Entypo style={styles.icon} name="arrow-with-circle-right" size={40} color="grey" />
+                <Entypo style={styles.icon} name="arrow-with-circle-right" size={40} color="#66d2b1" />
             </View>
         </TouchableOpacity>
     )
@@ -54,21 +56,21 @@ const ItemLivro = ({ img, nomeLivro, nomeAutor, nomeEditora, id }) => {
 
     return (
         <TouchableOpacity onPress={handlePress}>
-        <View style={styles.containerItem}>
-            <Image
-                style={styles.itemPhoto}
-                source={{ uri: `data:image/png;base64,${img}` }}
-            />
-            <View style={styles.itemTextContainer}>
-                <View style={styles.itemBox}>
-                    <Text style={styles.itemTitle}>{nomeLivro}</Text>
-                    <Text style={styles.itemTextName}>{nomeAutor}</Text>
-                    <Text style={styles.itemTextName}>{nomeEditora}</Text>
+            <View style={styles.containerItem}>
+                <Image
+                    style={styles.itemPhoto}
+                    source={{ uri: `data:image/png;base64,${img}` }}
+                />
+                <View style={styles.itemTextContainer}>
+                    <View style={styles.itemBox}>
+                        <Text style={styles.itemTitle}>{nomeLivro}</Text>
+                        <Text style={styles.itemTextName}>{nomeAutor}</Text>
+                        <Text style={styles.itemTextName}>{nomeEditora}</Text>
+                    </View>
                 </View>
+                <Entypo style={styles.icon} name="arrow-with-circle-right" size={40} color="#66d2b1" />
             </View>
-            <Entypo style={styles.icon} name="arrow-with-circle-right" size={40} color="grey" />
-        </View>
-    </TouchableOpacity>
+        </TouchableOpacity>
     )
 };
 
@@ -80,7 +82,7 @@ const Busca = () => {
     const [searchQuery, setSearchQuery] = React.useState('');
     const [editorasFiltradas, setEditorasFiltradas] = useState([]);
     const [livrosFiltrados, setLivrosFiltrados] = useState([]);
-  
+
     const onChangeSearch = query => setSearchQuery(query);
 
     useFocusEffect(
@@ -94,17 +96,17 @@ const Busca = () => {
 
     useEffect(() => {
         if (dadosEditora) {
-          const filteredEditoras = dadosEditora.filter(item => item.nomeEditora.toLowerCase().includes(searchQuery.toLowerCase()));
-          setEditorasFiltradas(filteredEditoras);
+            const filteredEditoras = dadosEditora.filter(item => item.nomeEditora.toLowerCase().includes(searchQuery.toLowerCase()));
+            setEditorasFiltradas(filteredEditoras);
         }
-      }, [searchQuery, dadosEditora]);
+    }, [searchQuery, dadosEditora]);
 
     useEffect(() => {
         if (dadosLivro) {
-          const filteredLivros = dadosLivro.filter(item => item.nomeLivro.toLowerCase().includes(searchQuery.toLowerCase()));
-          setLivrosFiltrados(filteredLivros);
+            const filteredLivros = dadosLivro.filter(item => item.nomeLivro.toLowerCase().includes(searchQuery.toLowerCase()));
+            setLivrosFiltrados(filteredLivros);
         }
-      }, [searchQuery, dadosEditora]);
+    }, [searchQuery, dadosEditora]);
 
     const getAllEditoras = async () => {
         await AxiosInstance.get(
@@ -129,35 +131,34 @@ const Busca = () => {
 
     return (
         <View style={styles.container}>
+            <StatusBar style="light" />
             <View style={{ flex: 1 }}>
-                <Header title='Busca'></Header>
                 <Searchbar
                     placeholder="Busque por título ou editora"
                     style={styles.searchBar}
                     onChangeText={onChangeSearch}
                     value={searchQuery}
-                /> 
-                <ScrollView showsVerticalScrollIndicator={false}>
-                    <Text style={styles.sectionHeader}>Resultado:</Text>
-                    {(editorasFiltradas.length === 0 && livrosFiltrados.length === 0) ? (
-                        <Text style={styles.errorText}>Nenhum item encontrado</Text>
-                        ) : (
-                        <View>
-                            <FlatList
-                                data={livrosFiltrados}
-                                renderItem={({ item }) => <ItemLivro nomeAutor={item.autorDTO.nomeAutor} nomeEditora={item.editoraDTO.nomeEditora} nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} />}
-                                keyExtractor={item => item.codigoLivro}
-                                showsHorizontalScrollIndicator={false}
-                            />
-                            <FlatList
-                                data={editorasFiltradas}
-                                renderItem={({ item }) => <ItemEditora nomeEditora={item.nomeEditora} img={item.img} id={item.codigoEditora} />}
-                                keyExtractor={item => item.codigoEditora}
-                                showsHorizontalScrollIndicator={false}
-                            />
-                        </View>
-                    )}  
-                </ScrollView>
+                />
+                {(editorasFiltradas.length === 0 && livrosFiltrados.length === 0) ? (
+                    <Text style={styles.errorText}>Nenhum item encontrado</Text>
+                ) : (
+                    <View style={styles.float}>
+                        <Text style={styles.sectionHeader}>Resultado Livros:</Text>
+                        <FlatList style={styles.list}
+                            data={livrosFiltrados}
+                            renderItem={({ item }) => <ItemLivro nomeAutor={item.autorDTO.nomeAutor} nomeEditora={item.editoraDTO.nomeEditora} nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} />}
+                            keyExtractor={item => item.codigoLivro}
+                            showsHorizontalScrollIndicator={false}
+                        />
+                        <Text style={styles.sectionHeader}>Resultado Editoras:</Text>
+                        <FlatList style={styles.list}
+                            data={editorasFiltradas}
+                            renderItem={({ item }) => <ItemEditora nomeEditora={item.nomeEditora} img={item.img} id={item.codigoEditora} />}
+                            keyExtractor={item => item.codigoEditora}
+                            showsHorizontalScrollIndicator={false}
+                        />
+                    </View>
+                )}
             </View>
         </View>
     );
@@ -172,6 +173,7 @@ const styles = StyleSheet.create({
     },
     searchBar: {
         margin: 10,
+        backgroundColor: '#a8e5d3',
     },
     sectionHeader: {
         fontWeight: '800',
@@ -183,7 +185,15 @@ const styles = StyleSheet.create({
     itemPhoto: {
         width: 100,
         height: 100,
-        borderRadius: 10,
+        backgroundColor: '#a8e5d3',
+        borderRadius: 5,
+        borderBottomLeftRadius: 13
+    },
+    float: {
+        height: '90%',
+    },
+    list: {
+        height: '80%',
     },
     destaqueItemPhoto: {
         width: 400,
@@ -193,23 +203,27 @@ const styles = StyleSheet.create({
     containerItem: {
         display: 'flex',
         flexDirection: 'row',
-        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+        backgroundColor: '#07261d',
         margin: 10,
+        padding: 0,
         alignItems: 'center',
-        borderRadius: 10,
+        borderRadius: 13,
+        borderTopLeftRadius: 5,
+        borderBottomRightRadius: 5,
     },
     itemTextContainer: {
         display: 'flex',
         flexDirection: 'row',
-        alignItems: 'left',
+        alignItems: 'flex-start',
         justifyContent: 'center',
     },
     itemTitle: {
         fontSize: 20,
+        color: '#66d2b1',
     },
     itemTextName: {
         fontSize: 15,
-        color: 'grey',
+        color: '#66d2b1',
     },
     itemBox: {
         display: 'flex',

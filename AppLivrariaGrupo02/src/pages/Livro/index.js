@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar } from 'react-native';
 import { DataContext } from '../../context/DataContext';
 import AxiosInstance from '../../api/AxiosInstance';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -56,6 +56,7 @@ const Livro = ({ route }) => {
 
   return (
     <View style={styles.container}>
+      <StatusBar style="light" />
       <View style={styles.contentContainer}>
         <Text style={styles.itemTextLivros}>{livro.nomeLivro}</Text>
         <Image
@@ -64,17 +65,17 @@ const Livro = ({ route }) => {
         />
         <View style={styles.itemContent}>
           <Text style={styles.itemTextLivros}>{livro.autorDTO.nomeAutor}</Text>
-          <Text>R$ 564</Text>
+          <Text style={styles.txt}>R$ 564</Text>
           <TouchableOpacity style={styles.button} onPress={() => console.log("comprar pressionado")} >
             <Text style={styles.txtButton}>COMPRAR</Text>
           </TouchableOpacity >
           <View style={styles.favoriteBtn}>
-            <Text>FAVORITAR</Text>
+            <Text style={styles.txt}>FAVORITAR</Text>
             <TouchableOpacity onPress={addToFavorites}>
               <Icon
                 name='heart'
                 size={20}
-                color='rgba(120, 255, 255, 0.9)'
+                color='#4CCB68'
               />
             </TouchableOpacity>
           </View>
@@ -91,12 +92,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#51cba6',
   },
   contentContainer: {
     padding: 15,
-    backgroundColor: 'white',
-    borderColor: '#555',
-    borderWidth: 1,
+    backgroundColor: '#07261d',
+    borderRadius: 13,
     display: 'flex',
     gap: 10,
     flexDirection: 'column',
@@ -107,6 +108,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
+
     gap: 5,
   },
   loadingText: {
@@ -125,26 +127,32 @@ const styles = StyleSheet.create({
   itemPhoto: {
     width: 200,
     height: 200,
+    backgroundColor: '#a8e5d3',
+    borderRadius: 13,
   },
   itemTextLivros: {
-    color: 'rgba(0, 0, 0, 0.7)',
+    color: '#66d2b1',
     fontSize: 18,
     marginVertical: 5,
     marginHorizontal: 10,
   },
-
+  txt: {
+    color: '#66d2b1',
+    marginRight: 5,
+  },
   button: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#07261d',
+    backgroundColor: '#a8e5d3',
+    padding: 5,
     // marginTop: 10,
     width: '100%',
     height: 30,
     borderRadius: 13,
   },
   txtButton: {
-    color: '#66d2b1',
+    color: '#07261d',
   },
   favoriteBtn: {
     display: 'flex',

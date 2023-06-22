@@ -1,9 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image, StatusBar } from 'react-native';
 import { DataContext } from '../../context/DataContext';
 import { Searchbar } from 'react-native-paper';
 import AxiosInstance from '../../api/AxiosInstance';
+import { Ionicons, Entypo } from '@expo/vector-icons';
 
 const LivrosEditora = ({ imagem, nomeLivro, codigoLivro }) => {
   const navigation = useNavigation();
@@ -11,19 +12,20 @@ const LivrosEditora = ({ imagem, nomeLivro, codigoLivro }) => {
   const handlePress = () => {
     navigation.navigate('Livro', { livroId: codigoLivro });
   }
-  
+
   return (
     <TouchableOpacity onPress={handlePress}>
-        <View style={styles.itemLivros}>
-          <Image 
-            style={styles.itemPhoto}
-            source={{ uri: `data:image/png;base64,${imagem}` }}
-          />
-          <View style={styles.itemTextContainer}>
-            <Text style={styles.itemTextLivros}>{nomeLivro}</Text>
-            <Text style={styles.itemTextLivros}>ver livro</Text>
-          </View>
+      <View style={styles.itemLivros}>
+        <Image
+          style={styles.itemPhoto}
+          source={{ uri: `data:image/png;base64,${imagem}` }}
+        />
+        <View style={styles.itemTextContainer}>
+          <Text style={styles.itemTextLivros}>{nomeLivro}</Text>
+          <Text style={styles.itemTextLivros}>ver livro</Text>
         </View>
+        <Entypo style={styles.icon} name="arrow-with-circle-right" size={40} color="#66d2b1" />
+      </View>
     </TouchableOpacity>
   )
 };
@@ -70,22 +72,24 @@ const Editora = ({ route }) => {
 
   return (
     <View style={styles.container}>
+      <StatusBar style="light" />
       <Text style={styles.nomeEditora}>{editora.nomeEditora}</Text>
       <Searchbar
-          placeholder="Busque pelo nome do livro"
-          style={styles.searchBar}
-          onChangeText={onChangeSearch}
-          value={searchQuery}
-      /> 
+        placeholder="Busque pelo nome do livro"
+        style={styles.searchBar}
+        onChangeText={onChangeSearch}
+        value={searchQuery}
+      />
       <View style={styles.itemsContainer}>
         {livrosFiltrados.length === 0 ? (
           <Text style={styles.sectionHeader}>Nenhum livro encontrado</Text>
         ) : (
           <FlatList
-              data={livrosFiltrados}
-              renderItem={({ item }) => <LivrosEditora imagem={item.imagem} nomeLivro={item.nomeLivro} codigoLivro={item.codigoLivro} />}
-              keyExtractor={item => item.codigoLivro}
-              showsHorizontalScrollIndicator={false}
+            data={livrosFiltrados}
+            renderItem={({ item }) => <LivrosEditora imagem={item.imagem} nomeLivro={item.nomeLivro} codigoLivro={item.codigoLivro} />}
+            keyExtractor={item => item.codigoLivro}
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
           />
         )}
       </View>
@@ -98,14 +102,14 @@ const Editora = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
+    backgroundColor: '#51cba6',
   },
   itemsContainer: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     width: '100%',
+    height: '80%',
   },
   sectionHeader: {
     fontSize: 20,
@@ -118,31 +122,50 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 10,
+    marginTop: 10,
+    marginLeft: 5,
+    color: '#04140f'
   },
   enderecoEditora: {
     fontSize: 18,
     marginBottom: 10,
   },
   itemPhoto: {
-    width: 200,
-    height: 200,
+    width: 100,
+    height: 100,
+    backgroundColor: '#a8e5d3',
+    borderRadius: 5,
+    borderBottomLeftRadius: 13
   },
   itemLivros: {
+    display: 'flex',
+    flexDirection: 'row',
+    backgroundColor: '#07261d',
     margin: 10,
+    padding: 0,
+    alignItems: 'center',
+    borderRadius: 13,
+    borderTopLeftRadius: 5,
+    borderBottomRightRadius: 5,
   },
   itemTextLivros: {
-    color: 'rgba(0, 0, 0, 0.7)',
-    fontSize: 18,
+    color: '#66d2b1',
+    fontSize: 16,
     marginVertical: 5,
     marginHorizontal: 10,
   },
   itemTextContainer: {
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    backgroundColor: '#07261d',
     borderBottomStartRadius: 5,
     borderBottomEndRadius: 5,
   },
   searchBar: {
     margin: 10,
+    backgroundColor: '#a8e5d3',
+  },
+  icon: {
+    marginLeft: 'auto',
+    marginRight: 15,
   },
 });
 

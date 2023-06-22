@@ -1,5 +1,4 @@
 import React from 'react';
-import Header from '../../components/Header'
 import {
   StyleSheet,
   Text,
@@ -7,14 +6,15 @@ import {
   SectionList,
   Image,
   FlatList,
+  StatusBar,
 } from 'react-native';
 
 
 const Carrinho = () => {
   return (
     <View>
-      <Header title='CARRINHO' />
-      <Text>CARRINHO</Text>
+      <StatusBar style="light" />
+      <Text style={styles.h1}>CARRINHO</Text>
     </View>
   );
 };
@@ -22,6 +22,9 @@ const Carrinho = () => {
 
 
 const styles = StyleSheet.create({
+  h1: {
+    fontSize: 60,
+  }
 
 });
 
