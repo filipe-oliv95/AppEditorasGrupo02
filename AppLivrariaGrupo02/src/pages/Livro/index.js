@@ -25,11 +25,6 @@ const Livro = ({ route }) => {
     }
   };
 
-  // if (editora && editora.listaLivrosDTO) {
-  //   console.log(editora.listaLivrosDTO);
-  //   console.log(editora.listaLivrosDTO[0].imagem);
-  // }
-
   if (!livro) {
     return (
       <View style={styles.container}>
@@ -58,12 +53,12 @@ const Livro = ({ route }) => {
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
+        <Text style={styles.itemTextLivros}>{livro.nomeLivro}</Text>
         <Image
           style={styles.itemPhoto}
           source={{ uri: `data:image/png;base64,${livro.img}` }}
         />
         <View style={styles.itemContent}>
-          <Text style={styles.itemTextLivros}>{livro.nomeLivro}</Text>
           <Text style={styles.itemTextLivros}>{livro.autorDTO.nomeAutor}</Text>
           <Text>R$ 564</Text>
           <TouchableOpacity style={styles.button} onPress={() => console.log("comprar pressionado")} >
@@ -100,7 +95,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     display: 'flex',
     gap: 10,
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
   },
   itemContent: {
@@ -108,6 +103,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
+    gap: 5,
   },
   loadingText: {
     fontSize: 18,
