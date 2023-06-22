@@ -134,7 +134,6 @@ const Busca = () => {
                     onChangeText={onChangeSearch}
                     value={searchQuery}
                 />
-                
                 {(editorasFiltradas.length === 0 && livrosFiltrados.length === 0) ? (
                     <Text style={styles.errorText}>Nenhum item encontrado</Text>
                 ) : (

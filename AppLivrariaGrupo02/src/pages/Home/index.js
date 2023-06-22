@@ -25,7 +25,6 @@ const ItemEditora = ({ img, nomeEditora, id, destaque, showStars }) => {
 
     return (
         <TouchableOpacity onPress={handlePress}>
-            <StatusBar style="light" />
             <View style={styles.itemEditora}>
                 <Image
                     style={destaque ? styles.destaqueItemPhoto : styles.itemPhoto}
@@ -105,6 +104,7 @@ const Home = () => {
 
     return (
         <View style={styles.container}>
+            <StatusBar style="light" />
             <View style={{ flex: 1 }}>
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <Text style={styles.sectionHeader}>EDITORAS</Text>
