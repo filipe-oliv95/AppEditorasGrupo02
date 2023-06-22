@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 13,
     },
     destaqueItemPhoto: {
-        width: 373,
+        width: '100%',
         height: 200,
         backgroundColor: '#a8e5d3',
         borderRadius: 13,
