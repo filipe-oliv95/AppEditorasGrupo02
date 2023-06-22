@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { DataContext } from '../../context/DataContext';
 import { ScrollView } from 'react-native-gesture-handler';
+import { Searchbar } from 'react-native-paper';
 import AxiosInstance from '../../api/AxiosInstance';
 import Header from '../../components/Header'
 import {
@@ -64,10 +65,32 @@ const Home = () => {
     const [dadosEditora, setDadosEditora] = useState([]);
     const [dadosLivro, setDadosLivro] = useState([]);
 
+    const [searchQuery, setSearchQuery] = React.useState('');
+    const [editorasFiltradas, setEditorasFiltradas] = useState([]);
+    const [livrosFiltrados, setLivrosFiltrados] = useState([]);
+  
+    const onChangeSearch = query => setSearchQuery(query);
+
     useEffect(() => {
         getAllEditoras();
         getAllLivros();
     }, [])
+
+    console.log(dadosEditora)
+
+    useEffect(() => {
+        if (dadosEditora) {
+          const filteredEditoras = dadosEditora.filter(item => item.nomeEditora.toLowerCase().includes(searchQuery.toLowerCase()));
+          setEditorasFiltradas(filteredEditoras);
+        }
+      }, [searchQuery, dadosEditora]);
+
+    useEffect(() => {
+        if (dadosLivro) {
+          const filteredLivros = dadosLivro.filter(item => item.nomeLivro.toLowerCase().includes(searchQuery.toLowerCase()));
+          setLivrosFiltrados(filteredLivros);
+        }
+      }, [searchQuery, dadosEditora]);
 
     const getAllEditoras = async () => {
         await AxiosInstance.get(
@@ -94,23 +117,37 @@ const Home = () => {
         <View style={styles.container}>
             <View style={{ flex: 1 }}>
                 <Header title='Home'></Header>
+                <Searchbar
+                    placeholder="Título, editora ou autor"
+                    style={styles.searchBar}
+                    onChangeText={onChangeSearch}
+                    value={searchQuery}
+                /> 
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <Text style={styles.sectionHeader}>EDITORAS</Text>
-                    <FlatList
-                        data={dadosEditora}
-                        renderItem={({ item }) => <ItemEditora nomeEditora={item.nomeEditora} img={item.img} id={item.codigoEditora} />}
-                        keyExtractor={item => item.codigoEditora}
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                    />
+                    {editorasFiltradas.length === 0 ? (
+                        <Text style={styles.errorText}>Nenhuma editora encontrada</Text>
+                        ) : (
+                        <FlatList
+                            data={editorasFiltradas}
+                            renderItem={({ item }) => <ItemEditora nomeEditora={item.nomeEditora} img={item.img} id={item.codigoEditora} />}
+                            keyExtractor={item => item.codigoEditora}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                        />
+                    )}  
                     <Text style={styles.sectionHeader}>LIVROS</Text>
-                    <FlatList
-                        data={dadosLivro}
-                        renderItem={({ item }) => <ItemLivro nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} />}
-                        keyExtractor={item => item.codigoLivro}
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                    />
+                    {livrosFiltrados.length === 0 ? (
+                        <Text style={styles.errorText}>Nenhum livro encontrado</Text>
+                        ) : (
+                        <FlatList
+                            data={livrosFiltrados}
+                            renderItem={({ item }) => <ItemLivro nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} />}
+                            keyExtractor={item => item.codigoLivro}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                        />
+                    )}  
                     <Text style={styles.sectionHeader}>DESTAQUE</Text>
                     {dadosEditora.length > 0 &&
                         <ItemEditora
@@ -133,13 +170,15 @@ const styles = StyleSheet.create({
         zIndex: 0,
         backgroundColor: '#51cba6',
     },
+    searchBar: {
+        margin: 10,
+    },
     sectionHeader: {
         fontWeight: '800',
         fontSize: 18,
         color: '#04140f',
         marginTop: 20,
         marginLeft: 10,
-
     },
     itemPhoto: {
         width: 200,
@@ -182,6 +221,11 @@ const styles = StyleSheet.create({
         borderBottomStartRadius: 5,
         borderBottomEndRadius: 5,
     },
+    errorText: {
+        color: 'grey',
+        marginLeft: 10,
+        fontSize: 18,
+    }
 
 });
 
