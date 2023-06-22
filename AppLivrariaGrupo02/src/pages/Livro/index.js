@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { DataContext } from '../../context/DataContext';
 import AxiosInstance from '../../api/AxiosInstance';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Livro = ({ route }) => {
   const { dadosUsuario } = useContext(DataContext);
@@ -37,6 +38,23 @@ const Livro = ({ route }) => {
     );
   }
 
+  const addToFavorites = async () => {
+    try {
+      let favoriteBooks = await AsyncStorage.getItem('favoriteBooks');
+      favoriteBooks = favoriteBooks == null ? [] : JSON.parse(favoriteBooks);
+
+      if (favoriteBooks.some(item => item.codigoLivro === livro.codigoLivro)) {
+        alert('O livro já está na lista de favoritos!');
+      } else {
+        favoriteBooks.push(livro);
+        await AsyncStorage.setItem('favoriteBooks', JSON.stringify(favoriteBooks));
+        alert('Livro adicionado aos favoritos!');
+      }
+    } catch (error) {
+      console.log('Ocorreu um erro ao favoritar o livro: ' + error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
@@ -50,14 +68,16 @@ const Livro = ({ route }) => {
           <Text>R$ 564</Text>
           <TouchableOpacity style={styles.button} onPress={() => console.log("comprar pressionado")} >
             <Text style={styles.txtButton}>COMPRAR</Text>
-          </TouchableOpacity>
+          </TouchableOpacity >
           <View style={styles.favoriteBtn}>
             <Text>FAVORITAR</Text>
-            <Icon
-              name='heart'
-              size={20}
-              color='rgba(120, 255, 255, 0.9)'
-            />
+            <TouchableOpacity onPress={addToFavorites}>
+              <Icon
+                name='heart'
+                size={20}
+                color='rgba(120, 255, 255, 0.9)'
+              />
+            </TouchableOpacity>
           </View>
         </View>
       </View>
