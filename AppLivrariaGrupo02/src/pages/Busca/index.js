@@ -174,7 +174,6 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginLeft: 10,
         width: 500,
-        height: '80%',
     },
     itemPhoto: {
         width: 100,
