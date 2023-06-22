@@ -138,7 +138,7 @@ const Busca = () => {
                 {(editorasFiltradas.length === 0 && livrosFiltrados.length === 0) ? (
                     <Text style={styles.errorText}>Nenhum item encontrado</Text>
                 ) : (
-                    <View>
+                    <View style={styles.float}>
                         <FlatList
                             data={livrosFiltrados}
                             renderItem={({ item }) => <ItemLivro nomeAutor={item.autorDTO.nomeAutor} nomeEditora={item.editoraDTO.nomeEditora} nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} />}
@@ -175,7 +175,6 @@ const styles = StyleSheet.create({
         color: '#04140f',
         marginTop: 20,
         marginLeft: 10,
-        width: 500,
     },
     itemPhoto: {
         width: 100,
@@ -183,6 +182,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#a8e5d3',
         borderRadius: 5,
         borderBottomLeftRadius: 13
+    },
+    float: {
+        height: '80%',
     },
     destaqueItemPhoto: {
         width: 400,
