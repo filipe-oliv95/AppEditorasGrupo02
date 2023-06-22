@@ -1,4 +1,5 @@
-import React from 'react';
+import * as React from 'react';
+import { Searchbar } from 'react-native-paper';
 import Header from '../../components/Header';
 import {
   StyleSheet,
@@ -8,9 +9,11 @@ import {
 
 
 const Editoras = () => {
+    
   return (
     <View>
       <Header title='Editoras' />
+      
       <Text>EDITORAS</Text>
     </View>
   );

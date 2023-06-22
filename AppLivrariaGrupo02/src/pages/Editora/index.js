@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
 import { DataContext } from '../../context/DataContext';
+import { Searchbar } from 'react-native-paper';
 import AxiosInstance from '../../api/AxiosInstance';
 
 const LivrosEditora = ({ imagem, nomeLivro, codigoLivro }) => {
@@ -13,6 +14,7 @@ const LivrosEditora = ({ imagem, nomeLivro, codigoLivro }) => {
   
   return (
     <TouchableOpacity onPress={handlePress}>
+         
         <View style={styles.itemLivros}>
           <Image 
             style={styles.itemPhoto}
@@ -32,9 +34,21 @@ const Editora = ({ route }) => {
   const [editora, setEditora] = useState(null);
   const editoraId = route.params?.editoraId;
 
+  const [searchQuery, setSearchQuery] = React.useState('');
+  const [livrosFiltrados, setLivrosFiltrados] = useState([]);
+
+  const onChangeSearch = query => setSearchQuery(query);
+
   useEffect(() => {
     getEditoraById();
   }, []);
+
+  useEffect(() => {
+    if (editora && editora.listaLivrosDTO) {
+      const filteredLivros = editora.listaLivrosDTO.filter(item => item.nomeLivro.toLowerCase().includes(searchQuery.toLowerCase()));
+      setLivrosFiltrados(filteredLivros);
+    }
+  }, [searchQuery, editora]);
 
   const getEditoraById = async () => {
     try {
@@ -47,11 +61,6 @@ const Editora = ({ route }) => {
     }
   };
 
-  // if (editora && editora.listaLivrosDTO) {
-  //   console.log(editora.listaLivrosDTO);
-  //   console.log(editora.listaLivrosDTO[0].imagem);
-  // }
-
   if (!editora) {
     return (
       <View style={styles.container}>
@@ -62,11 +71,20 @@ const Editora = ({ route }) => {
 
   return (
     <View style={styles.container}>
+      
+      <Searchbar
+          placeholder="Search"
+          style={styles.searchBar}
+          onChangeText={onChangeSearch}
+          value={searchQuery}
+      /> 
+
       <Text style={styles.nomeEditora}>{editora.nomeEditora}</Text>
 
       <Text style={styles.sectionHeader}>LIVROS</Text>
           <FlatList
-              data={editora.listaLivrosDTO}
+              // data={editora.listaLivrosDTO}
+              data={livrosFiltrados}
               renderItem={({ item }) => <LivrosEditora imagem={item.imagem} nomeLivro={item.nomeLivro} codigoLivro={item.codigoLivro} />}
               keyExtractor={item => item.codigoLivro}
               showsHorizontalScrollIndicator={false}
@@ -113,6 +131,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
     borderBottomStartRadius: 5,
     borderBottomEndRadius: 5,
+  },
+  searchBar: {
+    margin: 10,
   },
 });
 

@@ -27,11 +27,12 @@ const Login = ({ navigation }) => {
                 username: email,
                 password: senha
             });
+            console.log(resultado);
 
             if (resultado.status === 200) {
                 var jwtToken = resultado.data;
                 armazenarDadosUsuario(jwtToken["accessToken"]);
-
+                console.log(jwtToken);
                 navigation.navigate("Main");
             } else {
                 console.log('erro ao realizar o login');
