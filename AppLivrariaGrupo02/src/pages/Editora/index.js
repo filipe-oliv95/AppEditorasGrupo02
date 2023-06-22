@@ -98,8 +98,7 @@ const Editora = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
+    backgroundColor: '#51cba6',
   },
   itemsContainer: {
     display: 'flex',
@@ -118,6 +117,9 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 10,
+    marginTop: 10,
+    marginLeft: 5,
+    color: '#04140f'
   },
   enderecoEditora: {
     fontSize: 18,
@@ -126,23 +128,27 @@ const styles = StyleSheet.create({
   itemPhoto: {
     width: 200,
     height: 200,
+    backgroundColor: '#a8e5d3',
+    borderTopLeftRadius: 13,
+    borderTopRightRadius: 13,
   },
   itemLivros: {
     margin: 10,
   },
   itemTextLivros: {
-    color: 'rgba(0, 0, 0, 0.7)',
+    color: '#66d2b1',
     fontSize: 18,
     marginVertical: 5,
     marginHorizontal: 10,
   },
   itemTextContainer: {
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    borderBottomStartRadius: 5,
-    borderBottomEndRadius: 5,
+    backgroundColor: '#07261d',
+    borderBottomStartRadius: 13,
+    borderBottomEndRadius: 13,
   },
   searchBar: {
     margin: 10,
+    backgroundColor: '#a8e5d3',
   },
 });
 

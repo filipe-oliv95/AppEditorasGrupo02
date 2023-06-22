@@ -91,10 +91,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#51cba6',
   },
   contentContainer: {
     padding: 15,
-    backgroundColor: 'white',
+    backgroundColor: '#a8e5d3',
     borderColor: '#555',
     borderWidth: 1,
     display: 'flex',

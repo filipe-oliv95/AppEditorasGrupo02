@@ -48,7 +48,7 @@ const ItemLivro = ({ img, nomeLivro, id }) => {
         <TouchableOpacity onPress={handlePress}>
             <View style={styles.itemLivro}>
                 <Image
-                    style={styles.itemPhoto}
+                    style={styles.itemPhotoLivro}
                     source={{ uri: `data:image/png;base64,${img}` }}
                 />
                 <View style={styles.itemTextContainerLivro}>
@@ -146,11 +146,20 @@ const styles = StyleSheet.create({
     itemPhoto: {
         width: 200,
         height: 200,
+        backgroundColor: '#a8e5d3',
         borderRadius: 13,
     },
-    destaqueItemPhoto: {
-        width: 400,
+    itemPhotoLivro: {
+        width: 200,
         height: 200,
+        backgroundColor: '#a8e5d3',
+        borderTopLeftRadius: 13,
+        borderTopRightRadius: 13,
+    },
+    destaqueItemPhoto: {
+        width: 373,
+        height: 200,
+        backgroundColor: '#a8e5d3',
         borderRadius: 13,
     },
     itemEditora: {
@@ -167,7 +176,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         position: 'absolute',
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        backgroundColor: 'rgba(0, 0, 0, 0.6)',
         borderRadius: 13,
     },
     itemLivro: {
