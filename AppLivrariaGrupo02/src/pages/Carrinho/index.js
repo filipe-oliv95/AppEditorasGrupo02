@@ -11,11 +11,41 @@ import {
 } from 'react-native';
 
 
+
+
+
 const Carrinho = () => {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <StatusBar style="light" />
-      <Text style={styles.h1}>CARRINHO</Text>
+      {/* <Text style={styles.sectionHeader}>Favoritos</Text>
+      <FlatList
+        data={favoriteBooks}
+        keyExtractor={(item) => item.codigoLivro.toString()}
+        renderItem={({ item }) => (
+          <View style={styles.contentContainer}>
+            <Text style={styles.itemTextLivros}>{item.nomeLivro}</Text>
+            <Image
+              style={styles.itemPhoto}
+              source={{ uri: `data:image/png;base64,${item.img}` }}
+            />
+            {(
+              <StarRating
+                rating={rating[item.codigoLivro] || 0}
+                onChange={(newRating) => setRating({ ...rating, [item.codigoLivro]: newRating })}
+              />
+            )}
+            <View style={styles.itemContent}>
+              <Text style={styles.itemTextLivros}>{item.autorDTO.nomeAutor}</Text>
+            </View>
+            <TouchableOpacity onPress={() => handleRemove(item.codigoLivro)}>
+              <FontAwesome5 name="heart-broken" size={24} color="#66d2b1" />
+            </TouchableOpacity> */}
+      {/* </View>
+        )}
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+      /> */}
     </SafeAreaView>
   );
 };
