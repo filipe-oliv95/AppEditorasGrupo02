@@ -3,7 +3,6 @@ import { useNavigation } from '@react-navigation/native';
 import { DataContext } from '../../context/DataContext';
 import { Searchbar } from 'react-native-paper';
 import AxiosInstance from '../../api/AxiosInstance';
-import Header from '../../components/Header'
 import { Entypo } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -14,7 +13,9 @@ import {
     View,
     Image,
     FlatList,
-    TouchableOpacity
+    TouchableOpacity,
+    SafeAreaView ,
+    StatusBar
 } from 'react-native';
 
 
@@ -138,9 +139,9 @@ const Busca = () => {
     };
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
+            <StatusBar style='light' />
             <View style={{ flex: 1 }}>
-                <Header title='Busca'></Header>
                 <Searchbar
                     placeholder="Busque por título ou editora"
                     style={styles.searchBar}
@@ -183,7 +184,7 @@ const Busca = () => {
                         </View>
                     )}  
             </View>
-        </View>
+        </SafeAreaView >
     );
 };
 
