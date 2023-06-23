@@ -36,7 +36,7 @@ const ItemEditora = ({ img, nomeEditora, id, destaque }) => {
                         <Text style={styles.itemTextName}>Editora</Text>
                     </View>
                 </View>
-                <Entypo style={styles.icon} name="arrow-with-circle-right" size={40} color="grey" />
+                <Entypo style={styles.icon} name="arrow-with-circle-right" size={40} color="#66d2b1" />
             </View>
         </TouchableOpacity>
     )
