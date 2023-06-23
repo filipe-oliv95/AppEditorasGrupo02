@@ -4,7 +4,8 @@ import { ScrollView } from 'react-native-gesture-handler';
 import AxiosInstance from '../../api/AxiosInstance';
 import { DataContext } from '../../context/DataContext';
 import StarRating from 'react-native-star-rating-widget';
-import { Modal } from 'react-native-paper';
+
+import ModalLivro from '../ModalLivro';
 
 import {
     FlatList,
@@ -148,27 +149,8 @@ const Home = () => {
                         />
                     }
                 </ScrollView>
-                <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
-                    <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                        <Text style={{ marginVertical: 5, marginHorizontal: 10 }}>{livro.nomeLivro}</Text>
-                        <Image
-                        style={{ width: 200, height: 200, borderRadius: 13}}
-                        source={{ uri: `data:image/png;base64,${livro.img}` }}
-                        />
-                        <View style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-                            {/* NAO CONSIGO ACESSOAR O NOME DO AUTOR */}
-                            {/* <Text style={{ marginVertical: 5, marginHorizontal: 10 }}>{livro.autorDTO.nomeAutor}</Text> */}
-                            <Text style={styles.txt}>R$ 564</Text>
-                            <TouchableOpacity style={{color: '#07261d'}} onPress={() => console.log("comprar pressionado")} >
-                                <Text style={{color: '#07261d'}}>COMPRAR</Text>
-                            </TouchableOpacity >
-                            <View style={{display: 'flex', flexDirection: 'row', padding: 5}}>
-                                <Text>FAVORITAR</Text>
-                                <TouchableOpacity onPress={() => console.log("adicionar aos favoritos")}></TouchableOpacity>
-                            </View>
-                        </View>
-                    </View>
-                </Modal>
+
+                <ModalLivro visible={visible} hideModal={hideModal} livro={livro} />
 
             </View>
         </SafeAreaView>
