@@ -84,9 +84,9 @@ const Login = ({ navigation }) => {
                     />
                     <TouchableOpacity style={styles.icon} onPress={() => setHidePass(!hidePass)}>
                         {hidePass ?
-                            <Ionicons name="eye" color="#07261d" />
+                            <Ionicons name="eye" color="#07261d" size={18}/>
                             :
-                            <Ionicons name="eye-off" color="#07261d" />
+                            <Ionicons name="eye-off" color="#07261d" size={18} />
                         }
                     </TouchableOpacity>
                 </View>
