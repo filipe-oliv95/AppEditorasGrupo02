@@ -5,7 +5,7 @@ import AxiosInstance from '../../api/AxiosInstance';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Livro = ({ route }) => {
+const Livro = ({ route }) => { // JA PODE REMOVER LIVRO
   const { dadosUsuario } = useContext(DataContext);
   const [livro, setLivro] = useState(null);
   const livroId = route.params?.livroId;
