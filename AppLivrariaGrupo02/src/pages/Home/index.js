@@ -1,21 +1,19 @@
-import React, { useContext, useState, useEffect } from 'react';
+import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { DataContext } from '../../context/DataContext';
+import React, { useContext, useEffect, useState } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import AxiosInstance from '../../api/AxiosInstance';
-
-import { MaterialIcons } from '@expo/vector-icons';
-
+import { DataContext } from '../../context/DataContext';
 
 import {
+    FlatList,
+    Image,
+    SafeAreaView,
     StatusBar,
     StyleSheet,
     Text,
-    View,
-    Image,
-    FlatList,
     TouchableOpacity,
-    SafeAreaView
+    View
 } from 'react-native';
 
 
@@ -207,6 +205,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
     },
     itemTextContainerLivro: {
+        width: 200,
         backgroundColor: '#07261d',
         borderBottomStartRadius: 5,
         borderBottomEndRadius: 5,
