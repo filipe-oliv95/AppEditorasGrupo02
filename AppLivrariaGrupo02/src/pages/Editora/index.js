@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
   itemsContainer: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    padding: 10,
     width: '100%',
     height: '80%',
   },
@@ -145,10 +145,8 @@ const styles = StyleSheet.create({
   nomeEditora: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 10,
-    marginTop: 10,
-    marginLeft: 5,
-    color: '#04140f'
+    padding: 10,
+    color: '#07261d',
   },
   enderecoEditora: {
     fontSize: 18,
@@ -165,7 +163,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     backgroundColor: '#07261d',
-    margin: 10,
+    marginVertical: 10,
     padding: 0,
     alignItems: 'center',
     borderRadius: 13,
