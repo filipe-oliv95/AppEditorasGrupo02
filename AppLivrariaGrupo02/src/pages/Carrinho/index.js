@@ -7,15 +7,16 @@ import {
   Image,
   FlatList,
   StatusBar,
+  SafeAreaView
 } from 'react-native';
 
 
 const Carrinho = () => {
   return (
-    <View>
+    <SafeAreaView>
       <StatusBar style="light" />
       <Text style={styles.h1}>CARRINHO</Text>
-    </View>
+    </SafeAreaView>
   );
 };
 

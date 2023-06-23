@@ -3,7 +3,9 @@ import { useNavigation } from '@react-navigation/native';
 import { DataContext } from '../../context/DataContext';
 import { ScrollView } from 'react-native-gesture-handler';
 import AxiosInstance from '../../api/AxiosInstance';
+
 import { MaterialIcons } from '@expo/vector-icons';
+
 
 import {
     StatusBar,
@@ -12,7 +14,8 @@ import {
     View,
     Image,
     FlatList,
-    TouchableOpacity
+    TouchableOpacity,
+    SafeAreaView
 } from 'react-native';
 
 
@@ -20,12 +23,11 @@ const ItemEditora = ({ img, nomeEditora, id, destaque, showStars }) => {
     const navigation = useNavigation();
 
     const handlePress = () => {
-        navigation.navigate('EditoraLivros', { editoraId: id });
+        navigation.navigate('Editora', { editoraId: id });
     }
 
     return (
         <TouchableOpacity onPress={handlePress}>
-            <StatusBar style="light" />
             <View style={styles.itemEditora}>
                 <Image
                     style={destaque ? styles.destaqueItemPhoto : styles.itemPhoto}
@@ -104,7 +106,8 @@ const Home = () => {
     }
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
+            <StatusBar style="light" />
             <View style={{ flex: 1 }}>
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <Text style={styles.sectionHeader}>EDITORAS</Text>
@@ -123,6 +126,7 @@ const Home = () => {
                         horizontal
                         showsHorizontalScrollIndicator={false}
                     />
+
                     <Text style={styles.sectionHeader}>DESTAQUE</Text>
                     {dadosEditora.length > 0 &&
                         <ItemEditora
@@ -135,7 +139,7 @@ const Home = () => {
                     }
                 </ScrollView>
             </View>
-        </View>
+        </SafeAreaView>
     );
 };
 

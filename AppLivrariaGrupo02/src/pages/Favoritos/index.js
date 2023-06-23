@@ -1,7 +1,6 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { DataContext } from '../../context/DataContext';
-import Header from '../../components/Header';
-import { StyleSheet, View, Text, FlatList, Image, StatusBar } from 'react-native';
+import { StyleSheet, View, Text, FlatList, Image, StatusBar, SafeAreaView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AxiosInstance from '../../api/AxiosInstance';
 import { useFocusEffect } from '@react-navigation/native';
@@ -37,7 +36,7 @@ const Favoritos = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar style="light" />
       <Text style={styles.sectionHeader}>Favoritos</Text>
       <FlatList
@@ -58,7 +57,7 @@ const Favoritos = () => {
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -94,7 +93,7 @@ const styles = StyleSheet.create({
   itemPhoto: {
     width: 200,
     height: 200,
-    backgroundColor: '#aa8e5d3',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
     borderRadius: 13,
   },
   itemTextLivros: {

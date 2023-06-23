@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image, StatusBar, SafeAreaView } from 'react-native';
 import { DataContext } from '../../context/DataContext';
 import { Searchbar } from 'react-native-paper';
 import AxiosInstance from '../../api/AxiosInstance';
@@ -71,7 +71,7 @@ const Editora = ({ route }) => {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar style="light" />
       <Text style={styles.nomeEditora}>{editora.nomeEditora}</Text>
       <Searchbar
@@ -93,7 +93,7 @@ const Editora = ({ route }) => {
           />
         )}
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

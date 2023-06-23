@@ -5,6 +5,7 @@ import {
     TextInput,
     TouchableOpacity,
     StatusBar,
+    SafeAreaView
 }
     from "react-native";
 
@@ -34,7 +35,7 @@ const Login = ({ navigation }) => {
                 var jwtToken = resultado.data;
                 armazenarDadosUsuario(jwtToken["accessToken"]);
                 console.log(jwtToken);
-                navigation.navigate("Main");
+                navigation.navigate("Home");
             } else {
                 console.log('erro ao realizar o login');
             }
@@ -44,7 +45,7 @@ const Login = ({ navigation }) => {
     }
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <StatusBar style="light" />
             <Text style={styles.txt} >Bem Vindo</Text>
             <Text style={styles.txtinput} >Email:</Text>
@@ -74,7 +75,7 @@ const Login = ({ navigation }) => {
             <TouchableOpacity style={styles.button} onPress={() => handleLogin()} >
                 <Text style={styles.txtButton}>Login</Text>
             </TouchableOpacity>
-        </View>
+        </SafeAreaView>
     );
 }
 
