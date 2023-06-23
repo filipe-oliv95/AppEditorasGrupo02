@@ -14,7 +14,8 @@ import {
     View,
     Image,
     FlatList,
-    TouchableOpacity
+    TouchableOpacity,
+    SafeAreaView
 } from 'react-native';
 
 
@@ -105,7 +106,7 @@ const Home = () => {
     }
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <StatusBar style="light" />
             <View style={{ flex: 1 }}>
                 <ScrollView showsVerticalScrollIndicator={false}>
@@ -138,7 +139,7 @@ const Home = () => {
                     }
                 </ScrollView>
             </View>
-        </View>
+        </SafeAreaView>
     );
 };
 

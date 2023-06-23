@@ -5,6 +5,7 @@ import {
     TextInput,
     TouchableOpacity,
     StatusBar,
+    SafeAreaView
 }
     from "react-native";
 
@@ -44,7 +45,7 @@ const Login = ({ navigation }) => {
     }
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <StatusBar style="light" />
             <Text style={styles.txt} >Bem Vindo</Text>
             <Text style={styles.txtinput} >Email:</Text>
@@ -74,7 +75,7 @@ const Login = ({ navigation }) => {
             <TouchableOpacity style={styles.button} onPress={() => handleLogin()} >
                 <Text style={styles.txtButton}>Login</Text>
             </TouchableOpacity>
-        </View>
+        </SafeAreaView>
     );
 }
 
@@ -86,19 +87,20 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     txt: {
-        fontSize: 20,
+        fontSize: 30,
         fontWeight: 'bold',
         marginBottom: 30,
         color: '#04140f',
     },
     txtinput: {
+        fontSize: 16,
         color: '#04140f',
     },
     input: {
         backgroundColor: '#a8e5d3',
         borderRadius: 13,
-        width: 200,
-        height: 30,
+        width: 300,
+        height: 40,
         margin: 5,
         padding: 3,
         borderTopLeftRadius: 2,
@@ -111,14 +113,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#a8e5d3',
         borderBottomLeftRadius: 13,
         borderTopLeftRadius: 2,
-        width: 170,
-        height: 30,
+        width: 260,
+        height: 40,
         marginTop: 5,
         padding: 3,
     },
     icon: {
-        width: 30,
-        height: 30,
+        width: 40,
+        height: 40,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#a8e5d3',
@@ -132,9 +134,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#07261d',
-        marginTop: 10,
-        width: 90,
-        height: 45,
+        marginTop: 20,
+        width: 120,
+        height: 50,
         borderRadius: 13,
     },
     txtButton: {
