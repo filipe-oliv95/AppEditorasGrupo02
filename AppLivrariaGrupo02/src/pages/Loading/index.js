@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, StatusBar, View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { SafeAreaView, StatusBar, View, Text, StyleSheet, ActivityIndicator, Image } from 'react-native';
+import { Entypo } from '@expo/vector-icons'; 
 
 const LoadingScreen = ({ navigation }) => {
   const [count, setCount] = useState(2);
@@ -20,8 +21,16 @@ const LoadingScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="light" />
-      <Text style={styles.txt} >{count}</Text>
-      <ActivityIndicator size="large" color="#0000ff" />
+      <Text style={{fontSize: 50, fontFamily: 'notoserif'}} >LIVRARIA</Text>
+      <Image 
+        style ={{ width: 300, height: 200}}
+        source={{
+          uri: 'https://i.imgur.com/Mbm6xQl.png',
+        }}></Image>
+      <Entypo name="book" size={35} color="black" 
+        style={{ position: 'absolute', right: 0, bottom: 0, margin: 10, marginRight: 50}}
+      />
+      <ActivityIndicator style={{ position: 'absolute', right: 0, bottom: 0, margin: 10}} size="large" color="#04140F" />
     </SafeAreaView>
   );
 };
