@@ -14,6 +14,7 @@ import {
 import { Searchbar } from 'react-native-paper';
 import AxiosInstance from '../../api/AxiosInstance';
 import { DataContext } from '../../context/DataContext';
+import ModalLivro from '../ModalLivro';
 
 const ItemEditora = ({ img, nomeEditora, id, destaque }) => {
     const navigation = useNavigation();
@@ -41,11 +42,9 @@ const ItemEditora = ({ img, nomeEditora, id, destaque }) => {
     )
 };
 
-const ItemLivro = ({ img, nomeLivro, nomeAutor, nomeEditora, id }) => {
-    const navigation = useNavigation();
-
+const ItemLivro = ({ img, nomeLivro, nomeAutor, nomeEditora, id, showModal }) => {
     const handlePress = () => {
-        navigation.navigate('Livro', { livroId: id });
+        showModal({ id });
     }
 
     return (
@@ -74,8 +73,18 @@ const Busca = () => {
     const [dadosLivro, setDadosLivro] = useState([]);
     const [searchQuery, setSearchQuery] = React.useState('');
     const [resultadosFiltrados, setResultadosFiltrados] = useState([]);
+    const [visible, setVisible] = React.useState(false);
+    const [livro, setLivro] = React.useState([]);
 
     const onChangeSearch = query => setSearchQuery(query);
+
+    const showModal = ({ id }) => {
+        const livro = dadosLivro.find(livro => livro.codigoLivro === id);
+        setLivro(livro);
+        setVisible(true);
+    };
+    const hideModal = () => setVisible(false);
+
 
     // filtra os livros e editoras conforme a busca
     useEffect(() => {
@@ -153,6 +162,7 @@ const Busca = () => {
                                         img={item.img}
                                         id={item.codigoLivro}
                                         onPress={() => handleLivroPress(item.codigoLivro)}
+                                        showModal={showModal}
                                     />
                                 ) : (
                                     <ItemEditora
@@ -169,6 +179,7 @@ const Busca = () => {
                                     : item.codigoEditora.toString()
                             }
                         />
+                        <ModalLivro visible={visible} hideModal={hideModal} livro={livro} />
                     </View>
                 )}
             </View>
