@@ -1,23 +1,19 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { DataContext } from '../../context/DataContext';
-import { Searchbar } from 'react-native-paper';
-import AxiosInstance from '../../api/AxiosInstance';
 import { Entypo } from '@expo/vector-icons';
-import { useFocusEffect } from '@react-navigation/native';
-
-
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import React, { useContext, useEffect, useState } from 'react';
 import {
+    SectionList,
+    Image,
+    SafeAreaView,
+    StatusBar,
     StyleSheet,
     Text,
-    View,
-    Image,
-    FlatList,
     TouchableOpacity,
-    SafeAreaView ,
-    StatusBar
+    View
 } from 'react-native';
-
+import { Searchbar } from 'react-native-paper';
+import AxiosInstance from '../../api/AxiosInstance';
+import { DataContext } from '../../context/DataContext';
 
 const ItemEditora = ({ img, nomeEditora, id, destaque }) => {
     const navigation = useNavigation();
@@ -46,7 +42,6 @@ const ItemEditora = ({ img, nomeEditora, id, destaque }) => {
 };
 
 const ItemLivro = ({ img, nomeLivro, nomeAutor, nomeEditora, id }) => {
-
     const navigation = useNavigation();
 
     const handlePress = () => {
@@ -55,21 +50,21 @@ const ItemLivro = ({ img, nomeLivro, nomeAutor, nomeEditora, id }) => {
 
     return (
         <TouchableOpacity onPress={handlePress}>
-        <View style={styles.containerItem}>
-            <Image
-                style={styles.itemPhoto}
-                source={{ uri: `data:image/png;base64,${img}` }}
-            />
-            <View style={styles.itemTextContainer}>
-                <View style={styles.itemBox}>
-                    <Text style={styles.itemTitle}>{nomeLivro}</Text>
-                    <Text style={styles.itemTextName}>{nomeAutor}</Text>
-                    <Text style={styles.itemTextName}>{nomeEditora}</Text>
+            <View style={styles.containerItem}>
+                <Image
+                    style={styles.itemPhoto}
+                    source={{ uri: `data:image/png;base64,${img}` }}
+                />
+                <View style={styles.itemTextContainer}>
+                    <View style={styles.itemBox}>
+                        <Text style={styles.itemTitle}>{nomeLivro}</Text>
+                        <Text style={styles.itemTextName}>{nomeAutor}</Text>
+                        <Text style={styles.itemTextName}>{nomeEditora}</Text>
+                    </View>
                 </View>
+                <Entypo style={styles.icon} name="arrow-with-circle-right" size={40} color="grey" />
             </View>
-            <Entypo style={styles.icon} name="arrow-with-circle-right" size={40} color="grey" />
-        </View>
-    </TouchableOpacity>
+        </TouchableOpacity>
     )
 };
 
@@ -77,37 +72,37 @@ const Busca = () => {
     const { dadosUsuario } = useContext(DataContext);
     const [dadosEditora, setDadosEditora] = useState([]);
     const [dadosLivro, setDadosLivro] = useState([]);
-
     const [searchQuery, setSearchQuery] = React.useState('');
 
-    const navigation = useNavigation();
-
     const [resultadosFiltrados, setResultadosFiltrados] = useState([]);
-    
+
     const onChangeSearch = query => setSearchQuery(query);
 
     useFocusEffect(
         React.useCallback(() => {
-        getAllEditoras();
-        getAllLivros();
-    }, [])
+            getAllEditoras();
+            getAllLivros();
+        }, [])
     )
 
     console.log(dadosEditora)
-    
+
     useEffect(() => {
         if (dadosEditora && dadosLivro) {
+            const filteredLivros = dadosLivro.filter(item =>
+                item.nomeLivro.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+            const filteredEditoras = dadosEditora.filter(item =>
+                item.nomeEditora.toLowerCase().includes(searchQuery.toLowerCase())
+            );
             const filteredResults = [
-                ...dadosLivro.filter(item =>
-                  item.nomeLivro.toLowerCase().includes(searchQuery.toLowerCase())
-                ),
-                ...dadosEditora.filter(item =>
-                  item.nomeEditora.toLowerCase().includes(searchQuery.toLowerCase())
-                ),
-              ];
-              setResultadosFiltrados(filteredResults);
-            }
-          }, [searchQuery, dadosEditora, dadosLivro]);
+                { title: 'Livros', data: filteredLivros },
+                { title: 'Editoras', data: filteredEditoras }
+            ];
+            setResultadosFiltrados(filteredResults);
+        }
+    }, [searchQuery, dadosEditora, dadosLivro]);
+
 
     const getAllEditoras = async () => {
         await AxiosInstance.get(
@@ -119,6 +114,7 @@ const Busca = () => {
             console.log('Ocorreu um erro ao recuperar os dados das Editoras: ' + error);
         })
     }
+
     const getAllLivros = async () => {
         await AxiosInstance.get(
             '/livros',
@@ -130,14 +126,6 @@ const Busca = () => {
         })
     }
 
-    const handleLivroPress = livroId => {
-        navigation.navigate('Livro', { livroId });
-      };
-    
-    const handleEditoraPress = editoraId => {
-    navigation.navigate('EditoraLivros', { editoraId });
-    };
-
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar style='light' />
@@ -147,42 +135,44 @@ const Busca = () => {
                     style={styles.searchBar}
                     onChangeText={onChangeSearch}
                     value={searchQuery}
-                /> 
-                    <Text style={styles.sectionHeader}>Resultado:</Text>
-                    {(resultadosFiltrados.length === 0 ) ? (
-                        <Text style={styles.errorText}>Nenhum item encontrado</Text>
-                        ) : (
-                        <View>
-                            <FlatList
-                                data={resultadosFiltrados}
-                                renderItem={({ item }) =>
+                />
+                <Text style={styles.sectionHeader}>Resultado:</Text>
+                {(resultadosFiltrados.length === 0) ? (
+                    <Text style={styles.errorText}>Nenhum item encontrado</Text>
+                ) : (
+                    <View>
+                        <SectionList
+                            sections={resultadosFiltrados}
+                            renderSectionHeader={({ section: { title } }) => (
+                                <Text style={styles.sectionHeader}>{title}</Text>
+                            )}
+                            renderItem={({ item }) =>
                                 item.hasOwnProperty('autorDTO') ? (
                                     <ItemLivro
-                                    nomeAutor={item.autorDTO.nomeAutor}
-                                    nomeEditora={item.editoraDTO.nomeEditora}
-                                    nomeLivro={item.nomeLivro}
-                                    img={item.img}
-                                    id={item.codigoLivro}
-                                    onPress={() => handleLivroPress(item.codigoLivro)}
+                                        nomeAutor={item.autorDTO.nomeAutor}
+                                        nomeEditora={item.editoraDTO.nomeEditora}
+                                        nomeLivro={item.nomeLivro}
+                                        img={item.img}
+                                        id={item.codigoLivro}
+                                        onPress={() => handleLivroPress(item.codigoLivro)}
                                     />
                                 ) : (
                                     <ItemEditora
-                                    nomeEditora={item.nomeEditora}
-                                    img={item.img}
-                                    id={item.codigoEditora}
-                                    onPress={() => handleEditoraPress(item.codigoEditora)}
+                                        nomeEditora={item.nomeEditora}
+                                        img={item.img}
+                                        id={item.codigoEditora}
+                                        onPress={() => handleEditoraPress(item.codigoEditora)}
                                     />
                                 )
-                                }
-                                keyExtractor={item =>
+                            }
+                            keyExtractor={item =>
                                 item.hasOwnProperty('autorDTO')
-                                    ? item.codigoLivro
-                                    : item.codigoEditora
-                                }
-                                showsVerticalScrollIndicator={false}
-                            />
-                        </View>
-                    )}  
+                                    ? item.codigoLivro.toString()
+                                    : item.codigoEditora.toString()
+                            }
+                        />
+                    </View>
+                )}
             </View>
         </SafeAreaView >
     );
