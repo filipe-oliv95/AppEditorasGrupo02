@@ -4,10 +4,10 @@ import { DataProvider } from './src/context/DataContext'
 
 import Routes from './src/routes';
 
-function App () {
+function App() {
   return (
     <DataProvider>
-       <Routes />
+      <Routes />
     </DataProvider>
   )
 };

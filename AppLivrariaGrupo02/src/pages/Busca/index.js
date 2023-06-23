@@ -73,20 +73,11 @@ const Busca = () => {
     const [dadosEditora, setDadosEditora] = useState([]);
     const [dadosLivro, setDadosLivro] = useState([]);
     const [searchQuery, setSearchQuery] = React.useState('');
-
     const [resultadosFiltrados, setResultadosFiltrados] = useState([]);
 
     const onChangeSearch = query => setSearchQuery(query);
 
-    useFocusEffect(
-        React.useCallback(() => {
-            getAllEditoras();
-            getAllLivros();
-        }, [])
-    )
-
-    console.log(dadosEditora)
-
+    // filtra os livros e editoras conforme a busca
     useEffect(() => {
         if (dadosEditora && dadosLivro) {
             const filteredLivros = dadosLivro.filter(item =>
@@ -103,6 +94,13 @@ const Busca = () => {
         }
     }, [searchQuery, dadosEditora, dadosLivro]);
 
+    useFocusEffect(
+        React.useCallback(() => {
+            getAllEditoras();
+            getAllLivros();
+        }, [])
+    )
+    // console.log(dadosEditora)
 
     const getAllEditoras = async () => {
         await AxiosInstance.get(

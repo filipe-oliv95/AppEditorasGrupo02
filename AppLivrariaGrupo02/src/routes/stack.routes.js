@@ -1,15 +1,14 @@
 
 import { createStackNavigator } from '@react-navigation/stack';
 // import { Feather } from '@expo/vector-icons'
-import Login from "../pages/Login"
-import Editora from "../pages/Editora"
-import Livro from "../pages/Livro"
-
+import Editora from "../pages/Editora";
+import Livro from "../pages/Livro";
+import Login from "../pages/Login";
 import DrawerRoutes from './drawer.routes';
 
 const Stack = createStackNavigator();
 
-function StackRoutes () {
+function StackRoutes() {
     return (
         <Stack.Navigator initialRouteName='Login'>
             <Stack.Screen
