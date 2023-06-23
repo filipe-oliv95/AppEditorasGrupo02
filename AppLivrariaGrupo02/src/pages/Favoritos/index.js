@@ -1,13 +1,17 @@
 import React, { useContext, useState } from 'react';
 import { DataContext } from '../../context/DataContext';
-import { StyleSheet, View, Text, FlatList, Image, StatusBar, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text, FlatList, Image, StatusBar, SafeAreaView, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AxiosInstance from '../../api/AxiosInstance';
 import { useFocusEffect } from '@react-navigation/native';
+import StarRating from 'react-native-star-rating-widget';
+import { FontAwesome5 } from '@expo/vector-icons';
+
 
 const Favoritos = () => {
   const { dadosUsuario } = useContext(DataContext);
   const [favoriteBooks, setFavoriteBooks] = useState([]);
+  const [rating, setRating] = useState({});
 
   // tem que usar esse useFocus para disparar getFavorite sempre que entrar nos Favoritos
   useFocusEffect(
@@ -15,6 +19,21 @@ const Favoritos = () => {
       getFavoriteBooks();
     }, [])
   );
+
+  const handleRemove = async (id) => {
+    try {
+      let favoriteBooksIds = await AsyncStorage.getItem('favoriteBooks');
+      favoriteBooksIds = favoriteBooksIds == null ? [] : JSON.parse(favoriteBooksIds);
+
+      const updatedFavoriteBooksIds = favoriteBooksIds.filter(livroId => livroId.codigoLivro !== id);
+      await AsyncStorage.setItem('favoriteBooks', JSON.stringify(updatedFavoriteBooksIds));
+
+      setFavoriteBooks(favoriteBooks.filter(livro => livro.codigoLivro !== id));
+    } catch (error) {
+      console.log('Failed to remove book: ' + error);
+    }
+  };
+
 
   const getFavoriteBooks = async () => {
     try {  // busca apenas o id no AsyncStorage
@@ -49,9 +68,18 @@ const Favoritos = () => {
               style={styles.itemPhoto}
               source={{ uri: `data:image/png;base64,${item.img}` }}
             />
+            {(
+              <StarRating
+                rating={rating[item.codigoLivro] || 0}
+                onChange={(newRating) => setRating({ ...rating, [item.codigoLivro]: newRating })}
+              />
+            )}
             <View style={styles.itemContent}>
               <Text style={styles.itemTextLivros}>{item.autorDTO.nomeAutor}</Text>
             </View>
+            <TouchableOpacity onPress={() => handleRemove(item.codigoLivro)}>
+              <FontAwesome5 name="heart-broken" size={24} color="#66d2b1" />
+            </TouchableOpacity>
           </View>
         )}
         showsHorizontalScrollIndicator={false}
