@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { DataContext } from '../../context/DataContext';
-import { StyleSheet, View, Text, FlatList, Image, StatusBar } from 'react-native';
+import { StyleSheet, View, Text, FlatList, Image, StatusBar, SafeAreaView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AxiosInstance from '../../api/AxiosInstance';
 import { useFocusEffect } from '@react-navigation/native';
@@ -36,7 +36,7 @@ const Favoritos = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar style="light" />
       <Text style={styles.sectionHeader}>Favoritos</Text>
       <FlatList
@@ -57,7 +57,7 @@ const Favoritos = () => {
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
