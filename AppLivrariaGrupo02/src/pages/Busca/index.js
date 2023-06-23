@@ -1,16 +1,14 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { DataContext } from '../../context/DataContext';
-import { ScrollView } from 'react-native-gesture-handler';
 import { Searchbar } from 'react-native-paper';
 import AxiosInstance from '../../api/AxiosInstance';
-
+import Header from '../../components/Header'
+import { Entypo } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
 
-import { Ionicons, Entypo } from '@expo/vector-icons';
 
 import {
-    StatusBar,
     StyleSheet,
     Text,
     View,
@@ -40,7 +38,7 @@ const ItemEditora = ({ img, nomeEditora, id, destaque }) => {
                         <Text style={styles.itemTextName}>Editora</Text>
                     </View>
                 </View>
-                <Entypo style={styles.icon} name="arrow-with-circle-right" size={40} color="#66d2b1" />
+                <Entypo style={styles.icon} name="arrow-with-circle-right" size={40} color="grey" />
             </View>
         </TouchableOpacity>
     )
@@ -56,21 +54,21 @@ const ItemLivro = ({ img, nomeLivro, nomeAutor, nomeEditora, id }) => {
 
     return (
         <TouchableOpacity onPress={handlePress}>
-            <View style={styles.containerItem}>
-                <Image
-                    style={styles.itemPhoto}
-                    source={{ uri: `data:image/png;base64,${img}` }}
-                />
-                <View style={styles.itemTextContainer}>
-                    <View style={styles.itemBox}>
-                        <Text style={styles.itemTitle}>{nomeLivro}</Text>
-                        <Text style={styles.itemTextName}>{nomeAutor}</Text>
-                        <Text style={styles.itemTextName}>{nomeEditora}</Text>
-                    </View>
+        <View style={styles.containerItem}>
+            <Image
+                style={styles.itemPhoto}
+                source={{ uri: `data:image/png;base64,${img}` }}
+            />
+            <View style={styles.itemTextContainer}>
+                <View style={styles.itemBox}>
+                    <Text style={styles.itemTitle}>{nomeLivro}</Text>
+                    <Text style={styles.itemTextName}>{nomeAutor}</Text>
+                    <Text style={styles.itemTextName}>{nomeEditora}</Text>
                 </View>
-                <Entypo style={styles.icon} name="arrow-with-circle-right" size={40} color="#66d2b1" />
             </View>
-        </TouchableOpacity>
+            <Entypo style={styles.icon} name="arrow-with-circle-right" size={40} color="grey" />
+        </View>
+    </TouchableOpacity>
     )
 };
 
@@ -80,9 +78,11 @@ const Busca = () => {
     const [dadosLivro, setDadosLivro] = useState([]);
 
     const [searchQuery, setSearchQuery] = React.useState('');
-    const [editorasFiltradas, setEditorasFiltradas] = useState([]);
-    const [livrosFiltrados, setLivrosFiltrados] = useState([]);
 
+    const navigation = useNavigation();
+
+    const [resultadosFiltrados, setResultadosFiltrados] = useState([]);
+    
     const onChangeSearch = query => setSearchQuery(query);
 
     useFocusEffect(
@@ -90,23 +90,23 @@ const Busca = () => {
         getAllEditoras();
         getAllLivros();
     }, [])
-    );
+    )
 
     console.log(dadosEditora)
-
+    
     useEffect(() => {
-        if (dadosEditora) {
-            const filteredEditoras = dadosEditora.filter(item => item.nomeEditora.toLowerCase().includes(searchQuery.toLowerCase()));
-            setEditorasFiltradas(filteredEditoras);
-        }
-    }, [searchQuery, dadosEditora]);
-
-    useEffect(() => {
-        if (dadosLivro) {
-            const filteredLivros = dadosLivro.filter(item => item.nomeLivro.toLowerCase().includes(searchQuery.toLowerCase()));
-            setLivrosFiltrados(filteredLivros);
-        }
-    }, [searchQuery, dadosEditora]);
+        if (dadosEditora && dadosLivro) {
+            const filteredResults = [
+                ...dadosLivro.filter(item =>
+                  item.nomeLivro.toLowerCase().includes(searchQuery.toLowerCase())
+                ),
+                ...dadosEditora.filter(item =>
+                  item.nomeEditora.toLowerCase().includes(searchQuery.toLowerCase())
+                ),
+              ];
+              setResultadosFiltrados(filteredResults);
+            }
+          }, [searchQuery, dadosEditora, dadosLivro]);
 
     const getAllEditoras = async () => {
         await AxiosInstance.get(
@@ -129,36 +129,59 @@ const Busca = () => {
         })
     }
 
+    const handleLivroPress = livroId => {
+        navigation.navigate('Livro', { livroId });
+      };
+    
+    const handleEditoraPress = editoraId => {
+    navigation.navigate('EditoraLivros', { editoraId });
+    };
+
     return (
         <View style={styles.container}>
-            <StatusBar style="light" />
             <View style={{ flex: 1 }}>
+                <Header title='Busca'></Header>
                 <Searchbar
                     placeholder="Busque por título ou editora"
                     style={styles.searchBar}
                     onChangeText={onChangeSearch}
                     value={searchQuery}
-                />
-                {(editorasFiltradas.length === 0 && livrosFiltrados.length === 0) ? (
-                    <Text style={styles.errorText}>Nenhum item encontrado</Text>
-                ) : (
-                    <View style={styles.float}>
-                        <Text style={styles.sectionHeader}>Resultado Livros:</Text>
-                        <FlatList style={styles.list}
-                            data={livrosFiltrados}
-                            renderItem={({ item }) => <ItemLivro nomeAutor={item.autorDTO.nomeAutor} nomeEditora={item.editoraDTO.nomeEditora} nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} />}
-                            keyExtractor={item => item.codigoLivro}
-                            showsHorizontalScrollIndicator={false}
-                        />
-                        <Text style={styles.sectionHeader}>Resultado Editoras:</Text>
-                        <FlatList style={styles.list}
-                            data={editorasFiltradas}
-                            renderItem={({ item }) => <ItemEditora nomeEditora={item.nomeEditora} img={item.img} id={item.codigoEditora} />}
-                            keyExtractor={item => item.codigoEditora}
-                            showsHorizontalScrollIndicator={false}
-                        />
-                    </View>
-                )}
+                /> 
+                    <Text style={styles.sectionHeader}>Resultado:</Text>
+                    {(resultadosFiltrados.length === 0 ) ? (
+                        <Text style={styles.errorText}>Nenhum item encontrado</Text>
+                        ) : (
+                        <View>
+                            <FlatList
+                                data={resultadosFiltrados}
+                                renderItem={({ item }) =>
+                                item.hasOwnProperty('autorDTO') ? (
+                                    <ItemLivro
+                                    nomeAutor={item.autorDTO.nomeAutor}
+                                    nomeEditora={item.editoraDTO.nomeEditora}
+                                    nomeLivro={item.nomeLivro}
+                                    img={item.img}
+                                    id={item.codigoLivro}
+                                    onPress={() => handleLivroPress(item.codigoLivro)}
+                                    />
+                                ) : (
+                                    <ItemEditora
+                                    nomeEditora={item.nomeEditora}
+                                    img={item.img}
+                                    id={item.codigoEditora}
+                                    onPress={() => handleEditoraPress(item.codigoEditora)}
+                                    />
+                                )
+                                }
+                                keyExtractor={item =>
+                                item.hasOwnProperty('autorDTO')
+                                    ? item.codigoLivro
+                                    : item.codigoEditora
+                                }
+                                showsVerticalScrollIndicator={false}
+                            />
+                        </View>
+                    )}  
             </View>
         </View>
     );
@@ -173,7 +196,6 @@ const styles = StyleSheet.create({
     },
     searchBar: {
         margin: 10,
-        backgroundColor: '#a8e5d3',
     },
     sectionHeader: {
         fontWeight: '800',
@@ -185,15 +207,7 @@ const styles = StyleSheet.create({
     itemPhoto: {
         width: 100,
         height: 100,
-        backgroundColor: '#a8e5d3',
-        borderRadius: 5,
-        borderBottomLeftRadius: 13
-    },
-    float: {
-        height: '90%',
-    },
-    list: {
-        height: '80%',
+        borderRadius: 10,
     },
     destaqueItemPhoto: {
         width: 400,
@@ -203,13 +217,10 @@ const styles = StyleSheet.create({
     containerItem: {
         display: 'flex',
         flexDirection: 'row',
-        backgroundColor: '#07261d',
+        backgroundColor: 'rgba(255, 255, 255, 0.9)',
         margin: 10,
-        padding: 0,
         alignItems: 'center',
-        borderRadius: 13,
-        borderTopLeftRadius: 5,
-        borderBottomRightRadius: 5,
+        borderRadius: 10,
     },
     itemTextContainer: {
         display: 'flex',
@@ -219,11 +230,10 @@ const styles = StyleSheet.create({
     },
     itemTitle: {
         fontSize: 20,
-        color: '#66d2b1',
     },
     itemTextName: {
         fontSize: 15,
-        color: '#66d2b1',
+        color: 'grey',
     },
     itemBox: {
         display: 'flex',
