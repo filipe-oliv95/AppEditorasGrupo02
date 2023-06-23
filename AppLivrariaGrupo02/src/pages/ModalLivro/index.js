@@ -8,6 +8,7 @@ import {
   View,
   StyleSheet
 } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
 
 function ModalLivro({ visible, hideModal, livro }) {
 
@@ -45,7 +46,7 @@ function ModalLivro({ visible, hideModal, livro }) {
   return (
     <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
       <View style={{ height: '100%', justifyContent: 'space-between',display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: '#a8e5d3', borderRadius: 13,borderTopLeftRadius: 5,borderBottomRightRadius: 5,}}>
-        <Text style={{ marginTop: 40, marginHorizontal: 10, color: '#04140f', fontWeight: 'bold', fontSize: 25, }}>{livro.nomeLivro}</Text>
+        <Text style={{ marginTop: 20, marginHorizontal: 10, color: '#04140f', fontWeight: 'bold', fontSize: 25, }}>{livro.nomeLivro}</Text>
         <Image
           style={{ width: 250, height: 250, borderRadius: 13,borderTopLeftRadius: 5,borderBottomRightRadius: 5, }}
           source={{ uri: `data:image/png;base64,${livro.img}` }}

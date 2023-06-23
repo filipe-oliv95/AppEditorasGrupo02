@@ -18,6 +18,7 @@ const Carrinho = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="light" />
+      <Text style={{ fontSize: 30 }} >CARRINHO EM CONSTRUÇÃO</Text>
       {/* <Text style={styles.sectionHeader}>Favoritos</Text>
       <FlatList
         data={favoriteBooks}
@@ -53,9 +54,13 @@ const Carrinho = () => {
 
 
 const styles = StyleSheet.create({
-  h1: {
-    fontSize: 60,
-  }
+  container: {
+    flex: 1,
+    textAlign: 'center',
+    backgroundColor: '#51cba6',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 
 });
 
