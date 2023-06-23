@@ -4,6 +4,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import AxiosInstance from '../../api/AxiosInstance';
 import { DataContext } from '../../context/DataContext';
 import StarRating from 'react-native-star-rating-widget';
+import { Modal } from 'react-native-paper';
 
 import {
     FlatList,
@@ -47,12 +48,12 @@ const ItemEditora = ({ img, nomeEditora, id, destaque, showStars }) => {
     )
 };
 
-const ItemLivro = ({ img, nomeLivro, id }) => {
-
+const ItemLivro = ({ img, nomeLivro, id, showModal }) => {
     const navigation = useNavigation();
 
     const handlePress = () => {
-        navigation.navigate('Livro', { livroId: id });
+        // navigation.navigate('Livro', { livroId: id });
+        showModal();
     }
 
     return (
@@ -74,6 +75,11 @@ const Home = () => {
     const { dadosUsuario } = useContext(DataContext);
     const [dadosEditora, setDadosEditora] = useState([]);
     const [dadosLivro, setDadosLivro] = useState([]);
+    const [visible, setVisible] = React.useState(false);
+
+    const showModal = () => setVisible(true);
+    const hideModal = () => setVisible(false);
+    const containerStyle = {backgroundColor: 'white', padding: 20};
 
     useEffect(() => {
         getAllEditoras();
@@ -117,7 +123,7 @@ const Home = () => {
                     <Text style={styles.sectionHeader}>LIVROS</Text>
                     <FlatList
                         data={dadosLivro}
-                        renderItem={({ item }) => <ItemLivro nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} />}
+                        renderItem={({ item }) => <ItemLivro nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} showModal={showModal}/>}
                         keyExtractor={item => item.codigoLivro}
                         horizontal
                         showsHorizontalScrollIndicator={false}
@@ -134,6 +140,11 @@ const Home = () => {
                         />
                     }
                 </ScrollView>
+
+                <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
+                    <Text> Example Modal.  Click outside this area to dismiss.</Text>
+                </Modal>
+
             </View>
         </SafeAreaView>
     );
