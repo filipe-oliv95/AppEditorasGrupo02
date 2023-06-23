@@ -49,11 +49,9 @@ const ItemEditora = ({ img, nomeEditora, id, destaque, showStars }) => {
 };
 
 const ItemLivro = ({ img, nomeLivro, id, showModal }) => {
-    const navigation = useNavigation();
 
     const handlePress = () => {
-        // navigation.navigate('Livro', { livroId: id });
-        showModal();
+        showModal({ id });
     }
 
     return (
@@ -67,6 +65,7 @@ const ItemLivro = ({ img, nomeLivro, id, showModal }) => {
                     <Text style={styles.itemTextLivro}>{nomeLivro}</Text>
                 </View>
             </View>
+
         </TouchableOpacity>
     )
 };
@@ -76,11 +75,18 @@ const Home = () => {
     const [dadosEditora, setDadosEditora] = useState([]);
     const [dadosLivro, setDadosLivro] = useState([]);
     const [visible, setVisible] = React.useState(false);
+    const [livro, setLivro] = React.useState([]);
 
-    const showModal = () => setVisible(true);
+    const showModal = ({ id }) => {
+        const livro = dadosLivro.find(livro => livro.codigoLivro === id);
+        setLivro(livro);
+        setVisible(true);
+    };
+
+    //NAO CONSIGO ACESSOAR O NOME DO AUTOR
+    console.log(livro.autorDTO);
+
     const hideModal = () => setVisible(false);
-    const containerStyle = {backgroundColor: 'white', padding: 20};
-
     useEffect(() => {
         getAllEditoras();
         getAllLivros();
@@ -107,6 +113,8 @@ const Home = () => {
         })
     }
 
+    const containerStyle = {backgroundColor: 'white', padding: 20, flex: 1, margin: 30};
+
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar style="light" />
@@ -123,7 +131,7 @@ const Home = () => {
                     <Text style={styles.sectionHeader}>LIVROS</Text>
                     <FlatList
                         data={dadosLivro}
-                        renderItem={({ item }) => <ItemLivro nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} showModal={showModal}/>}
+                        renderItem={({ item }) => <ItemLivro nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} showModal={showModal} hideModal={hideModal} visible={visible}/>}
                         keyExtractor={item => item.codigoLivro}
                         horizontal
                         showsHorizontalScrollIndicator={false}
@@ -140,9 +148,26 @@ const Home = () => {
                         />
                     }
                 </ScrollView>
-
                 <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
-                    <Text> Example Modal.  Click outside this area to dismiss.</Text>
+                    <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                        <Text style={{ marginVertical: 5, marginHorizontal: 10 }}>{livro.nomeLivro}</Text>
+                        <Image
+                        style={{ width: 200, height: 200, borderRadius: 13}}
+                        source={{ uri: `data:image/png;base64,${livro.img}` }}
+                        />
+                        <View style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                            {/* NAO CONSIGO ACESSOAR O NOME DO AUTOR */}
+                            {/* <Text style={{ marginVertical: 5, marginHorizontal: 10 }}>{livro.autorDTO.nomeAutor}</Text> */}
+                            <Text style={styles.txt}>R$ 564</Text>
+                            <TouchableOpacity style={{color: '#07261d'}} onPress={() => console.log("comprar pressionado")} >
+                                <Text style={{color: '#07261d'}}>COMPRAR</Text>
+                            </TouchableOpacity >
+                            <View style={{display: 'flex', flexDirection: 'row', padding: 5}}>
+                                <Text>FAVORITAR</Text>
+                                <TouchableOpacity onPress={() => console.log("adicionar aos favoritos")}></TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
                 </Modal>
 
             </View>
