@@ -179,9 +179,9 @@ const Busca = () => {
                                     : item.codigoEditora.toString()
                             }
                         />
-                        <ModalLivro visible={visible} hideModal={hideModal} livro={livro} />
                     </View>
                 )}
+                <ModalLivro visible={visible} hideModal={hideModal} livro={livro} />
             </View>
         </SafeAreaView >
     );

@@ -84,10 +84,6 @@ const Home = () => {
         setVisible(true);
     };
     
-    //ITEM HOME
-    console.log(dadosLivro);
-    console.log(livro);
-
     const hideModal = () => setVisible(false);
 
     useEffect(() => {
