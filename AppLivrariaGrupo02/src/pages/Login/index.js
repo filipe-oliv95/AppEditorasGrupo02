@@ -9,7 +9,7 @@ import {
 }
     from "react-native";
 
-import { useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import AxiosInstance from "../../api/AxiosInstance";
 import { DataContext } from "../../context/DataContext";
 import { Ionicons } from '@expo/vector-icons';
@@ -20,27 +20,32 @@ const Login = ({ navigation }) => {
     const [senha, setSenha] = useState('');
     const { armazenarDadosUsuario } = useContext(DataContext);
     const [hidePass, setHidePass] = useState(true);
+    const [error, setError] = useState("");
 
     const handleLogin = async () => {
         console.log(`E-mail: ${email} - Senha: ${senha}`);
 
         try {
+            if (!email | !senha) {
+                setError("Preencha todos os campos");
+                return;
+            } 
+
             const resultado = await AxiosInstance.post('/auth/signin', {
                 username: email,
                 password: senha
             });
-            console.log(resultado);
 
             if (resultado.status === 200) {
                 var jwtToken = resultado.data;
                 armazenarDadosUsuario(jwtToken["accessToken"]);
-                console.log(jwtToken);
                 navigation.navigate("Home");
             } else {
                 console.log('erro ao realizar o login');
             }
         } catch (error) {
             console.log('erro durante o processo de login: ' + error);
+            setError("E-mail ou senha incorretos");
         }
     }
 
@@ -72,6 +77,7 @@ const Login = ({ navigation }) => {
                     }
                 </TouchableOpacity>
             </View>
+            <Text >{error}</Text>
             <TouchableOpacity style={styles.button} onPress={() => handleLogin()} >
                 <Text style={styles.txtButton}>Login</Text>
             </TouchableOpacity>
