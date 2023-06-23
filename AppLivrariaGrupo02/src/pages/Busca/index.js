@@ -20,7 +20,7 @@ const ItemEditora = ({ img, nomeEditora, id, destaque }) => {
     const navigation = useNavigation();
 
     const handlePress = () => {
-        navigation.navigate('EditoraLivros', { editoraId: id });
+        navigation.navigate('Editora', { editoraId: id });
     }
 
     return (
