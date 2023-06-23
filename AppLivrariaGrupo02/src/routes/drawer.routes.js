@@ -7,7 +7,7 @@ const Drawer = createDrawerNavigator();
 
 function DrawerRoutes() {
     return (
-        <Drawer.Navigator initialRouteName={'Login'}>
+        <Drawer.Navigator initialRouteName={'Login'} screenOptions={{title:''}}>
             <Drawer.Screen
                 name='Main'
                 component={TabRoutes}

@@ -21,7 +21,7 @@ const LoadingScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="light" />
-      <Text style={{fontSize: 50, fontFamily: 'notoserif'}} >LIVRARIA</Text>
+      <Text style={{fontSize: 50, fontFamily: 'notoserif', fontWeight: 'bold', color: '#07261d'}} >LIVRARIA</Text>
       <Image 
         style ={{ width: 300, height: 200}}
         source={{

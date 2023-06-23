@@ -55,7 +55,7 @@ const Login = ({ navigation }) => {
             <StatusBar style="light" />
 
             <Image
-            style={{ width: 150, height: 100, marginBottom: 15,}}
+            style={{ width: 200, height: 150, marginBottom: 15,}}
             source={{
                 uri: 'https://i.imgur.com/Mbm6xQl.png'
             }}
@@ -116,7 +116,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'red',
     },
     txt: {
-        fontSize: 30,
+        fontFamily: 'notoserif',
+        fontSize: 40,
         fontWeight: 'bold',
         marginBottom: 30,
         color: '#04140f',
