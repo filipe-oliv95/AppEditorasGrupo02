@@ -16,18 +16,20 @@ import AxiosInstance from '../../api/AxiosInstance';
 import { DataContext } from '../../context/DataContext';
 import ModalLivro from '../ModalLivro';
 
-const ItemEditora = ({ img, nomeEditora, id, destaque }) => {
+const ItemEditora = ({ img, nomeEditora, id }) => {
     const navigation = useNavigation();
 
-    const handlePress = () => {
+    const handleEditoraPress = () => {
         navigation.navigate('Editora', { editoraId: id });
     }
 
+    console.log(nomeEditora)
+
     return (
-        <TouchableOpacity onPress={handlePress}>
+        <TouchableOpacity onPress={handleEditoraPress}>
             <View style={styles.containerItem}>
                 <Image
-                    style={destaque ? styles.destaqueItemPhoto : styles.itemPhoto}
+                    style={styles.itemPhoto}
                     source={{ uri: `data:image/png;base64,${img}` }}
                 />
                 <View style={styles.itemTextContainer}>
@@ -36,7 +38,7 @@ const ItemEditora = ({ img, nomeEditora, id, destaque }) => {
                         <Text style={styles.itemTextName}>Editora</Text>
                     </View>
                 </View>
-                <Entypo style={styles.icon} name="arrow-with-circle-right" size={40} color="#66d2b1" />
+                <Entypo style={styles.icon} name="arrow-with-circle-right" size={40} color="grey" />
             </View>
         </TouchableOpacity>
     )
@@ -46,6 +48,9 @@ const ItemLivro = ({ img, nomeLivro, nomeAutor, nomeEditora, id, showModal }) =>
     const handlePress = () => {
         showModal({ id });
     }
+
+    console.log(nomeAutor)
+    console.log("TESTANDO")
 
     return (
         <TouchableOpacity onPress={handlePress}>
@@ -85,6 +90,13 @@ const Busca = () => {
     };
     const hideModal = () => setVisible(false);
 
+    useFocusEffect(
+        React.useCallback(() => {
+            getAllEditoras();
+            getAllLivros();
+        }, [])
+    )
+    // console.log(dadosEditora)
 
     // filtra os livros e editoras conforme a busca
     useEffect(() => {
@@ -103,13 +115,7 @@ const Busca = () => {
         }
     }, [searchQuery, dadosEditora, dadosLivro]);
 
-    useFocusEffect(
-        React.useCallback(() => {
-            getAllEditoras();
-            getAllLivros();
-        }, [])
-    )
-    // console.log(dadosEditora)
+    // console.log(resultadosFiltrados)
 
     const getAllEditoras = async () => {
         await AxiosInstance.get(
@@ -133,6 +139,8 @@ const Busca = () => {
         })
     }
 
+    {/* resultadosFiltrados.some(section => section.data.length > 0) ? -> verifica se a section tem dado, se não tiver avisa "nenhum resultado" */ }
+
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar style='light' />
@@ -144,42 +152,40 @@ const Busca = () => {
                     value={searchQuery}
                 />
                 <Text style={styles.sectionHeader}>Resultado:</Text>
-                {(resultadosFiltrados.length === 0) ? (
-                    <Text style={styles.errorText}>Nenhum item encontrado</Text>
+                {resultadosFiltrados.some(section => section.data.length > 0) ? (
+                    <SectionList
+                        sections={resultadosFiltrados}
+                        renderSectionHeader={({ section: { title } }) => (
+                            <Text style={styles.sectionHeader}>{title}</Text>
+                        )}
+                        renderItem={({ item }) =>
+                            item.hasOwnProperty('nomeLivro') ? (
+                                <ItemLivro
+                                    nomeAutor={item.autorDTO.nomeAutor}
+                                    nomeEditora={item.editoraDTO.nomeEditora}
+                                    nomeLivro={item.nomeLivro}
+                                    img={item.img}
+                                    id={item.codigoLivro}
+                                    onPress={() => handleLivroPress(item.codigoLivro)}
+                                    showModal={showModal}
+                                />
+                            ) : (
+                                <ItemEditora
+                                    nomeEditora={item.nomeEditora}
+                                    img={item.img}
+                                    id={item.codigoEditora}
+                                    onPress={() => handleEditoraPress(item.codigoEditora)}
+                                />
+                            )
+                        }
+                        keyExtractor={item =>
+                            item.hasOwnProperty('nomeLivro')
+                                ? item.codigoLivro.toString()
+                                : item.codigoEditora.toString()
+                        }
+                    />
                 ) : (
-                    <View>
-                        <SectionList
-                            sections={resultadosFiltrados}
-                            renderSectionHeader={({ section: { title } }) => (
-                                <Text style={styles.sectionHeader}>{title}</Text>
-                            )}
-                            renderItem={({ item }) =>
-                                item.hasOwnProperty('autorDTO') ? (
-                                    <ItemLivro
-                                        nomeAutor={item.autorDTO.nomeAutor}
-                                        nomeEditora={item.editoraDTO.nomeEditora}
-                                        nomeLivro={item.nomeLivro}
-                                        img={item.img}
-                                        id={item.codigoLivro}
-                                        onPress={() => handleLivroPress(item.codigoLivro)}
-                                        showModal={showModal}
-                                    />
-                                ) : (
-                                    <ItemEditora
-                                        nomeEditora={item.nomeEditora}
-                                        img={item.img}
-                                        id={item.codigoEditora}
-                                        onPress={() => handleEditoraPress(item.codigoEditora)}
-                                    />
-                                )
-                            }
-                            keyExtractor={item =>
-                                item.hasOwnProperty('autorDTO')
-                                    ? item.codigoLivro.toString()
-                                    : item.codigoEditora.toString()
-                            }
-                        />
-                    </View>
+                    <Text style={styles.errorText}>Nenhum item encontrado</Text>
                 )}
                 <ModalLivro visible={visible} hideModal={hideModal} livro={livro} />
             </View>
@@ -210,11 +216,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#a8e5d3',
         borderRadius: 5,
         borderBottomLeftRadius: 13
-    },
-    destaqueItemPhoto: {
-        width: 400,
-        height: 200,
-        borderRadius: 13,
     },
     containerItem: {
         display: 'flex',
