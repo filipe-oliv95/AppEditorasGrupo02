@@ -4,13 +4,21 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Editora from "../pages/Editora";
 import Livro from "../pages/Livro";
 import Login from "../pages/Login";
+import LoadingScreen from "../pages/Loading";
 import DrawerRoutes from './drawer.routes';
 
 const Stack = createStackNavigator();
 
 function StackRoutes() {
     return (
-        <Stack.Navigator initialRouteName='Login'>
+        <Stack.Navigator initialRouteName='LoadingScreen'>
+            <Stack.Screen
+                name='LoadingScreen'
+                component={LoadingScreen}
+                options={{
+                    headerShown: false,
+                }}
+            />
             <Stack.Screen
                 name='Login'
                 component={Login}
