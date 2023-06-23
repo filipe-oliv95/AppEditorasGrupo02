@@ -1,9 +1,9 @@
-import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import React, { useContext, useEffect, useState } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import AxiosInstance from '../../api/AxiosInstance';
 import { DataContext } from '../../context/DataContext';
+import StarRating from 'react-native-star-rating-widget';
 
 import {
     FlatList,
@@ -19,6 +19,7 @@ import {
 
 const ItemEditora = ({ img, nomeEditora, id, destaque, showStars }) => {
     const navigation = useNavigation();
+    const [rating, setRating] = useState(4.5);
 
     const handlePress = () => {
         navigation.navigate('Editora', { editoraId: id });
@@ -32,13 +33,10 @@ const ItemEditora = ({ img, nomeEditora, id, destaque, showStars }) => {
                     source={{ uri: `data:image/png;base64,${img}` }}
                 />
                 {showStars && (
-                    <View style={styles.starsContainer}>
-                        <MaterialIcons name="star" size={32} style={styles.starSelected} />
-                        <MaterialIcons name="star" size={32} style={styles.starSelected} />
-                        <MaterialIcons name="star" size={32} style={styles.starSelected} />
-                        <MaterialIcons name="star" size={32} style={styles.starSelected} />
-                        <MaterialIcons name="star-border" size={32} style={styles.starUnselected} />
-                    </View>
+                    <StarRating
+                        rating={rating}
+                        onChange={setRating}
+                    />
                 )}
 
                 <View style={styles.itemTextContainerEditora}>
