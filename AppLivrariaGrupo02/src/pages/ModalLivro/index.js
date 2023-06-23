@@ -18,8 +18,8 @@ function ModalLivro({ visible, hideModal, livro }) {
   
     return (
       <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
-        <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <Text style={{ marginVertical: 5, marginHorizontal: 10 }}>{livro.nomeLivro}</Text>
+        <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: '#a8e5d3', borderRadius: 13, borderTopLeftRadius: 5, borderBottomRightRadius: 5, }}>
+          <Text style={{ marginVertical: 5, marginHorizontal: 10, color: '#04140f', fontSize: 20,}}>{livro.nomeLivro}</Text>
           <Image
             style={{ width: 200, height: 200, borderRadius: 13 }}
             source={{ uri: `data:image/png;base64,${livro.img}` }}

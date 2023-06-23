@@ -72,6 +72,7 @@ const Favoritos = () => {
               <StarRating
                 rating={rating[item.codigoLivro] || 0}
                 onChange={(newRating) => setRating({ ...rating, [item.codigoLivro]: newRating })}
+                color="#66d2b1"
               />
             )}
             <View style={styles.itemContent}>
