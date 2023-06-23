@@ -29,7 +29,7 @@ const Login = ({ navigation }) => {
             if (!email | !senha) {
                 setError("Preencha todos os campos");
                 return;
-            } 
+            }
 
             const resultado = await AxiosInstance.post('/auth/signin', {
                 username: email,
@@ -53,29 +53,34 @@ const Login = ({ navigation }) => {
         <SafeAreaView style={styles.container}>
             <StatusBar style="light" />
             <Text style={styles.txt} >Bem Vindo</Text>
-            <Text style={styles.txtinput} >Email:</Text>
-            <TextInput
-                style={styles.input}
-                placeholder="Email"
-                onChangeText={setEmail}
-                value={email}
-            />
-            <Text style={styles.txtinput} >Senha:</Text>
-            <View style={styles.inputArea}>
-                <TextInput
-                    style={styles.inputSenha}
-                    placeholder="Senha"
-                    onChangeText={setSenha}
-                    value={senha}
-                    secureTextEntry={hidePass}
-                />
-                <TouchableOpacity style={styles.icon} onPress={() => setHidePass(!hidePass)}>
-                    {hidePass ?
-                        <Ionicons name="eye" color="#07261d" />
-                        :
-                        <Ionicons name="eye-off" color="#07261d" />
-                    }
-                </TouchableOpacity>
+
+            <View style={styles.campoArea}>
+                <Text style={styles.txtinputEmail} >Email:</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Email"
+                        onChangeText={setEmail}
+                        value={email}
+                    />
+            </View>
+            <View style={styles.campoArea}>
+                <Text style={styles.txtinput} >Senha:</Text>
+                <View style={styles.inputArea}>
+                    <TextInput
+                        style={styles.inputSenha}
+                        placeholder="Senha"
+                        onChangeText={setSenha}
+                        value={senha}
+                        secureTextEntry={hidePass}
+                    />
+                    <TouchableOpacity style={styles.icon} onPress={() => setHidePass(!hidePass)}>
+                        {hidePass ?
+                            <Ionicons name="eye" color="#07261d" />
+                            :
+                            <Ionicons name="eye-off" color="#07261d" />
+                        }
+                    </TouchableOpacity>
+                </View>
             </View>
             <Text >{error}</Text>
             <TouchableOpacity style={styles.button} onPress={() => handleLogin()} >
@@ -92,6 +97,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    campoArea: {
+    },
+    contentContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'red',
+    },
     txt: {
         fontSize: 30,
         fontWeight: 'bold',
@@ -102,6 +116,11 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#04140f',
     },
+    txtinputEmail: {
+        fontSize: 16,
+        color: '#04140f',
+        paddingLeft: 5,
+    },
     input: {
         backgroundColor: '#a8e5d3',
         borderRadius: 13,
@@ -109,6 +128,7 @@ const styles = StyleSheet.create({
         height: 40,
         margin: 5,
         padding: 3,
+        marginTop: 5,
         borderTopLeftRadius: 2,
         borderBottomRightRadius: 2,
     },
@@ -141,7 +161,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#07261d',
         marginTop: 20,
-        width: 120,
+        width: 300,
         height: 50,
         borderRadius: 13,
     },

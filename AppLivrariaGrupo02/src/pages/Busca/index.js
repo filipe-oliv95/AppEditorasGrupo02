@@ -62,7 +62,7 @@ const ItemLivro = ({ img, nomeLivro, nomeAutor, nomeEditora, id }) => {
                         <Text style={styles.itemTextName}>{nomeEditora}</Text>
                     </View>
                 </View>
-                <Entypo style={styles.icon} name="arrow-with-circle-right" size={40} color="grey" />
+                <Entypo style={styles.icon} name="arrow-with-circle-right" size={40} color="#66d2b1" />
             </View>
         </TouchableOpacity>
     )
@@ -196,7 +196,9 @@ const styles = StyleSheet.create({
     itemPhoto: {
         width: 100,
         height: 100,
-        borderRadius: 10,
+        backgroundColor: '#a8e5d3',
+        borderRadius: 5,
+        borderBottomLeftRadius: 13
     },
     destaqueItemPhoto: {
         width: 400,
@@ -206,10 +208,12 @@ const styles = StyleSheet.create({
     containerItem: {
         display: 'flex',
         flexDirection: 'row',
-        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+        backgroundColor: '#07261d',
         margin: 10,
         alignItems: 'center',
-        borderRadius: 10,
+        borderRadius: 13,
+        borderTopLeftRadius: 5,
+        borderBottomRightRadius: 5,
     },
     itemTextContainer: {
         display: 'flex',
@@ -219,10 +223,11 @@ const styles = StyleSheet.create({
     },
     itemTitle: {
         fontSize: 20,
+        color: '#66d2b1',
     },
     itemTextName: {
         fontSize: 15,
-        color: 'grey',
+        color: '#66d2b1',
     },
     itemBox: {
         display: 'flex',

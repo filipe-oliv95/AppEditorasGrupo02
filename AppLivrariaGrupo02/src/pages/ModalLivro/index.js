@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 
 function ModalLivro({ visible, hideModal, livro }) {
+
   const containerStyle = {
     backgroundColor: 'white',
     padding: 20,
