@@ -5,7 +5,8 @@ import {
     TextInput,
     TouchableOpacity,
     StatusBar,
-    SafeAreaView
+    SafeAreaView,
+    Image
 }
     from "react-native";
 
@@ -52,6 +53,14 @@ const Login = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar style="light" />
+
+            <Image
+            style={{ width: 150, height: 100, marginBottom: 15,}}
+            source={{
+                uri: 'https://i.imgur.com/Mbm6xQl.png'
+            }}
+            ></Image>
+    
             <Text style={styles.txt} >Bem Vindo</Text>
 
             <View style={styles.campoArea}>

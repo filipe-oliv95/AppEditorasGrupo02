@@ -1,16 +1,15 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { useNavigation } from '@react-navigation/native';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image, StatusBar, SafeAreaView } from 'react-native';
 import { DataContext } from '../../context/DataContext';
 import { Searchbar } from 'react-native-paper';
 import AxiosInstance from '../../api/AxiosInstance';
-import { Ionicons, Entypo } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
+import ModalLivro from '../ModalLivro';
 
-const LivrosEditora = ({ imagem, nomeLivro, codigoLivro }) => {
-  const navigation = useNavigation();
+const LivrosEditora = ({ imagem, nomeLivro, id, showModal }) => {
 
   const handlePress = () => {
-    navigation.navigate('Livro', { livroId: codigoLivro });
+    showModal({ id });
   }
 
   return (
@@ -38,11 +37,24 @@ const Editora = ({ route }) => {
   const [searchQuery, setSearchQuery] = React.useState('');
   const [livrosFiltrados, setLivrosFiltrados] = useState([]);
 
-  const onChangeSearch = query => setSearchQuery(query);
+  const [dadosLivro, setDadosLivro] = useState([]);
+  const [visible, setVisible] = React.useState(false);
+  const [livro, setLivro] = React.useState([]);
 
+  const showModal = ({ id }) => {
+    const livro = dadosLivro.find(livro => livro.codigoLivro === id);
+    setLivro(livro);
+    setVisible(true);
+};
+
+  const hideModal = () => setVisible(false);
+      
   useEffect(() => {
-    getEditoraById();
-  }, []);
+      getEditoraById();
+      getAllLivros();
+  }, [])
+
+  const onChangeSearch = query => setSearchQuery(query);
 
   useEffect(() => {
     if (editora && editora.listaLivrosDTO) {
@@ -50,6 +62,17 @@ const Editora = ({ route }) => {
       setLivrosFiltrados(filteredLivros);
     }
   }, [searchQuery, editora]);
+
+  const getAllLivros = async () => {
+    await AxiosInstance.get(
+        '/livros',
+        { headers: { 'Authorization': `Bearer ${dadosUsuario?.token}` } }
+    ).then(resultado => {
+        setDadosLivro(resultado.data);
+    }).catch((error) => {
+        console.log('Ocorreu um erro ao recuperar os dados dos Livros: ' + error);
+    })
+  }
 
   const getEditoraById = async () => {
     try {
@@ -86,13 +109,14 @@ const Editora = ({ route }) => {
         ) : (
           <FlatList
             data={livrosFiltrados}
-            renderItem={({ item }) => <LivrosEditora imagem={item.imagem} nomeLivro={item.nomeLivro} codigoLivro={item.codigoLivro} />}
+            renderItem={({ item }) => <LivrosEditora imagem={item.imagem} nomeLivro={item.nomeLivro} id={item.codigoLivro} showModal={showModal} hideModal={hideModal} visible={visible}/>}
             keyExtractor={item => item.codigoLivro}
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
           />
         )}
       </View>
+      <ModalLivro visible={visible} hideModal={hideModal} livro={livro} />
     </SafeAreaView>
   );
 };

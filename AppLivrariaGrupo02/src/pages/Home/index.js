@@ -83,11 +83,13 @@ const Home = () => {
         setLivro(livro);
         setVisible(true);
     };
-
-    //NAO CONSIGO ACESSOAR O NOME DO AUTOR
-    console.log(livro.autorDTO);
+    
+    //ITEM HOME
+    console.log(dadosLivro);
+    console.log(livro);
 
     const hideModal = () => setVisible(false);
+
     useEffect(() => {
         getAllEditoras();
         getAllLivros();
