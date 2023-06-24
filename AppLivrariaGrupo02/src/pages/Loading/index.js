@@ -3,7 +3,7 @@ import { SafeAreaView, StatusBar, View, Text, StyleSheet, ActivityIndicator, Ima
 import { Entypo } from '@expo/vector-icons'; 
 
 const LoadingScreen = ({ navigation }) => {
-  const [count, setCount] = useState(5);
+  const [count, setCount] = useState(2);
 
   useEffect(() => {
     const timer = setInterval(() => {

@@ -4,8 +4,9 @@ import { ScrollView } from 'react-native-gesture-handler';
 import AxiosInstance from '../../api/AxiosInstance';
 import { DataContext } from '../../context/DataContext';
 import StarRating from 'react-native-star-rating-widget';
-
-import ModalLivro from '../ModalLivro';
+import { Modal } from 'react-native-paper';
+import { Divider } from '@rneui/themed';
+import { FontAwesome5, FontAwesome, Entypo } from '@expo/vector-icons'; 
 
 import {
     FlatList,
@@ -83,9 +84,11 @@ const Home = () => {
         setLivro(livro);
         setVisible(true);
     };
-    
-    const hideModal = () => setVisible(false);
 
+    //NAO CONSIGO ACESSOAR O NOME DO AUTOR
+    console.log(livro.autorDTO);
+
+    const hideModal = () => setVisible(false);
     useEffect(() => {
         getAllEditoras();
         getAllLivros();
@@ -119,7 +122,11 @@ const Home = () => {
             <StatusBar style="light" />
             <View style={{ flex: 1 }}>
                 <ScrollView showsVerticalScrollIndicator={false}>
-                    <Text style={styles.sectionHeader}>EDITORAS</Text>
+                    <View style={ styles.title }>
+                        <FontAwesome5 name="book-reader" size={24} color="#07261d" />
+                        <Text style={styles.sectionHeader}>EDITORAS</Text>
+                    </View>
+                    <Divider />
                     <FlatList
                         data={dadosEditora}
                         renderItem={({ item }) => <ItemEditora nomeEditora={item.nomeEditora} img={item.img} id={item.codigoEditora} />}
@@ -127,7 +134,11 @@ const Home = () => {
                         horizontal
                         showsHorizontalScrollIndicator={false}
                     />
-                    <Text style={styles.sectionHeader}>LIVROS</Text>
+                    <View style={ styles.title }>
+                        <Entypo name="book" size={24} color="#07261d" />
+                        <Text style={styles.sectionHeader}>LIVROS</Text>
+                    </View>
+                    <Divider />
                     <FlatList
                         data={dadosLivro}
                         renderItem={({ item }) => <ItemLivro nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} showModal={showModal} hideModal={hideModal} visible={visible}/>}
@@ -135,8 +146,11 @@ const Home = () => {
                         horizontal
                         showsHorizontalScrollIndicator={false}
                     />
-
-                    <Text style={styles.sectionHeader}>DESTAQUE</Text>
+                    <View style={ styles.title }>
+                      <FontAwesome name="trophy" size={24} color="#07261d" />
+                      <Text style={styles.sectionHeader}>DESTAQUE</Text>
+                    </View>
+                    <Divider />
                     {dadosEditora.length > 0 &&
                         <ItemEditora
                             nomeEditora={dadosEditora[0].nomeEditora}
@@ -147,8 +161,27 @@ const Home = () => {
                         />
                     }
                 </ScrollView>
-
-                <ModalLivro visible={visible} hideModal={hideModal} livro={livro} />
+                <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
+                    <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                        <Text style={{ marginVertical: 5, marginHorizontal: 10 }}>{livro.nomeLivro}</Text>
+                        <Image
+                        style={{ width: 200, height: 200, borderRadius: 13}}
+                        source={{ uri: `data:image/png;base64,${livro.img}` }}
+                        />
+                        <View style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                            {/* NAO CONSIGO ACESSOAR O NOME DO AUTOR */}
+                            {/* <Text style={{ marginVertical: 5, marginHorizontal: 10 }}>{livro.autorDTO.nomeAutor}</Text> */}
+                            <Text style={styles.txt}>R$ 564</Text>
+                            <TouchableOpacity style={{color: '#07261d'}} onPress={() => console.log("comprar pressionado")} >
+                                <Text style={{color: '#07261d'}}>COMPRAR</Text>
+                            </TouchableOpacity >
+                            <View style={{display: 'flex', flexDirection: 'row', padding: 5}}>
+                                <Text>FAVORITAR</Text>
+                                <TouchableOpacity onPress={() => console.log("adicionar aos favoritos")}></TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
 
             </View>
         </SafeAreaView>
@@ -165,12 +198,19 @@ const styles = StyleSheet.create({
     searchBar: {
         margin: 10,
     },
+    title: {
+        display: 'flex', 
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        justifyContent: 'flex-start', 
+        padding: 10, 
+        gap: 5,
+        marginLeft: '10',
+    },
     sectionHeader: {
         fontWeight: '800',
         fontSize: 18,
-        color: '#04140f',
-        marginTop: 20,
-        marginLeft: 10,
+        color: '#07261d',
     },
     itemPhoto: {
         width: 200,
