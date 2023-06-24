@@ -61,7 +61,7 @@ const Login = ({ navigation }) => {
             }}
             ></Image>
     
-            <Text style={styles.txt} >Bem Vindo</Text>
+            <Text style={styles.txt} >Bem Vindo(a)</Text>
 
             <View style={styles.campoArea}>
                 <Text style={styles.txtinputEmail} >Email:</Text>

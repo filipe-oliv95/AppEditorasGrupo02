@@ -4,3 +4,4 @@ cor texto principal: #04140f
 cor texto2 principal: #66d2b1
 cor icones principal: #4CCB68
 cor button principal: #07261d
+fontFamily: 'notoserif'
