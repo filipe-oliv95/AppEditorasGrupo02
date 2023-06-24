@@ -10,13 +10,19 @@ const Tab = createBottomTabNavigator();
 
 function TabRoutes() {
     return (
-      <Tab.Navigator screenOptions={{ headerShown: false, tabBarLabel: () => null }}>
+      <Tab.Navigator screenOptions={{ 
+                        headerShown: false, 
+                        tabBarLabel: () => null,
+                        tabBarStyle: { backgroundColor: '#07261d' }, 
+                        tabBarActiveTintColor: 'white',
+                        tabBarInactiveTintColor: 'gray',
+                      }}>
         <Tab.Screen
           name="Inicio"
           component={Home}
           options={{
             tabBarIcon: (tabInfo) => (
-              <Icon name="home" size={24} />
+              <Icon name="home" size={24} color='#66d2b1' />
             ),
           }} />
         <Tab.Screen 
@@ -24,7 +30,7 @@ function TabRoutes() {
             component={Busca}
             options={{
                 tabBarIcon: (tabInfo) => (
-                    <Icon name="search" size={24} />
+                    <Icon name="search" size={24} color='#66d2b1' />
                 ),
             }} 
         />
@@ -33,7 +39,7 @@ function TabRoutes() {
           component={Favoritos}
           options={{
             tabBarIcon: (tabInfo) => (
-              <Icon name="heart" size={24} />
+              <Icon name="heart" size={24} color='#66d2b1' />
             ),
           }} />
         <Tab.Screen
@@ -41,7 +47,7 @@ function TabRoutes() {
           component={Carrinho}
           options={{
             tabBarIcon: (tabInfo) => (
-              <Icon name="shopping-cart" size={24} />
+              <Icon name="shopping-cart" size={24} color='#66d2b1' />
             ),
           }} />
       </Tab.Navigator>
