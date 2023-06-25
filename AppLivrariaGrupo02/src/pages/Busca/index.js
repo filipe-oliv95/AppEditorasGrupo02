@@ -139,7 +139,8 @@ const Busca = () => {
         })
     }
 
-    {/* resultadosFiltrados.some(section => section.data.length > 0) ? -> verifica se a section tem dado, se não tiver avisa "nenhum resultado" */ }
+    // resultadosFiltrados.some(section => section.data.length > 0) ?
+    {/* verifica se a section tem dado, se não tiver avisa "nenhum resultado" */ }
 
     return (
         <SafeAreaView style={styles.container}>

@@ -4,9 +4,9 @@ import { ScrollView } from 'react-native-gesture-handler';
 import AxiosInstance from '../../api/AxiosInstance';
 import { DataContext } from '../../context/DataContext';
 import StarRating from 'react-native-star-rating-widget';
-import { Modal } from 'react-native-paper';
+import ModalLivro from '../ModalLivro';
 import { Divider } from '@rneui/themed';
-import { FontAwesome5, FontAwesome, Entypo } from '@expo/vector-icons'; 
+import { FontAwesome5, FontAwesome, Entypo } from '@expo/vector-icons';
 
 import {
     FlatList,
@@ -76,24 +76,29 @@ const Home = () => {
     const { dadosUsuario } = useContext(DataContext);
     const [dadosEditora, setDadosEditora] = useState([]);
     const [dadosLivro, setDadosLivro] = useState([]);
+    const [dadosAutor, setDadosAutor] = useState([]);
     const [visible, setVisible] = React.useState(false);
     const [livro, setLivro] = React.useState([]);
+
 
     const showModal = ({ id }) => {
         const livro = dadosLivro.find(livro => livro.codigoLivro === id);
         setLivro(livro);
         setVisible(true);
     };
-
-    //NAO CONSIGO ACESSOAR O NOME DO AUTOR
-    console.log(livro.autorDTO);
-
     const hideModal = () => setVisible(false);
+    // console.log(livro)
+
+    //NAO CONSIGO ACESSOAR O NOME DO AUTOR . Ta aparecendo
+    // console.log(livro.autorDTO);
+
     useEffect(() => {
         getAllEditoras();
         getAllLivros();
+        getAllAutores();
     }, [])
 
+    // adicionei a consulta para autores para poder adicionar na renderização
     const getAllEditoras = async () => {
         await AxiosInstance.get(
             '/editoras',
@@ -115,14 +120,27 @@ const Home = () => {
         })
     }
 
-    const containerStyle = {backgroundColor: 'white', padding: 20, flex: 1, margin: 30};
+    const getAllAutores = async () => {
+        await AxiosInstance.get(
+            '/autores',
+            { headers: { 'Authorization': `Bearer ${dadosUsuario?.token}` } }
+        ).then(resultado => {
+            setDadosAutor(resultado.data);
+        }).catch((error) => {
+            console.log('Ocorreu um erro ao recuperar os dados dos autores: ' + error);
+        })
+    }
+    // ta imprimindo correto mas não pega
+    console.log(dadosAutor)
+
+    const containerStyle = { backgroundColor: 'white', padding: 20, flex: 1, margin: 30 };
 
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar style="light" />
             <View style={{ flex: 1 }}>
                 <ScrollView showsVerticalScrollIndicator={false}>
-                    <View style={ styles.title }>
+                    <View style={styles.title}>
                         <FontAwesome5 name="book-reader" size={24} color="#07261d" />
                         <Text style={styles.sectionHeader}>EDITORAS</Text>
                     </View>
@@ -134,21 +152,21 @@ const Home = () => {
                         horizontal
                         showsHorizontalScrollIndicator={false}
                     />
-                    <View style={ styles.title }>
+                    <View style={styles.title}>
                         <Entypo name="book" size={24} color="#07261d" />
                         <Text style={styles.sectionHeader}>LIVROS</Text>
                     </View>
                     <Divider />
                     <FlatList
                         data={dadosLivro}
-                        renderItem={({ item }) => <ItemLivro nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} showModal={showModal} hideModal={hideModal} visible={visible}/>}
+                        renderItem={({ item }) => <ItemLivro nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} showModal={showModal} hideModal={hideModal} visible={visible} />}
                         keyExtractor={item => item.codigoLivro}
                         horizontal
                         showsHorizontalScrollIndicator={false}
                     />
-                    <View style={ styles.title }>
-                      <FontAwesome name="trophy" size={24} color="#07261d" />
-                      <Text style={styles.sectionHeader}>DESTAQUE</Text>
+                    <View style={styles.title}>
+                        <FontAwesome name="trophy" size={24} color="#07261d" />
+                        <Text style={styles.sectionHeader}>DESTAQUE</Text>
                     </View>
                     <Divider />
                     {dadosEditora.length > 0 &&
@@ -161,29 +179,35 @@ const Home = () => {
                         />
                     }
                 </ScrollView>
-                <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
-                    <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                {/*Modal que estava importando do React Native Paper*/}
+                {/* <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
+                    <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <Text style={{ marginVertical: 5, marginHorizontal: 10 }}>{livro.nomeLivro}</Text>
                         <Image
-                        style={{ width: 200, height: 200, borderRadius: 13}}
-                        source={{ uri: `data:image/png;base64,${livro.img}` }}
+                            style={{ width: 200, height: 200, borderRadius: 13 }}
+                            source={{ uri: `data:image/png;base64,${livro.img}` }}
                         />
-                        <View style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-                            {/* NAO CONSIGO ACESSOAR O NOME DO AUTOR */}
-                            {/* <Text style={{ marginVertical: 5, marginHorizontal: 10 }}>{livro.autorDTO.nomeAutor}</Text> */}
+                        <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <Text style={{ marginVertical: 5, marginHorizontal: 10 }}>{livro.autorDTO.nomeAutor}</Text>
                             <Text style={styles.txt}>R$ 564</Text>
-                            <TouchableOpacity style={{color: '#07261d'}} onPress={() => console.log("comprar pressionado")} >
-                                <Text style={{color: '#07261d'}}>COMPRAR</Text>
+                            <TouchableOpacity style={{ color: '#07261d' }} onPress={() => console.log("comprar pressionado")} >
+                                <Text style={{ color: '#07261d' }}>COMPRAR</Text>
                             </TouchableOpacity >
-                            <View style={{display: 'flex', flexDirection: 'row', padding: 5}}>
+                            <View style={{ display: 'flex', flexDirection: 'row', padding: 5 }}>
                                 <Text>FAVORITAR</Text>
-                                <TouchableOpacity onPress={() => console.log("adicionar aos favoritos")}></TouchableOpacity>
+                                <TouchableOpacity onPress={() => addToFavorites()}>
+                                    <FontAwesome
+                                        name='heart'
+                                        size={20}
+                                        color='#4CCB68'
+                                    />
+                                </TouchableOpacity>
                             </View>
                         </View>
                     </View>
-                </Modal>
-
+                </Modal> */}
             </View>
+            <ModalLivro visible={visible} hideModal={hideModal} livro={livro} />
         </SafeAreaView>
     );
 };
@@ -199,13 +223,13 @@ const styles = StyleSheet.create({
         margin: 10,
     },
     title: {
-        display: 'flex', 
-        flexDirection: 'row', 
-        alignItems: 'center', 
-        justifyContent: 'flex-start', 
-        padding: 10, 
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        padding: 10,
         gap: 5,
-        marginLeft: '10',
+        marginLeft: 10,
     },
     sectionHeader: {
         fontWeight: '800',

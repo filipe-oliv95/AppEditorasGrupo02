@@ -17,6 +17,7 @@ function StackRoutes() {
                 component={LoadingScreen}
                 options={{
                     headerShown: false,
+
                 }}
             />
             <Stack.Screen
@@ -33,13 +34,26 @@ function StackRoutes() {
                     headerShown: false,
                 }}
             />
+            {/* alterou aqui a cor do header desses */}
             <Stack.Screen
                 name='Editora'
                 component={Editora}
+                options={{
+                    headerStyle: {
+                        backgroundColor: '#07261d',
+                    },
+                    headerTintColor: 'rgba(255, 255, 255, 0.9)',
+                }}
             />
             <Stack.Screen
                 name='Livro'
                 component={Livro}
+                options={{
+                    headerStyle: {
+                        backgroundColor: '#07261d',
+                    },
+                    headerTintColor: 'rgba(255, 255, 255, 0.9)',
+                }}
             />
         </Stack.Navigator>
     )

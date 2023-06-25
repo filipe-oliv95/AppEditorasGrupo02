@@ -6,14 +6,17 @@ import { Logout } from '../pages/Logout';
 const Drawer = createDrawerNavigator();
 
 function DrawerRoutes() {
-    return (
-        <Drawer.Navigator initialRouteName={'Login'} screenOptions={{title:''}}>
+    return (    // altera aqui a cor do icone hamburguer
+        <Drawer.Navigator initialRouteName={'Login'} screenOptions={{ title: '', headerTintColor: 'rgba(255, 255, 255, 0.9)' }}>
             <Drawer.Screen
                 name='Main'
                 component={TabRoutes}
                 options={{
                     drawerIcon: ({ color, size }) => <Feather name='home' color={color} size={size} />,
-                    drawerLabel: 'G2 LIVRARIA'
+                    drawerLabel: 'G2 LIVRARIA',
+                    headerStyle: {
+                        backgroundColor: '#07261d',
+                    } // AQUI ALTERA A COR DO HEADER HOME
                 }}
             />
 
