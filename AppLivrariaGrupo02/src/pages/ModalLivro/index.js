@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
-function ModalLivro({ visible, hideModal, livro }) {
+function ModalLivro({ visible, hideModal, livro, nomeAutor }) {
 
   const containerStyle = {
     backgroundColor: '#07261d',
@@ -21,8 +21,6 @@ function ModalLivro({ visible, hideModal, livro }) {
     borderTopLeftRadius: 5,
     borderBottomRightRadius: 5,
   };
-
-  // console.log(livro.autorDTO.nomeAutor) // autorDTO não está chegando aqui
 
   // await AsyncStorage.clear(); // NÃO REMOVER, limpa AsyncStorage se der "Row too big to fit into CursorWindow"
   const addToFavorites = async () => {
@@ -55,7 +53,7 @@ function ModalLivro({ visible, hideModal, livro }) {
           style={{ width: 250, height: 250, borderRadius: 13, borderTopLeftRadius: 5, borderBottomRightRadius: 5, }}
           source={{ uri: `data:image/png;base64,${livro.img}` }}
         />
-        {/* <Text style={{ marginVertical: 5, marginHorizontal: 10 }}>{livro.autorDTO.nomeAutor}</Text> */}
+        <Text style={{ marginVertical: 5, marginHorizontal: 10 }}>{livro.nomeAutor}</Text>
         <Text style={{ color: '#04140f', fontSize: 25, fontWeight: 'bold' }}>R$ 564</Text>
         <TouchableOpacity style={{ backgroundColor: '#07261d', borderRadius: 13, width: 250, alignItems: 'center', height: 40, justifyContent: 'center' }} onPress={() => console.log("comprar pressionado")}>
           <Text style={{ borderRadius: 13, color: '#66d2b1', padding: 7 }}>COMPRAR</Text>

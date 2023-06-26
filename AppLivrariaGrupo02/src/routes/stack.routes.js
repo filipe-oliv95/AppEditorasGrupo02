@@ -42,7 +42,7 @@ function StackRoutes() {
                     headerStyle: {
                         backgroundColor: '#07261d',
                     },
-                    headerTintColor: 'rgba(255, 255, 255, 0.9)',
+                    headerTintColor: '#66d2b1',
                 }}
             />
             <Stack.Screen
@@ -52,7 +52,7 @@ function StackRoutes() {
                     headerStyle: {
                         backgroundColor: '#07261d',
                     },
-                    headerTintColor: 'rgba(255, 255, 255, 0.9)',
+                    headerTintColor: '#66d2b1',
                 }}
             />
         </Stack.Navigator>

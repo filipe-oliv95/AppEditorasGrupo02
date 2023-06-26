@@ -25,11 +25,11 @@ import {
 const ItemEditora = ({ img, nomeEditora, id, destaque, showStars }) => {
     const navigation = useNavigation();
     const [rating, setRating] = useState(4.5);
-    
+
     const handlePress = () => {
         navigation.navigate('Editora', { editoraId: id });
     }
-    
+
     return (
         <TouchableOpacity onPress={handlePress}>
             <View style={styles.itemEditora}>
@@ -39,8 +39,8 @@ const ItemEditora = ({ img, nomeEditora, id, destaque, showStars }) => {
                 />
                 {showStars && (
                     <StarRating
-                    rating={rating}
-                    onChange={setRating}
+                        rating={rating}
+                        onChange={setRating}
                     />
                 )}
 
@@ -52,12 +52,12 @@ const ItemEditora = ({ img, nomeEditora, id, destaque, showStars }) => {
     )
 };
 
-const ItemLivro = ({ img, nomeLivro, id, showModal }) => {
-    
+const ItemLivro = ({ img, nomeLivro, id, showModal, nomeAutor }) => {
+
     const handlePress = () => {
         showModal({ id });
     }
-    
+
     return (
         <TouchableOpacity onPress={handlePress}>
             <View style={styles.itemLivro}>
@@ -67,6 +67,7 @@ const ItemLivro = ({ img, nomeLivro, id, showModal }) => {
                 />
                 <View style={styles.itemTextContainerLivro}>
                     <Text style={styles.itemTextLivro}>{nomeLivro}</Text>
+                    <Text style={styles.itemTextAutor}>{nomeAutor}</Text>
                 </View>
             </View>
 
@@ -82,20 +83,15 @@ const Home = () => {
     const [visible, setVisible] = React.useState(false);
     const [livro, setLivro] = React.useState([]);
     const { colorScheme } = useContext(AppearanceContext);
-    
-    const styles = colorScheme === 'light' ? lightStyles : darkStyles;
-    
 
-    const showModal = ({ id }) => {
+    const styles = colorScheme === 'light' ? lightStyles : darkStyles;
+
+    const showModal = ({ id, nomeAutor }) => {
         const livro = dadosLivro.find(livro => livro.codigoLivro === id);
-        setLivro(livro);
+        setLivro({ ...livro, nomeAutor });
         setVisible(true);
     };
     const hideModal = () => setVisible(false);
-    // console.log(livro)
-
-    //NAO CONSIGO ACESSOAR O NOME DO AUTOR . Ta aparecendo
-    // console.log(livro.autorDTO);
 
     useEffect(() => {
         getAllEditoras();
@@ -137,6 +133,7 @@ const Home = () => {
     }
     // ta imprimindo correto mas não pega
     console.log(dadosAutor)
+    dadosAutor.forEach(autor => console.log(autor.nomeAutor));
 
     return (
         <SafeAreaView style={[sharedStyles.container, styles.container]}>
@@ -162,7 +159,10 @@ const Home = () => {
                     <Divider />
                     <FlatList
                         data={dadosLivro}
-                        renderItem={({ item }) => <ItemLivro nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} showModal={showModal} hideModal={hideModal} visible={visible} />}
+                        renderItem={({ item }) => <ItemLivro nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} showModal={() => showModal({ id: item.codigoLivro, nomeAutor: item.autorDTO.nomeAutor })}
+                            hideModal={hideModal}
+                            visible={visible}
+                            nomeAutor={item.autorDTO.nomeAutor} />}
                         keyExtractor={item => item.codigoLivro}
                         horizontal
                         showsHorizontalScrollIndicator={false}
@@ -248,6 +248,12 @@ const styles = StyleSheet.create({
     itemTextLivro: {
         color: '#66d2b1',
         fontSize: 18,
+        marginVertical: 5,
+        marginHorizontal: 10,
+    },
+    itemTextAutor: {
+        color: '#66d2b1',
+        fontSize: 14,
         marginVertical: 5,
         marginHorizontal: 10,
     },

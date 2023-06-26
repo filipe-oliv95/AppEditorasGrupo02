@@ -7,7 +7,7 @@ const Drawer = createDrawerNavigator();
 
 function DrawerRoutes() {
     return (    // altera aqui a cor do icone hamburguer
-        <Drawer.Navigator initialRouteName={'Login'} screenOptions={{ title: '', headerTintColor: 'rgba(255, 255, 255, 0.9)' }}>
+        <Drawer.Navigator initialRouteName={'Login'} screenOptions={{ title: '', headerTintColor: '#66d2b1' }}>
             <Drawer.Screen
                 name='Main'
                 component={TabRoutes}
