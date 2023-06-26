@@ -5,7 +5,7 @@ import { AppearanceContext } from '../../context/AppearanceContext';
 import { sharedStyles, darkStyles, lightStyles } from '../../themes/index';
 
 const LoadingScreen = ({ navigation }) => {
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState(5);
   const { colorScheme } = useContext(AppearanceContext);
   
   const styles = colorScheme === 'light' ? lightStyles : darkStyles;

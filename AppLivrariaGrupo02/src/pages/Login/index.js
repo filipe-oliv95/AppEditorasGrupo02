@@ -16,7 +16,6 @@ import { DataContext } from "../../context/DataContext";
 import { Ionicons } from '@expo/vector-icons';
 import { AppearanceContext } from '../../context/AppearanceContext';
 import { sharedStyles, darkStyles, lightStyles } from '../../themes/index';
-import { StyleSheetConsumer } from "styled-components";
 
 const Login = ({ navigation }) => {
 
@@ -69,7 +68,7 @@ const Login = ({ navigation }) => {
             <Text style={[sharedStyles.headerTwo, styles.headerTwo]} >Bem Vindo(a)</Text>
 
             <View style={style.inputContainer}>
-                <Text style={[sharedStyles.text, styles.text]} >Email:</Text>
+                <Text style={[sharedStyles.textOne, styles.textOne]} >Email:</Text>
                     <TextInput
                         style={[style.input, error && style.inputError]}
                         placeholder=''
@@ -78,7 +77,7 @@ const Login = ({ navigation }) => {
                     />
             </View>
             <View style={style.inputContainer}>
-                <Text style={[sharedStyles.text, styles.text]} >Senha:</Text>
+                <Text style={[sharedStyles.textOne, styles.textOne]} >Senha:</Text>
                 <View style={style.inputArea}>
                     <TextInput
                         style={[style.inputSenha, error && style.inputError]}
@@ -95,11 +94,13 @@ const Login = ({ navigation }) => {
                         }
                     </TouchableOpacity>
                 </View>
-                <Text style={{ color: 'red', margin: 'auto', paddingTop: 10}}>{error}</Text>
-                <TouchableOpacity style={style.button} onPress={() => handleLogin()} >
-                    <Text style={style.txtButton}>Login</Text>
-                </TouchableOpacity>
-                <Text style={[sharedStyles.textWhite, styles.textWhite]} >Não possui conta? Registre-se <Text style={{color: '#089A6E'}}>aqui</Text></Text>
+                <View style={{display: 'flex', alignItems: 'center'}}>
+                    <Text style={{ color: 'red', margin: 'auto', paddingTop: 10}}>{error}</Text>
+                    <TouchableOpacity style={style.button} onPress={() => handleLogin()} >
+                        <Text style={style.txtButton}>Login</Text>
+                    </TouchableOpacity>
+                    <Text style={[sharedStyles.textTwo, styles.textTwo]} >Não possui conta? Registre-se <Text style={{color: '#089A6E'}}>aqui</Text></Text>
+                </View>
             </View>
         </SafeAreaView>
     );

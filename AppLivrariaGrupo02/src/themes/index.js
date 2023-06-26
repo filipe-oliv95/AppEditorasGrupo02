@@ -23,12 +23,12 @@ const sharedStyles = {
     fontSize: 16,
     color: '#089A6E',
   },
-  textWhite: {
+  textTwo: {
     fontSize: 16,
-    color: '#fff',
+    paddingVertical: 10,
     margin: 'auto',
-    padding: 15,
   },
+
 };
 
 const darkStyles = StyleSheet.create({
@@ -40,6 +40,9 @@ const darkStyles = StyleSheet.create({
   },
   text: {
   },
+  textTwo: {
+    color: '#fff',
+  },
 });
 
 const lightStyles = StyleSheet.create({
@@ -49,6 +52,9 @@ const lightStyles = StyleSheet.create({
   },
   text: {
     color: '#089A6E',
+  },
+  textTwo: {
+    color: '#000',
   },
 });
 
