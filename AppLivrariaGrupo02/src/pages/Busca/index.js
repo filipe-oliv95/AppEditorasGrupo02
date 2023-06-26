@@ -85,9 +85,9 @@ const Busca = () => {
 
     const onChangeSearch = query => setSearchQuery(query);
 
-    const showModal = ({ id }) => {
+    const showModal = ({ id, nomeAutor }) => {
         const livro = dadosLivro.find(livro => livro.codigoLivro === id);
-        setLivro(livro);
+        setLivro({ ...livro, nomeAutor });
         setVisible(true);
     };
     const hideModal = () => setVisible(false);
@@ -164,7 +164,7 @@ const Busca = () => {
             <StatusBar style='light' />
             <View style={{ flex: 1 }}>
                 <Searchbar
-                    placeholder="Busque por título ou editora"
+                    placeholder="Busque por título, editora ou autor"
                     style={styles.searchBar}
                     onChangeText={onChangeSearch}
                     value={searchQuery}
@@ -185,7 +185,7 @@ const Busca = () => {
                                     img={item.img}
                                     id={item.codigoLivro}
                                     onPress={() => handleLivroPress(item.codigoLivro)}
-                                    showModal={showModal}
+                                    showModal={() => showModal({ id: item.codigoLivro, nomeAutor: item.autorDTO.nomeAutor })}
                                 />
                             ) : (
                                 <ItemEditora
