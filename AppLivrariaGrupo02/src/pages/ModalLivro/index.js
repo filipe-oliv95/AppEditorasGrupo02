@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
-function ModalLivro({ visible, hideModal, livro, nomeAutor }) {
+function ModalLivro({ visible, hideModal, livro }) {
 
   const containerStyle = {
     backgroundColor: '#07261d',
@@ -42,7 +42,6 @@ function ModalLivro({ visible, hideModal, livro, nomeAutor }) {
       console.log('Ocorreu um erro ao favoritar o livro: ' + error);
     }
   };
-
 
   return (
     <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>

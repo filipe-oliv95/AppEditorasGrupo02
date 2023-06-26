@@ -22,7 +22,6 @@ import {
     ActivityIndicator,
 } from 'react-native';
 
-
 const ItemEditora = ({ img, nomeEditora, id, destaque, showStars }) => {
     const navigation = useNavigation();
     const [rating, setRating] = useState(4.5);

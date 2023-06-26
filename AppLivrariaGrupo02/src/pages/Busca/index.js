@@ -104,7 +104,8 @@ const Busca = () => {
     useEffect(() => {
         if (dadosEditora && dadosLivro) {
             const filteredLivros = dadosLivro.filter(item =>
-                item.nomeLivro.toLowerCase().includes(searchQuery.toLowerCase())
+                item.nomeLivro.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                item.autorDTO.nomeAutor.toLowerCase().includes(searchQuery.toLowerCase())
             );
             const filteredEditoras = dadosEditora.filter(item =>
                 item.nomeEditora.toLowerCase().includes(searchQuery.toLowerCase())
@@ -149,6 +150,7 @@ const Busca = () => {
     // resultadosFiltrados.some(section => section.data.length > 0) ?
     {/* verifica se a section tem dado, se não tiver avisa "nenhum resultado" */ }
 
+    // verifica as requisições sendo realizadas
     if (isLoading) {
         return (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
