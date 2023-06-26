@@ -5,11 +5,10 @@ import { AppearanceContext } from '../../context/AppearanceContext';
 import { sharedStyles, darkStyles, lightStyles } from '../../themes/index';
 
 const LoadingScreen = ({ navigation }) => {
-  const [count, setCount] = useState(200);
+  const [count, setCount] = useState(1);
   const { colorScheme } = useContext(AppearanceContext);
   
   const styles = colorScheme === 'light' ? lightStyles : darkStyles;
-  console.log(colorScheme);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -27,7 +26,7 @@ const LoadingScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={[sharedStyles.container, styles.container]}>
       <StatusBar style="light" />
-      <Text style={[sharedStyles.title, styles.title]} >LIVRARIA</Text>
+      <Text style={[sharedStyles.headerOne, styles.headerOne]} >LIVRARIA</Text>
       <Image 
         style ={{ width: 300, height: 200}}
         source={{

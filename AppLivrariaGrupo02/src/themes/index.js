@@ -7,8 +7,14 @@ const sharedStyles = {
     justifyContent: 'center',
     alignItems: 'center',
   },
-  title: {
+  headerOne: {
     fontSize: 50,
+    fontFamily: 'notoserif', 
+    fontWeight: 'bold',
+    color: '#089A6E',
+  },
+  headerTwo: {
+    fontSize: 35,
     fontFamily: 'notoserif', 
     fontWeight: 'bold',
     color: '#089A6E',
@@ -17,6 +23,12 @@ const sharedStyles = {
     fontSize: 16,
     color: '#089A6E',
   },
+  textWhite: {
+    fontSize: 16,
+    color: '#fff',
+    margin: 'auto',
+    padding: 15,
+  },
 };
 
 const darkStyles = StyleSheet.create({
@@ -24,7 +36,7 @@ const darkStyles = StyleSheet.create({
   container: {
     backgroundColor: '#101010',
   },
-  title: {
+  headerOne: {
   },
   text: {
   },
@@ -36,7 +48,7 @@ const lightStyles = StyleSheet.create({
     backgroundColor: '#FFF',
   },
   text: {
-    color: '#000',
+    color: '#089A6E',
   },
 });
 

@@ -6,6 +6,8 @@ import { DataContext } from '../../context/DataContext';
 import StarRating from 'react-native-star-rating-widget';
 import ModalLivro from '../ModalLivro';
 import { Divider } from '@rneui/themed';
+import { AppearanceContext } from '../../context/AppearanceContext';
+import { sharedStyles, darkStyles, lightStyles } from '../../themes/index';
 import { FontAwesome5, FontAwesome, Entypo } from '@expo/vector-icons';
 
 import {
@@ -23,11 +25,11 @@ import {
 const ItemEditora = ({ img, nomeEditora, id, destaque, showStars }) => {
     const navigation = useNavigation();
     const [rating, setRating] = useState(4.5);
-
+    
     const handlePress = () => {
         navigation.navigate('Editora', { editoraId: id });
     }
-
+    
     return (
         <TouchableOpacity onPress={handlePress}>
             <View style={styles.itemEditora}>
@@ -37,8 +39,8 @@ const ItemEditora = ({ img, nomeEditora, id, destaque, showStars }) => {
                 />
                 {showStars && (
                     <StarRating
-                        rating={rating}
-                        onChange={setRating}
+                    rating={rating}
+                    onChange={setRating}
                     />
                 )}
 
@@ -51,11 +53,11 @@ const ItemEditora = ({ img, nomeEditora, id, destaque, showStars }) => {
 };
 
 const ItemLivro = ({ img, nomeLivro, id, showModal }) => {
-
+    
     const handlePress = () => {
         showModal({ id });
     }
-
+    
     return (
         <TouchableOpacity onPress={handlePress}>
             <View style={styles.itemLivro}>
@@ -79,7 +81,10 @@ const Home = () => {
     const [dadosAutor, setDadosAutor] = useState([]);
     const [visible, setVisible] = React.useState(false);
     const [livro, setLivro] = React.useState([]);
-
+    const { colorScheme } = useContext(AppearanceContext);
+    
+    const styles = colorScheme === 'light' ? lightStyles : darkStyles;
+    
 
     const showModal = ({ id }) => {
         const livro = dadosLivro.find(livro => livro.codigoLivro === id);
@@ -133,10 +138,8 @@ const Home = () => {
     // ta imprimindo correto mas não pega
     console.log(dadosAutor)
 
-    const containerStyle = { backgroundColor: 'white', padding: 20, flex: 1, margin: 30 };
-
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={[sharedStyles.container, styles.container]}>
             <StatusBar style="light" />
             <View style={{ flex: 1 }}>
                 <ScrollView showsVerticalScrollIndicator={false}>
@@ -179,33 +182,7 @@ const Home = () => {
                         />
                     }
                 </ScrollView>
-                {/*Modal que estava importando do React Native Paper*/}
-                {/* <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
-                    <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <Text style={{ marginVertical: 5, marginHorizontal: 10 }}>{livro.nomeLivro}</Text>
-                        <Image
-                            style={{ width: 200, height: 200, borderRadius: 13 }}
-                            source={{ uri: `data:image/png;base64,${livro.img}` }}
-                        />
-                        <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                            <Text style={{ marginVertical: 5, marginHorizontal: 10 }}>{livro.autorDTO.nomeAutor}</Text>
-                            <Text style={styles.txt}>R$ 564</Text>
-                            <TouchableOpacity style={{ color: '#07261d' }} onPress={() => console.log("comprar pressionado")} >
-                                <Text style={{ color: '#07261d' }}>COMPRAR</Text>
-                            </TouchableOpacity >
-                            <View style={{ display: 'flex', flexDirection: 'row', padding: 5 }}>
-                                <Text>FAVORITAR</Text>
-                                <TouchableOpacity onPress={() => addToFavorites()}>
-                                    <FontAwesome
-                                        name='heart'
-                                        size={20}
-                                        color='#4CCB68'
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </View>
-                </Modal> */}
+
             </View>
             <ModalLivro visible={visible} hideModal={hideModal} livro={livro} />
         </SafeAreaView>
@@ -214,11 +191,6 @@ const Home = () => {
 
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        zIndex: 0,
-        backgroundColor: '#51cba6',
-    },
     searchBar: {
         margin: 10,
     },
@@ -239,20 +211,17 @@ const styles = StyleSheet.create({
     itemPhoto: {
         width: 200,
         height: 200,
-        backgroundColor: '#a8e5d3',
         borderRadius: 13,
     },
     itemPhotoLivro: {
         width: 200,
         height: 200,
-        backgroundColor: '#a8e5d3',
         borderTopLeftRadius: 13,
         borderTopRightRadius: 13,
     },
     destaqueItemPhoto: {
         width: '100%',
         height: 200,
-        backgroundColor: '#a8e5d3',
         borderRadius: 13,
     },
     itemEditora: {

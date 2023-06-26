@@ -14,6 +14,9 @@ import React, { useState, useContext } from "react";
 import AxiosInstance from "../../api/AxiosInstance";
 import { DataContext } from "../../context/DataContext";
 import { Ionicons } from '@expo/vector-icons';
+import { AppearanceContext } from '../../context/AppearanceContext';
+import { sharedStyles, darkStyles, lightStyles } from '../../themes/index';
+import { StyleSheetConsumer } from "styled-components";
 
 const Login = ({ navigation }) => {
 
@@ -22,6 +25,9 @@ const Login = ({ navigation }) => {
     const { armazenarDadosUsuario } = useContext(DataContext);
     const [hidePass, setHidePass] = useState(true);
     const [error, setError] = useState("");
+    const { colorScheme } = useContext(AppearanceContext);
+  
+    const styles = colorScheme === 'light' ? lightStyles : darkStyles;
 
     const handleLogin = async () => {
         console.log(`E-mail: ${email} - Senha: ${senha}`);
@@ -51,38 +57,37 @@ const Login = ({ navigation }) => {
     }
 
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={[sharedStyles.container, styles.container]}>
             <StatusBar style="light" />
-
             <Image
-            style={{ width: 200, height: 150, marginBottom: 15,}}
+            style={{ width: 150, height: 100, marginBottom: 15,}}
             source={{
                 uri: 'https://i.imgur.com/Mbm6xQl.png'
             }}
             ></Image>
     
-            <Text style={styles.txt} >Bem Vindo(a)</Text>
+            <Text style={[sharedStyles.headerTwo, styles.headerTwo]} >Bem Vindo(a)</Text>
 
-            <View style={styles.campoArea}>
-                <Text style={styles.txtinputEmail} >Email:</Text>
+            <View style={style.inputContainer}>
+                <Text style={[sharedStyles.text, styles.text]} >Email:</Text>
                     <TextInput
-                        style={styles.input}
-                        placeholder="Email"
+                        style={[style.input, error && style.inputError]}
+                        placeholder=''
                         onChangeText={setEmail}
                         value={email}
                     />
             </View>
-            <View style={styles.campoArea}>
-                <Text style={styles.txtinput} >Senha:</Text>
-                <View style={styles.inputArea}>
+            <View style={style.inputContainer}>
+                <Text style={[sharedStyles.text, styles.text]} >Senha:</Text>
+                <View style={style.inputArea}>
                     <TextInput
-                        style={styles.inputSenha}
-                        placeholder="Senha"
+                        style={[style.inputSenha, error && style.inputError]}
+                        placeholder=''
                         onChangeText={setSenha}
                         value={senha}
                         secureTextEntry={hidePass}
                     />
-                    <TouchableOpacity style={styles.icon} onPress={() => setHidePass(!hidePass)}>
+                    <TouchableOpacity style={style.icon} onPress={() => setHidePass(!hidePass)}>
                         {hidePass ?
                             <Ionicons name="eye" color="#07261d" size={18}/>
                             :
@@ -90,24 +95,18 @@ const Login = ({ navigation }) => {
                         }
                     </TouchableOpacity>
                 </View>
+                <Text style={{ color: 'red', margin: 'auto', paddingTop: 10}}>{error}</Text>
+                <TouchableOpacity style={style.button} onPress={() => handleLogin()} >
+                    <Text style={style.txtButton}>Login</Text>
+                </TouchableOpacity>
+                <Text style={[sharedStyles.textWhite, styles.textWhite]} >Não possui conta? Registre-se <Text style={{color: '#089A6E'}}>aqui</Text></Text>
             </View>
-            <Text >{error}</Text>
-            <TouchableOpacity style={styles.button} onPress={() => handleLogin()} >
-                <Text style={styles.txtButton}>Login</Text>
-            </TouchableOpacity>
         </SafeAreaView>
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#51cba6',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    campoArea: {
-    },
+const style = StyleSheet.create({
+
     contentContainer: {
         display: 'flex',
         flexDirection: 'column',
@@ -115,68 +114,70 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'red',
     },
-    txt: {
-        fontFamily: 'notoserif',
-        fontSize: 40,
-        fontWeight: 'bold',
-        marginBottom: 30,
-        color: '#04140f',
+    inputContainer: {
+        width: '100%',
+        paddingHorizontal: 40,
+        paddingTop: 20,
     },
+
     txtinput: {
         fontSize: 16,
         color: '#04140f',
     },
-    txtinputEmail: {
-        fontSize: 16,
-        color: '#04140f',
-        paddingLeft: 5,
-    },
+
     input: {
-        backgroundColor: '#a8e5d3',
-        borderRadius: 13,
-        width: 300,
-        height: 40,
-        margin: 5,
-        padding: 3,
-        marginTop: 5,
-        borderTopLeftRadius: 2,
-        borderBottomRightRadius: 2,
+        backgroundColor: '#EFFCF8',
+        borderRadius: 15,
+        width: '100%',
+        height: 50,
+        paddingHorizontal: 5,
     },
     inputArea: {
+        display: 'flex',
         flexDirection: 'row',
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     inputSenha: {
-        backgroundColor: '#a8e5d3',
-        borderBottomLeftRadius: 13,
-        borderTopLeftRadius: 2,
-        width: 260,
-        height: 40,
-        marginTop: 5,
-        padding: 3,
+        backgroundColor: '#EFFCF8',
+        borderRadius: 15,
+        flex: 1,
+        width: '100%',
+        height: 50,
+        paddingRight: 40,
+        paddingHorizontal: 5,
+        position: 'relative',
+    },
+    inputError: {
+        backgroundColor: '#FFD4D4',
     },
     icon: {
         width: 40,
         height: 40,
-        justifyContent: 'center',
+        position: 'absolute',
+        display: 'flex',
         alignItems: 'center',
-        backgroundColor: '#a8e5d3',
-        marginTop: 5,
-        borderBottomRightRadius: 2,
-        borderTopRightRadius: 13,
+        justifyContent: 'center',
+        zIndex: 1,
+        right: 0,
+        borderRadius: 15,
+        paddingRight: 10,
 
     },
     button: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#07261d',
+        backgroundColor: '#089A6E',
         marginTop: 20,
-        width: 300,
+        width: '100%',
         height: 50,
         borderRadius: 13,
     },
     txtButton: {
-        color: '#66d2b1',
+        color: '#fff',
+        fontSize: 18,
     },
 })
 
