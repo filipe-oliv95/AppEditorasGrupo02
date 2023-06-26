@@ -1,13 +1,15 @@
 import 'react-native-gesture-handler';
-
-import { DataProvider } from './src/context/DataContext'
+import { DataProvider } from './src/context/DataContext';
+import { AppearanceProvider } from './src/context/AppearanceContext'
 
 import Routes from './src/routes';
 
 function App() {
   return (
     <DataProvider>
-      <Routes />
+      <AppearanceProvider>
+        <Routes />
+      </AppearanceProvider>
     </DataProvider>
   )
 };
