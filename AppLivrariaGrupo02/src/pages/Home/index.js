@@ -18,7 +18,8 @@ import {
     StyleSheet,
     Text,
     TouchableOpacity,
-    View
+    View,
+    ActivityIndicator,
 } from 'react-native';
 
 
@@ -82,6 +83,7 @@ const Home = () => {
     const [dadosAutor, setDadosAutor] = useState([]);
     const [visible, setVisible] = React.useState(false);
     const [livro, setLivro] = React.useState([]);
+    const [isLoading, setIsLoading] = useState(false); // importante para o loading
     const { colorScheme } = useContext(AppearanceContext);
 
     const styles = colorScheme === 'light' ? lightStyles : darkStyles;
@@ -101,94 +103,113 @@ const Home = () => {
 
     // adicionei a consulta para autores para poder adicionar na renderização
     const getAllEditoras = async () => {
+        setIsLoading(true);
         await AxiosInstance.get(
             '/editoras',
             { headers: { 'Authorization': `Bearer ${dadosUsuario?.token}` } }
         ).then(resultado => {
             setDadosEditora(resultado.data);
+            setIsLoading(false);
         }).catch((error) => {
             console.log('Ocorreu um erro ao recuperar os dados das Editoras: ' + error);
+            setIsLoading(false);
         })
     }
     const getAllLivros = async () => {
+        setIsLoading(true); // Similar changes for other requests
         await AxiosInstance.get(
             '/livros',
             { headers: { 'Authorization': `Bearer ${dadosUsuario?.token}` } }
         ).then(resultado => {
             setDadosLivro(resultado.data);
+            setIsLoading(false);
         }).catch((error) => {
             console.log('Ocorreu um erro ao recuperar os dados dos Livros: ' + error);
+            setIsLoading(false);
         })
     }
 
     const getAllAutores = async () => {
+        setIsLoading(true);
         await AxiosInstance.get(
             '/autores',
             { headers: { 'Authorization': `Bearer ${dadosUsuario?.token}` } }
         ).then(resultado => {
             setDadosAutor(resultado.data);
+            setIsLoading(false);
         }).catch((error) => {
             console.log('Ocorreu um erro ao recuperar os dados dos autores: ' + error);
+            setIsLoading(false);
         })
     }
     // ta imprimindo correto mas não pega
     console.log(dadosAutor)
     dadosAutor.forEach(autor => console.log(autor.nomeAutor));
 
-    return (
-        <SafeAreaView style={[sharedStyles.container, styles.container]}>
-            <StatusBar style="light" />
-            <View style={{ flex: 1 }}>
-                <ScrollView showsVerticalScrollIndicator={false}>
-                    <View style={styles.title}>
-                        <FontAwesome5 name="book-reader" size={24} color="#07261d" />
-                        <Text style={styles.sectionHeader}>EDITORAS</Text>
-                    </View>
-                    <Divider />
-                    <FlatList
-                        data={dadosEditora}
-                        renderItem={({ item }) => <ItemEditora nomeEditora={item.nomeEditora} img={item.img} id={item.codigoEditora} />}
-                        keyExtractor={item => item.codigoEditora}
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                    />
-                    <View style={styles.title}>
-                        <Entypo name="book" size={24} color="#07261d" />
-                        <Text style={styles.sectionHeader}>LIVROS</Text>
-                    </View>
-                    <Divider />
-                    <FlatList
-                        data={dadosLivro}
-                        renderItem={({ item }) => <ItemLivro nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} showModal={() => showModal({ id: item.codigoLivro, nomeAutor: item.autorDTO.nomeAutor })}
-                            hideModal={hideModal}
-                            visible={visible}
-                            nomeAutor={item.autorDTO.nomeAutor} />}
-                        keyExtractor={item => item.codigoLivro}
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                    />
-                    <View style={styles.title}>
-                        <FontAwesome name="trophy" size={24} color="#07261d" />
-                        <Text style={styles.sectionHeader}>DESTAQUE</Text>
-                    </View>
-                    <Divider />
-                    {dadosEditora.length > 0 &&
-                        <ItemEditora
-                            nomeEditora={dadosEditora[0].nomeEditora}
-                            img={dadosEditora[0].img}
-                            id={dadosEditora[0].codigoEditora}
-                            destaque={true}
-                            showStars={true}
-                        />
-                    }
-                </ScrollView>
-
+    // verifica as requisições sendo realizadas
+    if (isLoading) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator size="large" color="#0000ff" />
+                <Text style={{ marginTop: 20 }}>As requisições estão sendo realizadas</Text>
             </View>
-            <ModalLivro visible={visible} hideModal={hideModal} livro={livro} />
-        </SafeAreaView>
-    );
-};
+        );
+    }
+    else {
+        return (
+            <SafeAreaView style={[sharedStyles.container, styles.container]}>
+                <StatusBar style="light" />
+                <View style={{ flex: 1 }}>
+                    <ScrollView showsVerticalScrollIndicator={false}>
+                        <View style={styles.title}>
+                            <FontAwesome5 name="book-reader" size={24} color="#07261d" />
+                            <Text style={styles.sectionHeader}>EDITORAS</Text>
+                        </View>
+                        <Divider />
+                        <FlatList
+                            data={dadosEditora}
+                            renderItem={({ item }) => <ItemEditora nomeEditora={item.nomeEditora} img={item.img} id={item.codigoEditora} />}
+                            keyExtractor={item => item.codigoEditora}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                        />
+                        <View style={styles.title}>
+                            <Entypo name="book" size={24} color="#07261d" />
+                            <Text style={styles.sectionHeader}>LIVROS</Text>
+                        </View>
+                        <Divider />
+                        <FlatList
+                            data={dadosLivro}
+                            renderItem={({ item }) => <ItemLivro nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} showModal={() => showModal({ id: item.codigoLivro, nomeAutor: item.autorDTO.nomeAutor })}
+                                hideModal={hideModal}
+                                visible={visible}
+                                nomeAutor={item.autorDTO.nomeAutor} />}
+                            keyExtractor={item => item.codigoLivro}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                        />
+                        <View style={styles.title}>
+                            <FontAwesome name="trophy" size={24} color="#07261d" />
+                            <Text style={styles.sectionHeader}>DESTAQUE</Text>
+                        </View>
+                        <Divider />
+                        {dadosEditora.length > 0 &&
+                            <ItemEditora
+                                nomeEditora={dadosEditora[0].nomeEditora}
+                                img={dadosEditora[0].img}
+                                id={dadosEditora[0].codigoEditora}
+                                destaque={true}
+                                showStars={true}
+                            />
+                        }
+                    </ScrollView>
 
+                </View>
+                <ModalLivro visible={visible} hideModal={hideModal} livro={livro} />
+            </SafeAreaView>
+        );
+    }
+};
 
 const styles = StyleSheet.create({
     searchBar: {

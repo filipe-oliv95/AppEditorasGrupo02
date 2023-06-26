@@ -9,7 +9,8 @@ import {
     StyleSheet,
     Text,
     TouchableOpacity,
-    View
+    View,
+    ActivityIndicator
 } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import AxiosInstance from '../../api/AxiosInstance';
@@ -79,6 +80,7 @@ const Busca = () => {
     const [searchQuery, setSearchQuery] = React.useState('');
     const [resultadosFiltrados, setResultadosFiltrados] = useState([]);
     const [visible, setVisible] = React.useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [livro, setLivro] = React.useState([]);
 
     const onChangeSearch = query => setSearchQuery(query);
@@ -118,30 +120,43 @@ const Busca = () => {
     // console.log(resultadosFiltrados)
 
     const getAllEditoras = async () => {
+        setIsLoading(true);
         await AxiosInstance.get(
             '/editoras',
             { headers: { 'Authorization': `Bearer ${dadosUsuario?.token}` } }
         ).then(resultado => {
             setDadosEditora(resultado.data);
+            setIsLoading(false);
         }).catch((error) => {
             console.log('Ocorreu um erro ao recuperar os dados das Editoras: ' + error);
+            setIsLoading(false);
         })
     }
-
     const getAllLivros = async () => {
+        setIsLoading(true); // Similar changes for other requests
         await AxiosInstance.get(
             '/livros',
             { headers: { 'Authorization': `Bearer ${dadosUsuario?.token}` } }
         ).then(resultado => {
             setDadosLivro(resultado.data);
+            setIsLoading(false);
         }).catch((error) => {
             console.log('Ocorreu um erro ao recuperar os dados dos Livros: ' + error);
+            setIsLoading(false);
         })
     }
 
     // resultadosFiltrados.some(section => section.data.length > 0) ?
     {/* verifica se a section tem dado, se não tiver avisa "nenhum resultado" */ }
 
+    if (isLoading) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator size="large" color="#0000ff" />
+                <Text style={{ marginTop: 20 }}>As requisições estão sendo realizadas</Text>
+            </View>
+        );
+    }
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar style='light' />
