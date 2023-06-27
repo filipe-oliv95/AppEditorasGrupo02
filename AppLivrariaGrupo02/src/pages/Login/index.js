@@ -57,7 +57,7 @@ const Login = ({ navigation }) => {
     }
 
     return (
-        <SafeAreaView style={[sharedStyles.container, styles.container]}>
+        <SafeAreaView style={[sharedStyles.container, styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
             <StatusBar style="light" />
             <Image
             style={{ width: 150, height: 100, marginBottom: 15,}}

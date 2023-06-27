@@ -24,7 +24,7 @@ const LoadingScreen = ({ navigation }) => {
   }, [count, navigation]);
 
   return (
-    <SafeAreaView style={[sharedStyles.container, styles.container]}>
+    <SafeAreaView style={[sharedStyles.container, styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
       <StatusBar style="light" />
       <Text style={[sharedStyles.headerOne, styles.headerOne]} >LIVRARIA</Text>
       <Image 
