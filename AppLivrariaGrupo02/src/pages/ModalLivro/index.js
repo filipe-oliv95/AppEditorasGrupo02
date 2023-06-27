@@ -1,56 +1,43 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Modal } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { save, getValueFor, deleteLivros, saveIncremental } from '../../services/DataService';
 import {
   Image,
   Text,
   TouchableOpacity,
   View,
-  StyleSheet
 } from 'react-native';
-import { Entypo, Fontisto, AntDesign } from '@expo/vector-icons';
+
+import { Entypo, Fontisto, AntDesign, FontAwesome } from '@expo/vector-icons';
 import { AppearanceContext } from '../../context/AppearanceContext';
 import { sharedStyles, darkStyles, lightStyles } from '../../themes/index';
 import StarRating from 'react-native-star-rating-widget';
-
 
 function ModalLivro({ visible, hideModal, livro }) {
   const { colorScheme } = useContext(AppearanceContext);
   const style = colorScheme === 'light' ? lightStyles : darkStyles;
   const [rating, setRating] = useState(4.5);
+  const [dadosLivrosSecStore, setdadosLivrosSecStore] = useState();
   
   const containerStyle = {
     backgroundColor: 'rgba(16, 16, 16, 0.8)',
     flex: 1,
   };
 
-  // console.log(livro.autorDTO.nomeAutor) // autorDTO não está chegando aqui
+  const addToFavorites = async (key, value) => {
+    console.log('addToFavorites no ModalLivro:', saveIncremental); // entra na funcao
+    console.log('livro.codigoLivro:', value);  // correto codigoLivro
 
-  // await AsyncStorage.clear(); // NÃO REMOVER, limpa AsyncStorage se der "Row too big to fit into CursorWindow"
-  const addToFavorites = async () => {
-    try {
-      let favoriteBooks = await AsyncStorage.getItem('favoriteBooks');
-      favoriteBooks = favoriteBooks == null ? [] : JSON.parse(favoriteBooks);
-
-      if (favoriteBooks.some(item => item.codigoLivro === livro.codigoLivro)) {
-        alert('O livro já está na lista de favoritos!');
-      } else {
-        const livroToSave = {  // para reduzir os dados salvos no asyncstorage salva apenas id          
-          codigoLivro: livro.codigoLivro,
-        }
-        favoriteBooks.push(livroToSave);
-        await AsyncStorage.setItem('favoriteBooks', JSON.stringify(favoriteBooks));
-        alert('Livro adicionado aos favoritos!');
-      }
-    } catch (error) {
-      console.log('Ocorreu um erro ao favoritar o livro: ' + error);
-    }
-  };
+    await saveIncremental(key, value);
+    setdadosLivrosSecStore(await getValueFor('livro'))
+    console.log("codigoLivro dentro do addToFavorites" + livro.codigoLivro)
+  }
 
 
   return (
     <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
+
       <View style={{backgroundColor: '#fff',
                     flex: 1,
                     borderTopLeftRadius: 50,
@@ -68,6 +55,8 @@ function ModalLivro({ visible, hideModal, livro }) {
               source={{ uri: `data:image/png;base64,${livro.img}` }}
             />
             <Fontisto name="favorite" size={40} color="#08513C" onPress={() => addToFavorites()} />
+            {/* <Text style={{ color: '#04140f', fontSize: 16 }}>{'Livros FAVORITADOS' + JSON.stringify(dadosLivrosSecStore)}</Text>*/}
+            {/* <TouchableOpacity onPress={() => addToFavorites('livro', livro.codigoLivro)}> */}
           </View>
           <View style={{width: 200, height: 1, backgroundColor: '#9D9A9A' }}></View>
           <StarRating color={'#FFE500'} rating={rating} onChange={setRating}/>
@@ -77,6 +66,7 @@ function ModalLivro({ visible, hideModal, livro }) {
             <Text style={{ color:'#fff', fontWeight: 'bold', fontSize: 16, }}>Adicionar ao carrinho</Text>
             <AntDesign style={{ paddingLeft: 15}} name="shoppingcart" size={25} color="#fff" />
           </TouchableOpacity >
+
         </View>
       </View>
     </Modal>

@@ -36,9 +36,9 @@ const sharedStyles = {
     fontWeight: 'bold',
   },
 
-  textWhite: {
+  textTwo: {
     fontSize: 16,
-    color: '#fff',
+    paddingVertical: 10,
     margin: 'auto',
     padding: 15,
     fontWeight: 'bold',
@@ -70,7 +70,9 @@ const sharedStyles = {
     backgroundColor: '#F6FFFC',
     margin: 10,
     borderRadius: 8,
+
   },
+
 };
 
 const darkStyles = StyleSheet.create({

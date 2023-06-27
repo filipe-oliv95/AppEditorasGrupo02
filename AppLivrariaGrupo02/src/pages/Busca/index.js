@@ -9,7 +9,8 @@ import {
     StyleSheet,
     Text,
     TouchableOpacity,
-    View
+    View,
+    ActivityIndicator
 } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import AxiosInstance from '../../api/AxiosInstance';
@@ -19,7 +20,6 @@ import { AppearanceContext } from '../../context/AppearanceContext';
 import { sharedStyles, darkStyles, lightStyles } from '../../themes/index';
 import { Divider } from '@rneui/themed';
 
-
 const Busca = () => {
     const { dadosUsuario } = useContext(DataContext);
     const [dadosEditora, setDadosEditora] = useState([]);
@@ -27,6 +27,7 @@ const Busca = () => {
     const [searchQuery, setSearchQuery] = React.useState('');
     const [resultadosFiltrados, setResultadosFiltrados] = useState([]);
     const [visible, setVisible] = React.useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [livro, setLivro] = React.useState([]);
     const { colorScheme } = useContext(AppearanceContext);
     
@@ -94,9 +95,9 @@ const Busca = () => {
     };
     const onChangeSearch = query => setSearchQuery(query);
 
-    const showModal = ({ id }) => {
+    const showModal = ({ id, nomeAutor }) => {
         const livro = dadosLivro.find(livro => livro.codigoLivro === id);
-        setLivro(livro);
+        setLivro({ ...livro, nomeAutor });
         setVisible(true);
     };
     const hideModal = () => setVisible(false);
@@ -113,7 +114,8 @@ const Busca = () => {
     useEffect(() => {
         if (dadosEditora && dadosLivro) {
             const filteredLivros = dadosLivro.filter(item =>
-                item.nomeLivro.toLowerCase().includes(searchQuery.toLowerCase())
+                item.nomeLivro.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                item.autorDTO.nomeAutor.toLowerCase().includes(searchQuery.toLowerCase())
             );
             const filteredEditoras = dadosEditora.filter(item =>
                 item.nomeEditora.toLowerCase().includes(searchQuery.toLowerCase())
@@ -129,36 +131,50 @@ const Busca = () => {
     // console.log(resultadosFiltrados)
 
     const getAllEditoras = async () => {
+        setIsLoading(true);
         await AxiosInstance.get(
             '/editoras',
             { headers: { 'Authorization': `Bearer ${dadosUsuario?.token}` } }
         ).then(resultado => {
             setDadosEditora(resultado.data);
+            setIsLoading(false);
         }).catch((error) => {
             console.log('Ocorreu um erro ao recuperar os dados das Editoras: ' + error);
+            setIsLoading(false);
         })
     }
-
     const getAllLivros = async () => {
+        setIsLoading(true); // Similar changes for other requests
         await AxiosInstance.get(
             '/livros',
             { headers: { 'Authorization': `Bearer ${dadosUsuario?.token}` } }
         ).then(resultado => {
             setDadosLivro(resultado.data);
+            setIsLoading(false);
         }).catch((error) => {
             console.log('Ocorreu um erro ao recuperar os dados dos Livros: ' + error);
+            setIsLoading(false);
         })
     }
 
     // resultadosFiltrados.some(section => section.data.length > 0) ?
     {/* verifica se a section tem dado, se não tiver avisa "nenhum resultado" */ }
 
+    // verifica as requisições sendo realizadas
+    if (isLoading) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator size="large" color="#0000ff" />
+                <Text style={{ marginTop: 20 }}>As requisições estão sendo realizadas</Text>
+            </View>
+        );
+    }
     return (
         <SafeAreaView style={[sharedStyles.container, style.container, {flex: 1}]}>
             <StatusBar style='light' />
             <View style={{ flex: 1 }}>
                 <Searchbar
-                    placeholder="Busque por título ou editora"
+                    placeholder="Busque por título, editora ou autor"
                     style={styles.searchBar}
                     onChangeText={onChangeSearch}
                     value={searchQuery}
@@ -174,7 +190,7 @@ const Busca = () => {
                                     img={item.img}
                                     id={item.codigoLivro}
                                     onPress={() => handleLivroPress(item.codigoLivro)}
-                                    showModal={showModal}
+                                    showModal={() => showModal({ id: item.codigoLivro, nomeAutor: item.autorDTO.nomeAutor })}
                                 />
                             ) : (
                                 <ItemEditora
