@@ -41,6 +41,7 @@ const sharedStyles = {
     color: '#fff',
     margin: 'auto',
     padding: 15,
+    fontWeight: 'bold',
   },
   imgEditora: {
     width: 110,
@@ -50,6 +51,11 @@ const sharedStyles = {
   imgLivro: {
     width: 135,
     height: 190,
+    borderRadius: 5,
+  },
+  imgLivroModal: {
+    width: 155,
+    height: 230,
     borderRadius: 5,
   },
   imgLivroSearch: {

@@ -1,3 +1,4 @@
+import React, { useEffect, useState, useContext } from 'react';
 import { Modal } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -8,18 +9,20 @@ import {
   View,
   StyleSheet
 } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import { Entypo, Fontisto, AntDesign } from '@expo/vector-icons';
+import { AppearanceContext } from '../../context/AppearanceContext';
+import { sharedStyles, darkStyles, lightStyles } from '../../themes/index';
+import StarRating from 'react-native-star-rating-widget';
+
 
 function ModalLivro({ visible, hideModal, livro }) {
-
+  const { colorScheme } = useContext(AppearanceContext);
+  const style = colorScheme === 'light' ? lightStyles : darkStyles;
+  const [rating, setRating] = useState(4.5);
+  
   const containerStyle = {
-    backgroundColor: '#07261d',
-    padding: 5,
+    backgroundColor: 'rgba(16, 16, 16, 0.8)',
     flex: 1,
-    margin: 30,
-    borderRadius: 13,
-    borderTopLeftRadius: 5,
-    borderBottomRightRadius: 5,
   };
 
   // console.log(livro.autorDTO.nomeAutor) // autorDTO não está chegando aqui
@@ -48,28 +51,32 @@ function ModalLivro({ visible, hideModal, livro }) {
 
   return (
     <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
-      <View style={{ height: '100%', display: 'flex', justifyContent: 'space-around', flexDirection: 'column', alignItems: 'center', backgroundColor: '#a8e5d3', padding: 10, borderRadius: 13, borderTopLeftRadius: 5, borderBottomRightRadius: 5, }}>
-        <FontAwesome style={{ position: 'absolute', right: 0, top: 0, padding: 15 }} onPress={hideModal} name="close" size={30} color="black" />
-        <Text style={{ color: '#04140f', fontWeight: 'bold', fontSize: 25, }}>{livro.nomeLivro}</Text>
-        <Image
-          style={{ width: 250, height: 250, borderRadius: 13, borderTopLeftRadius: 5, borderBottomRightRadius: 5, }}
-          source={{ uri: `data:image/png;base64,${livro.img}` }}
-        />
-        {/* <Text style={{ marginVertical: 5, marginHorizontal: 10 }}>{livro.autorDTO.nomeAutor}</Text> */}
-        <Text style={{ color: '#04140f', fontSize: 25, fontWeight: 'bold' }}>R$ 564</Text>
-        <TouchableOpacity style={{ backgroundColor: '#07261d', borderRadius: 13, width: 250, alignItems: 'center', height: 40, justifyContent: 'center' }} onPress={() => console.log("comprar pressionado")}>
-          <Text style={{ borderRadius: 13, color: '#66d2b1', padding: 7 }}>COMPRAR</Text>
-        </TouchableOpacity >
-        <View style={{ display: 'flex', flexDirection: 'row', padding: 5 }}>
-          <Text style={{ color: '#04140f', fontSize: 16 }}>FAVORITAR</Text>
-          <TouchableOpacity onPress={() => addToFavorites()}>
-            <Icon
-              name='heart'
-              size={20}
-              color='#4CCB68'
+      <View style={{backgroundColor: '#fff',
+                    flex: 1,
+                    borderTopLeftRadius: 50,
+                    borderTopRightRadius: 50,
+                    marginHorizontal: 20,
+                    marginTop: 20,
+                    padding: 20,
+                  }}>
+        <View style={{ height: '100%', display: 'flex', justifyContent: 'space-around', flexDirection: 'column', alignItems: 'center', padding: 10, borderRadius: 13, borderTopLeftRadius: 5, borderBottomRightRadius: 5 }}>
+          <Text style={sharedStyles.headerTwo}>{livro.nomeLivro}</Text>
+          <View style= {{width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+            <Entypo name="arrow-left" onPress={hideModal} size={40} color="#08513C" />
+            <Image
+              style={sharedStyles.imgLivroModal}
+              source={{ uri: `data:image/png;base64,${livro.img}` }}
             />
-          </TouchableOpacity>
-          {/* <TouchableOpacity onPress={() => console.log("adicionar aos favoritos")}></TouchableOpacity> */}
+            <Fontisto name="favorite" size={40} color="#08513C" onPress={() => addToFavorites()} />
+          </View>
+          <View style={{width: 200, height: 1, backgroundColor: '#9D9A9A' }}></View>
+          <StarRating rating={rating} onChange={setRating}/>
+          {/* <Text style={{ marginVertical: 5, marginHorizontal: 10 }}>{livro.autorDTO.nomeAutor}</Text> */}
+          <Text style={{ color: '#04140f', fontSize: 25, fontWeight: 'bold' }}>R$ 564</Text>
+          <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', backgroundColor: '#089A6E', borderRadius: 13, width: 250, alignItems: 'center', height: 50, justifyContent: 'center' }} onPress={() => console.log("comprar pressionado")}>
+            <Text style={{ color:'#fff', fontWeight: 'bold', fontSize: 16, }}>Adicionar ao carrinho</Text>
+            <AntDesign style={{ paddingLeft: 15}} name="shoppingcart" size={25} color="#fff" />
+          </TouchableOpacity >
         </View>
       </View>
     </Modal>
