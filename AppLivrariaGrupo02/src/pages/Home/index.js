@@ -6,9 +6,9 @@ import { DataContext } from '../../context/DataContext';
 import StarRating from 'react-native-star-rating-widget';
 import ModalLivro from '../ModalLivro';
 import { Divider } from '@rneui/themed';
-import { AppearanceContext } from '../../context/AppearanceContext';
-import { sharedStyles, darkStyles, lightStyles } from '../../themes/index';
 import { FontAwesome5, FontAwesome, Entypo } from '@expo/vector-icons';
+import { sharedStyles, darkStyles, lightStyles } from '../../themes';
+import { AppearanceContext } from '../../context/AppearanceContext';
 
 import {
     FlatList,
@@ -22,59 +22,6 @@ import {
     ActivityIndicator,
 } from 'react-native';
 
-const ItemEditora = ({ img, nomeEditora, id, destaque, showStars }) => {
-    const navigation = useNavigation();
-    const [rating, setRating] = useState(4.5);
-
-    const handlePress = () => {
-        navigation.navigate('Editora', { editoraId: id });
-    }
-
-    return (
-        <TouchableOpacity onPress={handlePress}>
-            <View style={styles.itemEditora}>
-                <Image
-                    style={destaque ? styles.destaqueItemPhoto : styles.itemPhoto}
-                    source={{ uri: `data:image/png;base64,${img}` }}
-                />
-                {showStars && (
-                    <StarRating
-                        rating={rating}
-                        onChange={setRating}
-                    />
-                )}
-
-                <View style={styles.itemTextContainerEditora}>
-                    <Text style={styles.itemTextEditoras}>{nomeEditora}</Text>
-                </View>
-            </View>
-        </TouchableOpacity>
-    )
-};
-
-const ItemLivro = ({ img, nomeLivro, id, showModal, nomeAutor }) => {
-
-    const handlePress = () => {
-        showModal({ id });
-    }
-
-    return (
-        <TouchableOpacity onPress={handlePress}>
-            <View style={styles.itemLivro}>
-                <Image
-                    style={styles.itemPhotoLivro}
-                    source={{ uri: `data:image/png;base64,${img}` }}
-                />
-                <View style={styles.itemTextContainerLivro}>
-                    <Text style={styles.itemTextLivro}>{nomeLivro}</Text>
-                    <Text style={styles.itemTextAutor}>{nomeAutor}</Text>
-                </View>
-            </View>
-
-        </TouchableOpacity>
-    )
-};
-
 const Home = () => {
     const { dadosUsuario } = useContext(DataContext);
     const [dadosEditora, setDadosEditora] = useState([]);
@@ -84,14 +31,60 @@ const Home = () => {
     const [livro, setLivro] = React.useState([]);
     const [isLoading, setIsLoading] = useState(false); // importante para o loading
     const { colorScheme } = useContext(AppearanceContext);
-
-    const styles = colorScheme === 'light' ? lightStyles : darkStyles;
-
-    const showModal = ({ id, nomeAutor }) => {
+    const style = colorScheme === 'light' ? lightStyles : darkStyles;
+    
+    const ItemEditora = ({ img, id, destaque, showStars }) => {
+        const navigation = useNavigation();
+        const [rating, setRating] = useState(4.5);
+    
+        const handlePress = () => {
+            navigation.navigate('Editora', { editoraId: id });
+        }
+    
+        return (
+            <TouchableOpacity onPress={handlePress}>
+                <View style={styles.itemEditora}>
+                    <Image
+                        style={destaque ? styles.destaqueItemPhoto : sharedStyles.imgEditora}
+                        source={{ uri: `data:image/png;base64,${img}` }}
+                    />
+                    {showStars && (
+                        <StarRating
+                            rating={rating}
+                            onChange={setRating}
+                        />
+                    )}
+                </View>
+            </TouchableOpacity>
+        )
+    };
+    
+    const ItemLivro = ({ img, nomeLivro, id, showModal }) => {
+    
+        const handlePress = () => {
+            showModal({ id });
+        }
+    
+        return (
+            <TouchableOpacity onPress={handlePress}>
+                <View style={sharedStyles.itemLivro}>
+                    <Image
+                        style={sharedStyles.imgLivro}
+                        source={{ uri: `data:image/png;base64,${img}` }}
+                    />
+                    <Text style={[sharedStyles.text, style.text]}>{nomeLivro}</Text>
+                </View>
+    
+            </TouchableOpacity>
+        )
+    };
+    
+    const showModal = ({ id }) => {
         const livro = dadosLivro.find(livro => livro.codigoLivro === id);
         setLivro({ ...livro, nomeAutor });
         setVisible(true);
     };
+    
     const hideModal = () => setVisible(false);
 
     useEffect(() => {
@@ -141,12 +134,8 @@ const Home = () => {
             setIsLoading(false);
         })
     }
-    // ta imprimindo correto mas não pega
-    console.log(dadosAutor)
-    dadosAutor.forEach(autor => console.log(autor.nomeAutor));
 
-    // verifica as requisições sendo realizadas
-    if (isLoading) {
+  if (isLoading) {
         return (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                 <ActivityIndicator size="large" color="#0000ff" />
@@ -155,62 +144,68 @@ const Home = () => {
         );
     }
     else {
-        return (
-            <SafeAreaView style={[sharedStyles.container, styles.container]}>
-                <StatusBar style="light" />
-                <View style={{ flex: 1 }}>
-                    <ScrollView showsVerticalScrollIndicator={false}>
-                        <View style={styles.title}>
-                            <FontAwesome5 name="book-reader" size={24} color="#07261d" />
-                            <Text style={styles.sectionHeader}>EDITORAS</Text>
-                        </View>
-                        <Divider />
-                        <FlatList
-                            data={dadosEditora}
-                            renderItem={({ item }) => <ItemEditora nomeEditora={item.nomeEditora} img={item.img} id={item.codigoEditora} />}
-                            keyExtractor={item => item.codigoEditora}
-                            horizontal
-                            showsHorizontalScrollIndicator={false}
-                        />
-                        <View style={styles.title}>
-                            <Entypo name="book" size={24} color="#07261d" />
-                            <Text style={styles.sectionHeader}>LIVROS</Text>
-                        </View>
-                        <Divider />
-                        <FlatList
-                            data={dadosLivro}
-                            renderItem={({ item }) => <ItemLivro nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} showModal={() => showModal({ id: item.codigoLivro, nomeAutor: item.autorDTO.nomeAutor })}
-                                hideModal={hideModal}
-                                visible={visible}
-                                nomeAutor={item.autorDTO.nomeAutor} />}
-                            keyExtractor={item => item.codigoLivro}
-                            horizontal
-                            showsHorizontalScrollIndicator={false}
-                        />
-                        <View style={styles.title}>
-                            <FontAwesome name="trophy" size={24} color="#07261d" />
-                            <Text style={styles.sectionHeader}>DESTAQUE</Text>
-                        </View>
-                        <Divider />
-                        {dadosEditora.length > 0 &&
-                            <ItemEditora
-                                nomeEditora={dadosEditora[0].nomeEditora}
-                                img={dadosEditora[0].img}
-                                id={dadosEditora[0].codigoEditora}
-                                destaque={true}
-                                showStars={true}
-                            />
-                        }
-                    </ScrollView>
-
+    return (
+        <SafeAreaView style={[sharedStyles.container, style.container]}>
+            <StatusBar style="light" />
+            <View style={{ flex: 1 }}>
+                <ScrollView showsVerticalScrollIndicator={false}>
+                <View style={{ display: 'flex', flexDirection: 'column'}}>
+                    <View style={styles.title}>
+                        <FontAwesome5 name="book-reader" size={24} color="#089A6E" />
+                        <Text style={[sharedStyles.headerThree, style.headerThree]}>EDITORAS</Text>
+                    </View>
+                    <View style={{ width: '100%', height: 1, backgroundColor: '#9D9A9A'}}></View>
                 </View>
-                <ModalLivro visible={visible} hideModal={hideModal} livro={livro} />
-            </SafeAreaView>
-        );
+                    <FlatList
+                        data={dadosEditora}
+                        renderItem={({ item }) => <ItemEditora nomeEditora={item.nomeEditora} img={item.img} id={item.codigoEditora} />}
+                        keyExtractor={item => item.codigoEditora}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                    />
+                    <View style={{ display: 'flex', flexDirection: 'column'}}>
+                        <View style={styles.title}>
+                            <Entypo name="book" size={24} color="#089A6E" />
+                            <Text style={[sharedStyles.headerThree, style.headerThree]}>LIVROS</Text>
+                        </View>
+                        <View style={{ width: '100%', height: 1, backgroundColor: '#9D9A9A', marginBottom: 5}}></View>
+                    </View>
+                    <FlatList
+                        data={dadosLivro}
+                        renderItem={({ item }) => <ItemLivro nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} showModal={showModal} hideModal={hideModal} visible={visible} />}
+                        keyExtractor={item => item.codigoLivro}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                    />
+                    <View style={{ display: 'flex', flexDirection: 'column'}}>
+                        <View style={styles.title}>
+                            <FontAwesome name="trophy" size={24} color="#089A6E" />
+                            <Text style={[sharedStyles.headerThree, style.headerThree]}>DESTAQUE</Text>
+                        </View>
+                            <View style={{ width: '100%', height: 1, backgroundColor: '#9D9A9A'}}></View>
+                    </View>
+                    {dadosEditora.length > 0 &&
+                        <ItemEditora
+                            nomeEditora={dadosEditora[0].nomeEditora}
+                            img={dadosEditora[0].img}
+                            id={dadosEditora[0].codigoEditora}
+                            destaque={true}
+                            showStars={true}
+                        />
+                    }
+                </ScrollView>
+            </View>
+            <ModalLivro visible={visible} hideModal={hideModal} livro={livro} />
+        </SafeAreaView>
+    );
     }
 };
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        zIndex: 0,
+    },
     searchBar: {
         margin: 10,
     },
@@ -228,17 +223,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#07261d',
     },
-    itemPhoto: {
-        width: 200,
-        height: 200,
-        borderRadius: 13,
-    },
-    itemPhotoLivro: {
-        width: 200,
-        height: 200,
-        borderTopLeftRadius: 13,
-        borderTopRightRadius: 13,
-    },
+
     destaqueItemPhoto: {
         width: '100%',
         height: 200,
@@ -259,30 +244,21 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         position: 'absolute',
-        backgroundColor: 'rgba(0, 0, 0, 0.6)',
-        borderRadius: 13,
     },
     itemLivro: {
+        display: 'flex',
+        alignItems: 'center',
+        padding: 10,
+        backgroundColor: 'red',
         margin: 10,
+        borderRadius: 13,
     },
     itemTextLivro: {
-        color: '#66d2b1',
         fontSize: 18,
         marginVertical: 5,
         marginHorizontal: 10,
     },
-    itemTextAutor: {
-        color: '#66d2b1',
-        fontSize: 14,
-        marginVertical: 5,
-        marginHorizontal: 10,
-    },
-    itemTextContainerLivro: {
-        width: 200,
-        backgroundColor: '#07261d',
-        borderBottomStartRadius: 5,
-        borderBottomEndRadius: 5,
-    },
+
     errorText: {
         color: 'grey',
         marginLeft: 10,
