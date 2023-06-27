@@ -15,62 +15,10 @@ import { Searchbar } from 'react-native-paper';
 import AxiosInstance from '../../api/AxiosInstance';
 import { DataContext } from '../../context/DataContext';
 import ModalLivro from '../ModalLivro';
+import { AppearanceContext } from '../../context/AppearanceContext';
+import { sharedStyles, darkStyles, lightStyles } from '../../themes/index';
+import { Divider } from '@rneui/themed';
 
-const ItemEditora = ({ img, nomeEditora, id }) => {
-    const navigation = useNavigation();
-
-    const handleEditoraPress = () => {
-        navigation.navigate('Editora', { editoraId: id });
-    }
-
-    console.log(nomeEditora)
-
-    return (
-        <TouchableOpacity onPress={handleEditoraPress}>
-            <View style={styles.containerItem}>
-                <Image
-                    style={styles.itemPhoto}
-                    source={{ uri: `data:image/png;base64,${img}` }}
-                />
-                <View style={styles.itemTextContainer}>
-                    <View style={styles.itemBox}>
-                        <Text style={styles.itemTitle}>{nomeEditora}</Text>
-                        <Text style={styles.itemTextName}>Editora</Text>
-                    </View>
-                </View>
-                <Entypo style={styles.icon} name="arrow-with-circle-right" size={40} color="grey" />
-            </View>
-        </TouchableOpacity>
-    )
-};
-
-const ItemLivro = ({ img, nomeLivro, nomeAutor, nomeEditora, id, showModal }) => {
-    const handlePress = () => {
-        showModal({ id });
-    }
-
-    console.log(nomeAutor)
-    console.log("TESTANDO")
-
-    return (
-        <TouchableOpacity onPress={handlePress}>
-            <View style={styles.containerItem}>
-                <Image
-                    style={styles.itemPhoto}
-                    source={{ uri: `data:image/png;base64,${img}` }}
-                />
-                <View style={styles.itemTextContainer}>
-                    <View style={styles.itemBox}>
-                        <Text style={styles.itemTitle}>{nomeLivro}</Text>
-                        <Text style={styles.itemTextName}>{nomeAutor}</Text>
-                        <Text style={styles.itemTextName}>{nomeEditora}</Text>
-                    </View>
-                </View>
-                <Entypo style={styles.icon} name="arrow-with-circle-right" size={40} color="#66d2b1" />
-            </View>
-        </TouchableOpacity>
-    )
-};
 
 const Busca = () => {
     const { dadosUsuario } = useContext(DataContext);
@@ -80,7 +28,70 @@ const Busca = () => {
     const [resultadosFiltrados, setResultadosFiltrados] = useState([]);
     const [visible, setVisible] = React.useState(false);
     const [livro, setLivro] = React.useState([]);
-
+    const { colorScheme } = useContext(AppearanceContext);
+    
+    const style = colorScheme === 'light' ? lightStyles : darkStyles;
+    
+    const ItemEditora = ({ img, nomeEditora, id }) => {
+        const navigation = useNavigation();
+    
+        const handleEditoraPress = () => {
+            navigation.navigate('Editora', { editoraId: id });
+        }
+    
+        console.log(nomeEditora)
+    
+        return (
+            <TouchableOpacity onPress={handleEditoraPress}>
+                <View style={[styles.containerItem]}>
+                    <View style={{paddingRight: 20, width: 115, display: 'flex', alignItems: 'center', justifyContent: 'flex-start'}}>
+                        <Image
+                            style={sharedStyles.imgEditora}
+                            source={{ uri: `data:image/png;base64,${img}` }}
+                        />
+                    </View>
+                    <View style={styles.itemTextContainer}>
+                        <View style={styles.itemBox}>
+                            <Text style={[sharedStyles.text, {marginBottom: 20, fontSize: 18}]}>{nomeEditora}</Text>
+                            <Text style={sharedStyles.textGrey}>Editora</Text>
+                        </View>
+                    </View>
+                    <Entypo style={styles.icon} name="chevron-thin-right" size={35} color="#fff" />
+                </View>
+                <Divider color={'#9D9A9A'}/>
+            </TouchableOpacity>
+        )
+    };
+    
+    const ItemLivro = ({ img, nomeLivro, nomeAutor, id, showModal }) => {
+        const handlePress = () => {
+            showModal({ id });
+        }
+    
+        // console.log(nomeAutor)
+        // console.log("TESTANDO")
+    
+        return (
+            <TouchableOpacity onPress={handlePress}>
+                <View style={styles.containerItem}>
+                    <View style={{paddingRight: 20, width: 115, display: 'flex', alignItems: 'center', justifyContent: 'flex-start'}}>
+                        <Image
+                            style={sharedStyles.imgLivroSearch}
+                            source={{ uri: `data:image/png;base64,${img}` }}
+                        />
+                    </View>
+                    <View style={styles.itemTextContainer}>
+                        <View style={styles.itemBox}>
+                            <Text style={[sharedStyles.text, {marginBottom: 20, fontSize: 18}]}>{nomeLivro}</Text>
+                            <Text style={sharedStyles.textGrey}>{nomeAutor}</Text>
+                        </View>
+                    </View>
+                    <Entypo style={styles.icon} name="chevron-thin-right" size={35} color="#fff" />
+                </View>
+                <Divider color={'#9D9A9A'}/>
+            </TouchableOpacity>
+        )
+    };
     const onChangeSearch = query => setSearchQuery(query);
 
     const showModal = ({ id }) => {
@@ -143,7 +154,7 @@ const Busca = () => {
     {/* verifica se a section tem dado, se não tiver avisa "nenhum resultado" */ }
 
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={[sharedStyles.container, style.container, {flex: 1}]}>
             <StatusBar style='light' />
             <View style={{ flex: 1 }}>
                 <Searchbar
@@ -152,18 +163,13 @@ const Busca = () => {
                     onChangeText={onChangeSearch}
                     value={searchQuery}
                 />
-                <Text style={styles.sectionHeader}>Resultado:</Text>
                 {resultadosFiltrados.some(section => section.data.length > 0) ? (
                     <SectionList
                         sections={resultadosFiltrados}
-                        renderSectionHeader={({ section: { title } }) => (
-                            <Text style={styles.sectionHeader}>{title}</Text>
-                        )}
                         renderItem={({ item }) =>
                             item.hasOwnProperty('nomeLivro') ? (
                                 <ItemLivro
                                     nomeAutor={item.autorDTO.nomeAutor}
-                                    nomeEditora={item.editoraDTO.nomeEditora}
                                     nomeLivro={item.nomeLivro}
                                     img={item.img}
                                     id={item.codigoLivro}
@@ -196,33 +202,28 @@ const Busca = () => {
 
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        zIndex: 0,
-        backgroundColor: '#51cba6',
-    },
+
     searchBar: {
         margin: 10,
     },
     sectionHeader: {
         fontWeight: '800',
         fontSize: 18,
-        color: '#04140f',
+        color: '#fff',
         marginTop: 20,
         marginLeft: 10,
     },
     itemPhoto: {
         width: 100,
         height: 100,
-        backgroundColor: '#a8e5d3',
         borderRadius: 5,
         borderBottomLeftRadius: 13
     },
     containerItem: {
         display: 'flex',
         flexDirection: 'row',
-        backgroundColor: '#07261d',
         margin: 10,
+        marginLeft: 30,
         alignItems: 'center',
         borderRadius: 13,
         borderTopLeftRadius: 5,

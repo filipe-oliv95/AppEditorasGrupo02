@@ -29,6 +29,12 @@ const sharedStyles = {
     paddingBottom: 5,
     fontWeight: 'bold',
   },
+  textGrey: {
+    fontSize: 16,
+    color: '#9D9A9A',
+    paddingBottom: 5,
+    fontWeight: 'bold',
+  },
 
   textWhite: {
     fontSize: 16,
@@ -44,7 +50,12 @@ const sharedStyles = {
   imgLivro: {
     width: 135,
     height: 190,
-    borderRadius: 10,
+    borderRadius: 5,
+  },
+  imgLivroSearch: {
+    width: 115,
+    height: 160,
+    borderRadius: 5,
   },
   itemLivro: {
     display: 'flex',
