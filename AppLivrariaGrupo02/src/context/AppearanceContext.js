@@ -12,7 +12,7 @@ export const AppearanceProvider = ({ children }) => {
       return Constants.manifest?.extra?.expoClient === 'dark' ? 'dark' : 'light';
     } else {
       // Se estiver executando como um aplicativo autônomo
-      return Constants.platform?.ios?.userInterfaceStyle || 'light';
+      return Constants.platform?.ios?.userInterfaceStyle || 'dark';
     }
   };
 

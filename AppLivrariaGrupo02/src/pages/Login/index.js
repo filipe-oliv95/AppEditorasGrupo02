@@ -26,7 +26,7 @@ const Login = ({ navigation }) => {
     const [error, setError] = useState("");
     const { colorScheme } = useContext(AppearanceContext);
   
-    const styles = colorScheme === 'light' ? lightStyles : darkStyles;
+    const styles = colorScheme === 'dark' ? darkStyles : lightStyles;
 
     const handleLogin = async () => {
         console.log(`E-mail: ${email} - Senha: ${senha}`);
@@ -99,7 +99,7 @@ const Login = ({ navigation }) => {
                     <TouchableOpacity style={style.button} onPress={() => handleLogin()} >
                         <Text style={style.txtButton}>Login</Text>
                     </TouchableOpacity>
-                    <Text style={[sharedStyles.textTwo, styles.textTwo]} >Não possui conta? Registre-se <Text style={{color: '#089A6E'}}>aqui</Text></Text>
+                    <Text style={[sharedStyles.textOne, styles.textOne, {marginTop: 10}]} >Não possui conta? Registre-se <Text style={{color: '#089A6E'}}>aqui</Text></Text>
                 </View>
             </View>
         </SafeAreaView>

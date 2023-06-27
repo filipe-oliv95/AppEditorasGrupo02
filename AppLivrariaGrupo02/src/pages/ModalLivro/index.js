@@ -49,14 +49,13 @@ function ModalLivro({ visible, hideModal, livro }) {
         <View style={{ height: '100%', display: 'flex', justifyContent: 'space-around', flexDirection: 'column', alignItems: 'center', padding: 10, borderRadius: 13, borderTopLeftRadius: 5, borderBottomRightRadius: 5 }}>
           <Text style={sharedStyles.headerTwo}>{livro.nomeLivro}</Text>
           <View style= {{width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-            <Entypo name="arrow-left" onPress={hideModal} size={40} color="#08513C" />
+            <Entypo name="arrow-left" style={{width: 40}} onPress={hideModal} size={40} color="#08513C" />
             <Image
               style={sharedStyles.imgLivroModal}
               source={{ uri: `data:image/png;base64,${livro.img}` }}
             />
-            <Fontisto name="favorite" size={40} color="#08513C" onPress={() => addToFavorites()} />
-            {/* <Text style={{ color: '#04140f', fontSize: 16 }}>{'Livros FAVORITADOS' + JSON.stringify(dadosLivrosSecStore)}</Text>*/}
-            {/* <TouchableOpacity onPress={() => addToFavorites('livro', livro.codigoLivro)}> */}
+            <Fontisto name="favorite" style={{width: 40}} size={40} color="#08513C" onPress={() => addToFavorites('livro', livro.codigoLivro)} />
+            {/* <Text style={{ color: '#04140f', fontSize: 16 }}>{'Livros FAVORITADOS' + JSON.stringify(dadosLivrosSecStore)}</Text> */}
           </View>
           <View style={{width: 200, height: 1, backgroundColor: '#9D9A9A' }}></View>
           <StarRating color={'#FFE500'} rating={rating} onChange={setRating}/>

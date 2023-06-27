@@ -59,10 +59,10 @@ const Home = () => {
         )
     };
     
-    const ItemLivro = ({ img, nomeLivro, id, showModal }) => {
+    const ItemLivro = ({ img, nomeLivro, id, showModal, nomeAutor }) => {
     
         const handlePress = () => {
-            showModal({ id });
+            showModal({ id, nomeAutor });
         }
     
         return (
@@ -73,13 +73,14 @@ const Home = () => {
                         source={{ uri: `data:image/png;base64,${img}` }}
                     />
                     <Text style={[sharedStyles.text, style.text]}>{nomeLivro}</Text>
+                    <Text style={[sharedStyles.text, style.text]}>{nomeAutor}</Text>
                 </View>
     
             </TouchableOpacity>
         )
     };
     
-    const showModal = ({ id }) => {
+    const showModal = ({ id, nomeAutor }) => {
         const livro = dadosLivro.find(livro => livro.codigoLivro === id);
         setLivro({ ...livro, nomeAutor });
         setVisible(true);
@@ -172,7 +173,7 @@ const Home = () => {
                     </View>
                     <FlatList
                         data={dadosLivro}
-                        renderItem={({ item }) => <ItemLivro nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} showModal={showModal} hideModal={hideModal} visible={visible} />}
+                        renderItem={({ item }) => <ItemLivro nomeAutor={item.autorDTO.nomeAutor} nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} showModal={showModal} hideModal={hideModal} visible={visible} />}
                         keyExtractor={item => item.codigoLivro}
                         horizontal
                         showsHorizontalScrollIndicator={false}

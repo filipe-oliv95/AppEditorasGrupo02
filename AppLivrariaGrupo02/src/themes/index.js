@@ -29,6 +29,7 @@ const sharedStyles = {
     paddingBottom: 5,
     fontWeight: 'bold',
   },
+
   textGrey: {
     fontSize: 16,
     color: '#9D9A9A',
@@ -46,22 +47,30 @@ const sharedStyles = {
   imgEditora: {
     width: 110,
     height: 110,
-    borderRadius: '50%',
+    borderRadius: 70,
+    borderWidth: 1,
+    borderColor: '#089A6E'
   },
   imgLivro: {
     width: 135,
     height: 190,
     borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#089A6E'
   },
   imgLivroModal: {
     width: 155,
     height: 230,
     borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#089A6E'
   },
   imgLivroSearch: {
     width: 115,
     height: 160,
     borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#089A6E'
   },
   itemLivro: {
     display: 'flex',
@@ -70,7 +79,8 @@ const sharedStyles = {
     backgroundColor: '#F6FFFC',
     margin: 10,
     borderRadius: 8,
-
+    borderWidth: 1,
+    borderColor: '#089A6E'
   },
 
 };
@@ -82,7 +92,11 @@ const darkStyles = StyleSheet.create({
   },
   headerOne: {
   },
-  text: {
+  textOne: {
+    fontSize: 16,
+    color: '#fff',
+    paddingBottom: 5,
+    fontWeight: 'bold',
   },
   divider: {
     color: '#fff',
@@ -98,6 +112,12 @@ const lightStyles = StyleSheet.create({
   },
   text: {
     color: '#089A6E',
+  },
+  textOne: {
+    fontSize: 16,
+    color: '#fff',
+    paddingBottom: 5,
+    fontWeight: 'bold',
   },
   divider: {
     color: '#000',
