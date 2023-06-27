@@ -115,7 +115,7 @@ const lightStyles = StyleSheet.create({
   },
   textOne: {
     fontSize: 16,
-    color: '#fff',
+    color: '#000',
     paddingBottom: 5,
     fontWeight: 'bold',
   },

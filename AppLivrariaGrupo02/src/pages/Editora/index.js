@@ -5,6 +5,9 @@ import { Searchbar } from 'react-native-paper';
 import AxiosInstance from '../../api/AxiosInstance';
 import { Entypo } from '@expo/vector-icons';
 import ModalLivro from '../ModalLivro';
+import { AppearanceContext } from '../../context/AppearanceContext';
+import { sharedStyles, darkStyles, lightStyles } from '../../themes/index';
+import { Divider } from '@rneui/themed';
 
 const LivrosEditora = ({ imagem, nomeLivro, id, showModal }) => {
 
@@ -14,17 +17,22 @@ const LivrosEditora = ({ imagem, nomeLivro, id, showModal }) => {
 
   return (
     <TouchableOpacity onPress={handlePress}>
-      <View style={styles.itemLivros}>
-        <Image
-          style={styles.itemPhoto}
-          source={{ uri: `data:image/png;base64,${imagem}` }}
-        />
-        <View style={styles.itemTextContainer}>
-          <Text style={styles.itemTextLivros}>{nomeLivro}</Text>
-          <Text style={styles.itemTextLivros}>ver livro</Text>
+      <View style={styles.containerItem}>
+        <View style={{paddingRight: 20, width: 115, display: 'flex', alignItems: 'center', justifyContent: 'flex-start'}}>
+            <Image
+              style={sharedStyles.imgLivroSearch}
+              source={{ uri: `data:image/png;base64,${imagem}` }}
+            />
         </View>
-        <Entypo style={styles.icon} name="arrow-with-circle-right" size={40} color="#66d2b1" />
+        <View style={styles.itemTextContainer}>
+          <View style={styles.itemBox}>
+            <Text style={[sharedStyles.text, {marginBottom: 20, fontSize: 18}]}>{nomeLivro}</Text>
+            <Text style={sharedStyles.textGrey}>ver livro</Text>
+          </View>
+        </View>
+        {/* <Entypo style={styles.icon} name="arrow-with-circle-right" size={40} color="#089A6E" /> */}
       </View>
+      <Divider color={'#9D9A9A'}/>
     </TouchableOpacity>
   )
 };
@@ -40,6 +48,10 @@ const Editora = ({ route }) => {
   const [dadosLivro, setDadosLivro] = useState([]);
   const [visible, setVisible] = React.useState(false);
   const [livro, setLivro] = React.useState([]);
+
+  const { colorScheme } = useContext(AppearanceContext);
+  
+  const style = colorScheme === 'light' ? lightStyles : darkStyles;
 
   const showModal = ({ id }) => {
     const livro = dadosLivro.find(livro => livro.codigoLivro === id);
@@ -94,9 +106,9 @@ const Editora = ({ route }) => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[sharedStyles.container, style.container, {flex: 1}]}>
       <StatusBar style="light" />
-      <Text style={styles.nomeEditora}>{editora.nomeEditora}</Text>
+      <Text style={[sharedStyles.headerTwo, {margin: 10}]}>{editora.nomeEditora}</Text>
       <Searchbar
         placeholder="Busque pelo nome do livro"
         style={styles.searchBar}
@@ -124,10 +136,7 @@ const Editora = ({ route }) => {
 
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#51cba6',
-  },
+
   itemsContainer: {
     display: 'flex',
     flexDirection: 'column',
@@ -159,17 +168,15 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderBottomLeftRadius: 13
   },
-  itemLivros: {
+  containerItem: {
     display: 'flex',
     flexDirection: 'row',
-    backgroundColor: '#07261d',
-    marginVertical: 10,
-    padding: 0,
+    margin: 10,
+    marginLeft: 30,
     alignItems: 'center',
-    borderRadius: 13,
-    borderTopLeftRadius: 5,
-    borderBottomRightRadius: 5,
-  },
+
+
+},
   itemTextLivros: {
     color: '#66d2b1',
     fontSize: 16,
@@ -177,18 +184,25 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   itemTextContainer: {
-    backgroundColor: '#07261d',
-    borderBottomStartRadius: 5,
-    borderBottomEndRadius: 5,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
   },
   searchBar: {
     margin: 10,
-    backgroundColor: '#a8e5d3',
   },
   icon: {
     marginLeft: 'auto',
     marginRight: 15,
   },
+  itemBox: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    padding: 10,
+},
 });
 
 export default Editora;
