@@ -29,7 +29,6 @@ const Login = ({ navigation }) => {
     const styles = colorScheme === 'dark' ? darkStyles : lightStyles;
 
     const handleLogin = async () => {
-        console.log(`E-mail: ${email} - Senha: ${senha}`);
 
         try {
             if (!email | !senha) {

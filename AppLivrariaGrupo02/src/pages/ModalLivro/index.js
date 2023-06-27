@@ -31,7 +31,7 @@ function ModalLivro({ visible, hideModal, livro }) {
 
     await saveIncremental(key, value);
     setdadosLivrosSecStore(await getValueFor('livro'))
-    console.log("codigoLivro dentro do addToFavorites" + livro.codigoLivro)
+    console.log("codigoLivro dentro do addToFavorites: " + livro.codigoLivro)
   }
 
 
