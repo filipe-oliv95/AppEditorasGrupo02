@@ -1,27 +1,26 @@
-import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  SectionList,
-  Image,
-  FlatList,
-  StatusBar,
-  SafeAreaView
-} from 'react-native';
-
-
-
-
+import React, { useContext } from "react";
+import { FontAwesome5 } from '@expo/vector-icons';
+import { CartContext } from '../../context/CartContext';
+import { AppearanceContext } from '../../context/AppearanceContext';
+import { sharedStyles, darkStyles, lightStyles } from '../../themes/index';
+import { StyleSheet, View, Text, FlatList, Image, StatusBar, SafeAreaView, TouchableOpacity } from 'react-native';;
 
 const Carrinho = () => {
+  const { carrinho, quantidade } = useContext(CartContext);
+  const { colorScheme } = useContext(AppearanceContext);
+  const style = colorScheme === 'light' ? lightStyles : darkStyles;
+
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[sharedStyles.container, style.container, { flex: 1 }]}>
       <StatusBar style="light" />
-      <Text style={{ fontSize: 30 }} >CARRINHO EM CONSTRUÇÃO</Text>
-      {/* <Text style={styles.sectionHeader}>Favoritos</Text>
+      <View style={styles.title}>
+        <FontAwesome5 name="shopping-cart" size={24} color="#089A6E" />
+        <Text style={[sharedStyles.headerThree, style.headerThree]}>Carrinho</Text>
+      </View>
+      <Text style={{ fontSize: 30 }} >Total de itens no carrinho: {quantidade}</Text>
+      <Text style={styles.sectionHeader}>Favoritos</Text>
       <FlatList
-        data={favoriteBooks}
+        data={carrinho}
         keyExtractor={(item) => item.codigoLivro.toString()}
         renderItem={({ item }) => (
           <View style={styles.contentContainer}>
@@ -41,12 +40,12 @@ const Carrinho = () => {
             </View>
             <TouchableOpacity onPress={() => handleRemove(item.codigoLivro)}>
               <FontAwesome5 name="heart-broken" size={24} color="#66d2b1" />
-            </TouchableOpacity> */}
-      {/* </View>
+            </TouchableOpacity>
+          </View>
         )}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-      /> */}
+      />
     </SafeAreaView>
   );
 };
@@ -60,6 +59,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#51cba6',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  title: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    padding: 10,
+    gap: 5,
+    marginLeft: 10,
   },
 
 });

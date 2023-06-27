@@ -1,20 +1,22 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Modal } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { save, getValueFor, deleteLivros, saveIncremental } from '../../services/DataService';
+import { save, getValueFor, saveIncremental } from '../../services/DataService';
 import {
   Image,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Entypo, Fontisto, AntDesign, FontAwesome } from '@expo/vector-icons';
+import { Entypo, Fontisto, AntDesign } from '@expo/vector-icons';
 import { AppearanceContext } from '../../context/AppearanceContext';
+import { CartContext } from '../../context/CartContext';
 import { sharedStyles, darkStyles, lightStyles } from '../../themes/index';
 import StarRating from 'react-native-star-rating-widget';
 
 function ModalLivro({ visible, hideModal, livro }) {
   const { colorScheme } = useContext(AppearanceContext);
+  const { adicionarAoCarrinho } = useContext(CartContext);
   const style = colorScheme === 'light' ? lightStyles : darkStyles;
   const [rating, setRating] = useState(4.5);
   const [dadosLivrosSecStore, setdadosLivrosSecStore] = useState();
@@ -72,7 +74,7 @@ function ModalLivro({ visible, hideModal, livro }) {
           <StarRating color={'#FFE500'} rating={rating} onChange={setRating} />
           {/* <Text style={{ marginVertical: 5, marginHorizontal: 10 }}>{livro.autorDTO.nomeAutor}</Text> */}
           <Text style={{ color: '#04140f', fontSize: 25, fontWeight: 'bold' }}>R$ 564</Text>
-          <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', backgroundColor: '#089A6E', borderRadius: 13, width: 250, alignItems: 'center', height: 50, justifyContent: 'center' }} onPress={() => console.log("comprar pressionado")}>
+          <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', backgroundColor: '#089A6E', borderRadius: 13, width: 250, alignItems: 'center', height: 50, justifyContent: 'center' }} onPress={() => adicionarAoCarrinho(livro)}>
             <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16, }}>Adicionar ao carrinho</Text>
             <AntDesign style={{ paddingLeft: 15 }} name="shoppingcart" size={25} color="#fff" />
           </TouchableOpacity >

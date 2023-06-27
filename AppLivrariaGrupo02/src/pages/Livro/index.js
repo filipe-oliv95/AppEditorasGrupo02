@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Livro = ({ route }) => { // JA PODE REMOVER LIVRO
   const { dadosUsuario } = useContext(DataContext);
-  const { quantidade, adicionarAoCarrinho } = useContext(CartContext);
+  const { adicionarAoCarrinho } = useContext(CartContext);
   const [livro, setLivro] = useState(null);
   const livroId = route.params?.livroId;
 
@@ -68,9 +68,8 @@ const Livro = ({ route }) => { // JA PODE REMOVER LIVRO
         <View style={styles.itemContent}>
           <Text style={styles.itemTextLivros}>{livro.autorDTO.nomeAutor}</Text>
           <Text style={styles.txt}>R$ 564</Text>
-          <TouchableOpacity style={styles.button} onPress={() => console.log("comprar pressionado")} >
+          <TouchableOpacity style={styles.button} onPress={() => adicionarAoCarrinho(livro)} >
             <Text style={styles.txtButton}>COMPRAR</Text>
-
           </TouchableOpacity >
           <View style={styles.favoriteBtn}>
             <Text style={styles.txt}>FAVORITAR</Text>

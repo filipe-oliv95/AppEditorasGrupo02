@@ -64,6 +64,10 @@ const Favoritos = () => {
   return (
     <SafeAreaView style={[sharedStyles.container, style.container, { flex: 1 }]}>
       <StatusBar style="light" />
+      <View style={styles.title}>
+        <FontAwesome5 name="heart" size={26} color="#089A6E" />
+        <Text style={[sharedStyles.headerThree, style.headerThree]}>Favoritos</Text>
+      </View>
       <FlatList
         data={favoriteBooks}
         keyExtractor={(item) => item.codigoLivro.toString()}
