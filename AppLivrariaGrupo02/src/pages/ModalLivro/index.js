@@ -70,7 +70,7 @@ function ModalLivro({ visible, hideModal, livro }) {
             <Fontisto name="favorite" size={40} color="#08513C" onPress={() => addToFavorites()} />
           </View>
           <View style={{width: 200, height: 1, backgroundColor: '#9D9A9A' }}></View>
-          <StarRating rating={rating} onChange={setRating}/>
+          <StarRating color={'#FFE500'} rating={rating} onChange={setRating}/>
           {/* <Text style={{ marginVertical: 5, marginHorizontal: 10 }}>{livro.autorDTO.nomeAutor}</Text> */}
           <Text style={{ color: '#04140f', fontSize: 25, fontWeight: 'bold' }}>R$ 564</Text>
           <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', backgroundColor: '#089A6E', borderRadius: 13, width: 250, alignItems: 'center', height: 50, justifyContent: 'center' }} onPress={() => console.log("comprar pressionado")}>

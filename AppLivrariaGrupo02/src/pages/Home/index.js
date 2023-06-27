@@ -131,11 +131,13 @@ const Home = () => {
             <StatusBar style="light" />
             <View style={{ flex: 1 }}>
                 <ScrollView showsVerticalScrollIndicator={false}>
+                <View style={{ display: 'flex', flexDirection: 'column'}}>
                     <View style={styles.title}>
                         <FontAwesome5 name="book-reader" size={24} color="#089A6E" />
                         <Text style={[sharedStyles.headerThree, style.headerThree]}>EDITORAS</Text>
                     </View>
-                    <Divider style={ style.divider }/>
+                    <View style={{ width: '100%', height: 1, backgroundColor: '#9D9A9A'}}></View>
+                </View>
                     <FlatList
                         data={dadosEditora}
                         renderItem={({ item }) => <ItemEditora nomeEditora={item.nomeEditora} img={item.img} id={item.codigoEditora} />}
@@ -143,11 +145,13 @@ const Home = () => {
                         horizontal
                         showsHorizontalScrollIndicator={false}
                     />
-                    <View style={styles.title}>
-                        <Entypo name="book" size={24} color="#089A6E" />
-                        <Text style={[sharedStyles.headerThree, style.headerThree]}>LIVROS</Text>
+                    <View style={{ display: 'flex', flexDirection: 'column'}}>
+                        <View style={styles.title}>
+                            <Entypo name="book" size={24} color="#089A6E" />
+                            <Text style={[sharedStyles.headerThree, style.headerThree]}>LIVROS</Text>
+                        </View>
+                        <View style={{ width: '100%', height: 1, backgroundColor: '#9D9A9A', marginBottom: 5}}></View>
                     </View>
-                    <Divider style={ style.divider }/>
                     <FlatList
                         data={dadosLivro}
                         renderItem={({ item }) => <ItemLivro nomeLivro={item.nomeLivro} img={item.img} id={item.codigoLivro} showModal={showModal} hideModal={hideModal} visible={visible} />}
@@ -155,11 +159,13 @@ const Home = () => {
                         horizontal
                         showsHorizontalScrollIndicator={false}
                     />
-                    <View style={styles.title}>
-                        <FontAwesome name="trophy" size={24} color="#089A6E" />
-                        <Text style={[sharedStyles.headerThree, style.headerThree]}>DESTAQUE</Text>
+                    <View style={{ display: 'flex', flexDirection: 'column'}}>
+                        <View style={styles.title}>
+                            <FontAwesome name="trophy" size={24} color="#089A6E" />
+                            <Text style={[sharedStyles.headerThree, style.headerThree]}>DESTAQUE</Text>
+                        </View>
+                            <View style={{ width: '100%', height: 1, backgroundColor: '#9D9A9A'}}></View>
                     </View>
-                    <Divider style={ style.divider }/>
                     {dadosEditora.length > 0 &&
                         <ItemEditora
                             nomeEditora={dadosEditora[0].nomeEditora}

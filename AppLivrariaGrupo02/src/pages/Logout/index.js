@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { Image } from 'react-native';
 
 import {
   SafeAreaView,
@@ -10,9 +11,13 @@ import {
   View
 } from "react-native";
 import { FontAwesome, Entypo } from '@expo/vector-icons';
+import { AppearanceContext } from '../../context/AppearanceContext';
+import { sharedStyles, darkStyles, lightStyles } from '../../themes/index';
 
 export function Logout({ navigation }) {
   const [count, setCount] = useState(10);
+  const { colorScheme } = useContext(AppearanceContext);
+  const style = colorScheme === 'light' ? lightStyles : darkStyles;
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -36,19 +41,23 @@ export function Logout({ navigation }) {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[sharedStyles.container, style.container, {flex: 1, flexDirection: 'column', alignItems:'center', justifyContent:'space-between'}]}>
       <View style={styles.contentContainer}>
         <StatusBar style="light" />
-        <Text style={styles.txt} >Tenha um bom dia!</Text>
-        <FontAwesome name="handshake-o" size={48} color="black" />
-        <Text style={styles.txt} >Você será redirecionado para a tela de login em </Text>
+        <Text style={[sharedStyles.headerOne, style.headerOne]} >Tenha um bom dia!</Text>
+        <Image 
+        style ={{ width: 300, height: 200}}
+        source={{
+          uri: 'https://i.imgur.com/Mbm6xQl.png',
+        }}></Image>
+        <Text style={[sharedStyles.text, style.text, { fontSize: 18 }]} >Você será redirecionado para a tela de login em </Text>
         <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', margin: 10}}>
-          <Text style={{ fontSize: 20 }}>{ count } </Text>
-          <ActivityIndicator style={{ margin: 10}} size="large" color="#04140F" />
+          <Text style={{ fontSize: 20, color: '#fff' }}>{ count } </Text>
+          <ActivityIndicator style={{ margin: 10}} size="large" color="#fff" />
         </View>
 
         <TouchableOpacity style={styles.button} onPress={() => handleLoginPage()} >
-          <Text style={{ color: '#66d2b1', fontSize: 16 }}>Ou clique aqui para retornar agora</Text>
+          <Text style={[sharedStyles.textWhite, style.textWhite]}>Ou clique aqui para retornar agora</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -56,12 +65,6 @@ export function Logout({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#51cba6',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   contentContainer: {
     display: 'flex',
     alignItems: 'center',
@@ -83,7 +86,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#07261d',
+    backgroundColor: '#089A6E',
     marginTop: 20,
     width: '100%',
     height: 50,
