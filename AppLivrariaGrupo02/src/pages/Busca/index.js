@@ -50,8 +50,8 @@ const ItemLivro = ({ img, nomeLivro, nomeAutor, nomeEditora, id, showModal }) =>
         showModal({ id });
     }
 
-    console.log(nomeAutor)
-    console.log("TESTANDO")
+    // console.log(nomeAutor)
+    // console.log("TESTANDO")
 
     return (
         <TouchableOpacity onPress={handlePress}>

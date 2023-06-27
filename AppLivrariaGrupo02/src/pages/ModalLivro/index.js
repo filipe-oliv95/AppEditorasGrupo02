@@ -24,11 +24,12 @@ function ModalLivro({ visible, hideModal, livro }) {
   };
 
   const addToFavorites = async (key, value) => {
-    console.log('addToFavorites no modal:', saveIncremental); // entra na funcao
+    console.log('addToFavorites no ModalLivro:', saveIncremental); // entra na funcao
     console.log('livro.codigoLivro:', value);  // correto codigoLivro
 
     await saveIncremental(key, value);
     setdadosLivrosSecStore(await getValueFor('livro'))
+    console.log("codigoLivro dentro do addToFavorites" + livro.codigoLivro)
   }
 
 
@@ -56,7 +57,7 @@ function ModalLivro({ visible, hideModal, livro }) {
               color='#4CCB68'
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => deleteLivros('livro')}>
+          <TouchableOpacity onPress={() => deleteLivros(livro.codigoLivro)}>
             <Text style={{ borderRadius: 13, color: '#66d2b1', padding: 7 }}>DELETAR</Text></TouchableOpacity>
           {/* <TouchableOpacity onPress={() => console.log("adicionar aos favoritos")}></TouchableOpacity> */}
         </View>
