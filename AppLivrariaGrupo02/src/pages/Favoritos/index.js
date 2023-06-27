@@ -36,7 +36,7 @@ const Favoritos = () => {
 
       setFavoriteBooks(prevState => prevState.filter(book => book.codigoLivro !== id));
     } catch (error) {
-      console.log('Error removing favorite book: ' + error);
+      console.log('Erro removendo livro dos favoritos: ' + error);
     }
   };
 
