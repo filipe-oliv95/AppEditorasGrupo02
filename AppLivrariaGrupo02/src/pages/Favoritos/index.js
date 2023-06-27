@@ -27,7 +27,7 @@ const Favoritos = () => {
 
   const handleRemove = async (id) => {
     try {
-      let favoriteBooksIds = await getValueFor('livro');
+      let favoriteBooksIds = await getValueFor('favoriteBooks');
       favoriteBooksIds = favoriteBooksIds == null ? [] : JSON.parse(favoriteBooksIds);
 
       const newFavoriteBooksIds = favoriteBooksIds.filter(bookId => bookId !== id);
@@ -42,7 +42,7 @@ const Favoritos = () => {
 
   const getFavoriteBooks = async () => {
     try {
-      const storedFavoriteBooksIds = await getValueFor('livro');
+      const storedFavoriteBooksIds = await getValueFor('favoriteBooks');
       const favoriteBooksIds = storedFavoriteBooksIds == null ? [] : JSON.parse(storedFavoriteBooksIds);
 
       const favoriteBooks = [];
@@ -54,12 +54,12 @@ const Favoritos = () => {
       }
       setFavoriteBooks(favoriteBooks);
 
-      console.log(favoriteBooks)
-
     } catch (error) {
       console.log('Ocorreu um erro ao recuperar os livros favoritos: ' + error);
     }
   };
+
+  console.log("FAVORITOS" + favoriteBooks)
 
   return (
     <SafeAreaView style={[sharedStyles.container, style.container, { flex: 1 }]}>
