@@ -1,16 +1,17 @@
 import { Modal } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { save, getValueFor, deleteLivros, saveIncremental } from '../../services/DataService';
 import {
   Image,
   Text,
   TouchableOpacity,
   View,
-  StyleSheet
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
+import { useState } from 'react';
 
 function ModalLivro({ visible, hideModal, livro }) {
+  const [dadosLivrosSecStore, setdadosLivrosSecStore] = useState();
 
   const containerStyle = {
     backgroundColor: '#07261d',
@@ -22,26 +23,14 @@ function ModalLivro({ visible, hideModal, livro }) {
     borderBottomRightRadius: 5,
   };
 
-  // await AsyncStorage.clear(); // NÃO REMOVER, limpa AsyncStorage se der "Row too big to fit into CursorWindow"
-  const addToFavorites = async () => {
-    try {
-      let favoriteBooks = await AsyncStorage.getItem('favoriteBooks');
-      favoriteBooks = favoriteBooks == null ? [] : JSON.parse(favoriteBooks);
+  const addToFavorites = async (key, value) => {
+    console.log('addToFavorites no modal:', saveIncremental); // entra na funcao
+    console.log('livro.codigoLivro:', value);  // correto codigoLivro
 
-      if (favoriteBooks.some(item => item.codigoLivro === livro.codigoLivro)) {
-        alert('O livro já está na lista de favoritos!');
-      } else {
-        const livroToSave = {  // para reduzir os dados salvos no asyncstorage salva apenas id          
-          codigoLivro: livro.codigoLivro,
-        }
-        favoriteBooks.push(livroToSave);
-        await AsyncStorage.setItem('favoriteBooks', JSON.stringify(favoriteBooks));
-        alert('Livro adicionado aos favoritos!');
-      }
-    } catch (error) {
-      console.log('Ocorreu um erro ao favoritar o livro: ' + error);
-    }
-  };
+    await saveIncremental(key, value);
+    setdadosLivrosSecStore(await getValueFor('livro'))
+  }
+
 
   return (
     <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
@@ -59,13 +48,16 @@ function ModalLivro({ visible, hideModal, livro }) {
         </TouchableOpacity >
         <View style={{ display: 'flex', flexDirection: 'row', padding: 5 }}>
           <Text style={{ color: '#04140f', fontSize: 16 }}>FAVORITAR</Text>
-          <TouchableOpacity onPress={() => addToFavorites()}>
+          <Text style={{ color: '#04140f', fontSize: 16 }}>{'Livros FAVORITADOS' + JSON.stringify(dadosLivrosSecStore)}</Text>
+          <TouchableOpacity onPress={() => addToFavorites('livro', livro.codigoLivro)}>
             <Icon
               name='heart'
               size={20}
               color='#4CCB68'
             />
           </TouchableOpacity>
+          <TouchableOpacity onPress={() => deleteLivros('livro')}>
+            <Text style={{ borderRadius: 13, color: '#66d2b1', padding: 7 }}>DELETAR</Text></TouchableOpacity>
           {/* <TouchableOpacity onPress={() => console.log("adicionar aos favoritos")}></TouchableOpacity> */}
         </View>
       </View>
