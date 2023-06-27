@@ -29,12 +29,6 @@ const Carrinho = () => {
               style={styles.itemPhoto}
               source={{ uri: `data:image/png;base64,${item.img}` }}
             />
-            {(
-              <StarRating
-                rating={rating[item.codigoLivro] || 0}
-                onChange={(newRating) => setRating({ ...rating, [item.codigoLivro]: newRating })}
-              />
-            )}
             <View style={styles.itemContent}>
               <Text style={styles.itemTextLivros}>{item.autorDTO.nomeAutor}</Text>
             </View>
