@@ -40,7 +40,6 @@ const Busca = () => {
             navigation.navigate('Editora', { editoraId: id });
         }
     
-        console.log(nomeEditora)
     
         return (
             <TouchableOpacity onPress={handleEditoraPress}>
@@ -69,8 +68,6 @@ const Busca = () => {
             showModal({ id });
         }
     
-        // console.log(nomeAutor)
-        // console.log("TESTANDO")
     
         return (
             <TouchableOpacity onPress={handlePress}>
@@ -108,7 +105,6 @@ const Busca = () => {
             getAllLivros();
         }, [])
     )
-    // console.log(dadosEditora)
 
     // filtra os livros e editoras conforme a busca
     useEffect(() => {
@@ -128,7 +124,6 @@ const Busca = () => {
         }
     }, [searchQuery, dadosEditora, dadosLivro]);
 
-    // console.log(resultadosFiltrados)
 
     const getAllEditoras = async () => {
         setIsLoading(true);
