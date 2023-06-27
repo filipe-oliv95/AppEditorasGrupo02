@@ -5,14 +5,19 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import AxiosInstance from '../../api/AxiosInstance';
 import { useFocusEffect } from '@react-navigation/native';
 import StarRating from 'react-native-star-rating-widget';
-import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome5, AntDesign } from '@expo/vector-icons';
+import { AppearanceContext } from '../../context/AppearanceContext';
+import { sharedStyles, darkStyles, lightStyles } from '../../themes/index';
+import { Divider } from '@rneui/themed';
 
 
 const Favoritos = () => {
   const { dadosUsuario } = useContext(DataContext);
   const [favoriteBooks, setFavoriteBooks] = useState([]);
   const [rating, setRating] = useState({});
-
+  const { colorScheme } = useContext(AppearanceContext);
+  
+  const style = colorScheme === 'light' ? lightStyles : darkStyles;
   // tem que usar esse useFocus para disparar getFavorite sempre que entrar nos Favoritos
   useFocusEffect(
     React.useCallback(() => {
@@ -55,33 +60,38 @@ const Favoritos = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[sharedStyles.container, style.container, {flex: 1}]}>
       <StatusBar style="light" />
-      <Text style={styles.sectionHeader}>Favoritos</Text>
       <FlatList
         data={favoriteBooks}
         keyExtractor={(item) => item.codigoLivro.toString()}
         renderItem={({ item }) => (
-          <View style={styles.contentContainer}>
-            <Text style={styles.itemTextLivros}>{item.nomeLivro}</Text>
-            <Image
-              style={styles.itemPhoto}
-              source={{ uri: `data:image/png;base64,${item.img}` }}
-            />
-            {(
-              <StarRating
-                rating={rating[item.codigoLivro] || 0}
-                onChange={(newRating) => setRating({ ...rating, [item.codigoLivro]: newRating })}
-                color="#66d2b1"
-              />
-            )}
-            <View style={styles.itemContent}>
-              <Text style={styles.itemTextLivros}>{item.autorDTO.nomeAutor}</Text>
-            </View>
-            <TouchableOpacity onPress={() => handleRemove(item.codigoLivro)}>
-              <FontAwesome5 name="heart-broken" size={24} color="#66d2b1" />
-            </TouchableOpacity>
+          <View style={{flex: 1, flexDirection: 'column', alignItems: 'center'}}>
+            <View style={styles.contentContainer}>
+                <Image
+                  style={sharedStyles.imgLivroSearch}
+                  source={{ uri: `data:image/png;base64,${item.img}` }}
+                />
+                <View style={{display: 'flex', flexDirection: 'column', alignItems: 'left', justifyContent: 'space-between', gap: 10}}>
+                  <Text style={[sharedStyles.text, {fontSize: 18}]}>{item.nomeLivro}</Text>
+                  <Text style={sharedStyles.textGrey}>{item.autorDTO.nomeAutor}</Text>
+                  {(
+                    <StarRating
+                      rating={rating[item.codigoLivro] || 0}
+                      onChange={(newRating) => setRating({ ...rating, [item.codigoLivro]: newRating })}
+                      color="#FFE500"
+                    />
+                  )}
+                <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', backgroundColor: '#089A6E', borderRadius: 13, width: 220, alignItems: 'center', height: 30, justifyContent: 'center' }} onPress={() => console.log("comprar pressionado")}>
+                  <Text style={{ color:'#fff', fontWeight: 'bold', fontSize: 16, }}>Adicionar ao carrinho</Text>
+                  <AntDesign style={{ paddingLeft: 15}} name="shoppingcart" size={25} color="#fff" />
+                </TouchableOpacity >
+                </View>
+                <FontAwesome5 style={{ position: 'absolute', top: 0, right: 0, padding: 20}} name="heart-broken" size={24} color="#66d2b1" onPress={() => handleRemove(item.codigoLivro)}/>
+              </View>
+              <View style={{ width: '100%', height: 1, backgroundColor: '#9D9A9A'}}></View>
           </View>
+
         )}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
@@ -91,12 +101,7 @@ const Favoritos = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#51cba6',
-  },
+
   sectionHeader: {
     marginTop: 15,
     fontSize: 30,
@@ -104,13 +109,13 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     padding: 15,
-    backgroundColor: '#07261d',
     borderRadius: 13,
     display: 'flex',
     gap: 10,
-    flexDirection: 'column',
+    flexDirection: 'row',
     alignItems: 'center',
     marginTop: 10,
+    position: 'relative',
   },
   itemContent: {
     // margin: 10,
@@ -122,7 +127,6 @@ const styles = StyleSheet.create({
   itemPhoto: {
     width: 200,
     height: 200,
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
     borderRadius: 13,
   },
   itemTextLivros: {
