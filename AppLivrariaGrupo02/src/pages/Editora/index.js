@@ -49,9 +49,9 @@ const Editora = ({ route }) => {
   const [visible, setVisible] = React.useState(false);
   const [livro, setLivro] = React.useState([]);
 
-  const { colorScheme } = useContext(AppearanceContext);
+  const { isEnabled } = useContext(AppearanceContext);
   
-  const style = colorScheme === 'light' ? lightStyles : darkStyles;
+  const style = isEnabled ? lightStyles : darkStyles;
 
   const showModal = ({ id }) => {
     const livro = dadosLivro.find(livro => livro.codigoLivro === id);
@@ -117,7 +117,7 @@ const Editora = ({ route }) => {
       />
       <View style={styles.itemsContainer}>
         {livrosFiltrados.length === 0 ? (
-          <Text style={styles.sectionHeader}>Nenhum livro encontrado</Text>
+          <Text style={style.textOne}>Nenhum livro encontrado</Text>
         ) : (
           <FlatList
             data={livrosFiltrados}

@@ -8,14 +8,11 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Entypo, Fontisto, AntDesign, FontAwesome } from '@expo/vector-icons';
-import { AppearanceContext } from '../../context/AppearanceContext';
-import { sharedStyles, darkStyles, lightStyles } from '../../themes/index';
+import { Entypo, Fontisto, AntDesign } from '@expo/vector-icons';
+import { sharedStyles } from '../../themes/index';
 import StarRating from 'react-native-star-rating-widget';
 
 function ModalLivro({ visible, hideModal, livro }) {
-  const { colorScheme } = useContext(AppearanceContext);
-  const style = colorScheme === 'light' ? lightStyles : darkStyles;
   const [rating, setRating] = useState(4.5);
   const [dadosLivrosSecStore, setdadosLivrosSecStore] = useState();
 

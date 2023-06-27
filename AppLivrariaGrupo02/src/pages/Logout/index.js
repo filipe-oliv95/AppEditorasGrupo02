@@ -10,14 +10,14 @@ import {
   ActivityIndicator,
   View
 } from "react-native";
-import { FontAwesome, Entypo } from '@expo/vector-icons';
 import { AppearanceContext } from '../../context/AppearanceContext';
 import { sharedStyles, darkStyles, lightStyles } from '../../themes/index';
 
 export function Logout({ navigation }) {
   const [count, setCount] = useState(10);
-  const { colorScheme } = useContext(AppearanceContext);
-  const style = colorScheme === 'light' ? lightStyles : darkStyles;
+  const { isEnabled } = useContext(AppearanceContext);
+  
+  const style = isEnabled ? lightStyles : darkStyles;
 
   useEffect(() => {
     const timer = setInterval(() => {

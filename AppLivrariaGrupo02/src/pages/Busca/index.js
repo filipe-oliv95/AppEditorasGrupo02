@@ -29,9 +29,10 @@ const Busca = () => {
     const [visible, setVisible] = React.useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [livro, setLivro] = React.useState([]);
-    const { colorScheme } = useContext(AppearanceContext);
     
-    const style = colorScheme === 'light' ? lightStyles : darkStyles;
+    const { isEnabled } = useContext(AppearanceContext);
+  
+    const style = isEnabled ? lightStyles : darkStyles;
     
     const ItemEditora = ({ img, nomeEditora, id }) => {
         const navigation = useNavigation();

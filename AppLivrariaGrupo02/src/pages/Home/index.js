@@ -30,8 +30,10 @@ const Home = () => {
     const [visible, setVisible] = React.useState(false);
     const [livro, setLivro] = React.useState([]);
     const [isLoading, setIsLoading] = useState(false); // importante para o loading
-    const { colorScheme } = useContext(AppearanceContext);
-    const style = colorScheme === 'light' ? lightStyles : darkStyles;
+    
+    const { isEnabled } = useContext(AppearanceContext);
+  
+    const style = isEnabled ? lightStyles : darkStyles;
 
     const ItemEditora = ({ img, id, destaque, showStars }) => {
         const navigation = useNavigation();

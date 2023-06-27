@@ -24,9 +24,9 @@ const Login = ({ navigation }) => {
     const { armazenarDadosUsuario } = useContext(DataContext);
     const [hidePass, setHidePass] = useState(true);
     const [error, setError] = useState("");
-    const { colorScheme } = useContext(AppearanceContext);
+    const { isEnabled } = useContext(AppearanceContext);
   
-    const styles = colorScheme === 'dark' ? darkStyles : lightStyles;
+    const styles = isEnabled ? lightStyles : darkStyles;
 
     const handleLogin = async () => {
 
