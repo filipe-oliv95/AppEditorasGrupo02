@@ -28,7 +28,8 @@ const AllEditoras = () => {
                         style={styles.imgAllEditoras}
                         source={{ uri: `data:image/png;base64,${img}` }}
                     />
-                    <Text style={[sharedStyles.text, {fontSize: 18, textAlign: 'center'}]}>{nomeEditora}</Text>                </View>
+                    <Text style={[sharedStyles.text, {fontSize: 18, textAlign: 'center'}]}>{nomeEditora}</Text> 
+                </View>
             </TouchableOpacity>
         )
     };

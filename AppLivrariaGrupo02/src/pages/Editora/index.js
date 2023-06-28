@@ -26,9 +26,9 @@ const Editora = ({ route }) => {
   
   const style = isEnabled ? lightStyles : darkStyles;
   
-  const showModal = ({ id }) => {
+  const showModal = ({ id, nomeAutor }) => {
     const livro = dadosLivro.find(livro => livro.codigoLivro === id);
-    setLivro(livro);
+    setLivro({... livro, nomeAutor});
     setVisible(true);
 };
 
@@ -78,10 +78,10 @@ const Editora = ({ route }) => {
     );
   }
   
-  const LivrosEditora = ({ imagem, nomeLivro, id, showModal }) => {
+  const LivrosEditora = ({ imagem, nomeLivro, id, showModal, nomeAutor }) => {
   
     const handlePress = () => {
-      showModal({ id });
+      showModal({ id, nomeAutor });
     }
   
     return (
