@@ -65,7 +65,6 @@ const deleteLivros = async (key) => {
   console.log("ENTROU DELETE id:" + key);
 
   await SecureStore.deleteItemAsync(key);
-
 };
 
 export { save, getValueFor, deleteLivros, saveIncremental };

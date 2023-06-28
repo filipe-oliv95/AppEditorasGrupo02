@@ -1,27 +1,36 @@
-import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  SectionList,
-  Image,
-  FlatList,
-  StatusBar,
-  SafeAreaView
-} from 'react-native';
+import React, { useContext } from "react";
+import { useNavigation } from '@react-navigation/native';
+import { FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
+import { CartContext } from '../../context/CartContext';
+import { AppearanceContext } from '../../context/AppearanceContext';
+import { sharedStyles, darkStyles, lightStyles } from '../../themes/index';
+import { StyleSheet, View, Text, FlatList, Image, StatusBar, SafeAreaView, TouchableOpacity } from 'react-native';;
 
+const Carrinho = ({ navigation }) => {
+  const { carrinho, quantidade, removerDoCarrinho, limparCarrinho } = useContext(CartContext);
+  const { colorScheme } = useContext(AppearanceContext);
+  const style = colorScheme === 'light' ? lightStyles : darkStyles;
 
+  const finalizarCompra = () => {
+    if (quantidade === 0) {
+      alert("Não há livros no carrinho, adicione antes de clicar em confirmar!")
+    }
+    else {
+      alert("Compra realizada com sucesso");
+      limparCarrinho();
+      navigation.navigate('Home');
+    }
+  }
 
-
-
-const Carrinho = () => {
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[sharedStyles.container, style.container, { flex: 1 }]}>
       <StatusBar style="light" />
-      <Text style={{ fontSize: 30 }} >CARRINHO EM CONSTRUÇÃO</Text>
-      {/* <Text style={styles.sectionHeader}>Favoritos</Text>
+      <View style={styles.title}>
+        <FontAwesome5 name="shopping-cart" size={24} color="#089A6E" />
+        <Text style={[sharedStyles.headerThree, style.headerThree]}>Carrinho</Text>
+      </View>
       <FlatList
-        data={favoriteBooks}
+        data={carrinho}
         keyExtractor={(item) => item.codigoLivro.toString()}
         renderItem={({ item }) => (
           <View style={styles.contentContainer}>
@@ -30,28 +39,28 @@ const Carrinho = () => {
               style={styles.itemPhoto}
               source={{ uri: `data:image/png;base64,${item.img}` }}
             />
-            {(
-              <StarRating
-                rating={rating[item.codigoLivro] || 0}
-                onChange={(newRating) => setRating({ ...rating, [item.codigoLivro]: newRating })}
-              />
-            )}
             <View style={styles.itemContent}>
               <Text style={styles.itemTextLivros}>{item.autorDTO.nomeAutor}</Text>
+              <TouchableOpacity onPress={() => removerDoCarrinho(item.codigoLivro)}>
+                <FontAwesome5 name="trash" size={24} color="#089A6E" />
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity onPress={() => handleRemove(item.codigoLivro)}>
-              <FontAwesome5 name="heart-broken" size={24} color="#66d2b1" />
-            </TouchableOpacity> */}
-      {/* </View>
-        )}
+          </View>
+        )
+        }
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-      /> */}
-    </SafeAreaView>
+      />
+      <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 10, alignItems: 'center' }}>
+        <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 24 }} >Total de itens: {quantidade}</Text>
+        <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', backgroundColor: '#089A6E', borderRadius: 13, width: 220, alignItems: 'center', height: 30, justifyContent: 'center' }} onPress={finalizarCompra}>
+          <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16, }}>Finalizar compra</Text>
+          <MaterialCommunityIcons style={{ paddingLeft: 15 }} name="hand-heart" size={25} color="#fff" />
+        </TouchableOpacity >
+      </View>
+    </SafeAreaView >
   );
 };
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -60,6 +69,44 @@ const styles = StyleSheet.create({
     backgroundColor: '#51cba6',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  title: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 10,
+    gap: 5,
+    marginLeft: 10,
+  },
+  contentContainer: {
+    padding: 15,
+    borderRadius: 13,
+    display: 'flex',
+    gap: 10,
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginTop: 10,
+    position: 'relative',
+  },
+  itemContent: {
+    // margin: 10,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 5,
+  },
+  itemTextLivros: {
+    color: '#66d2b1',
+    fontSize: 18,
+    marginVertical: 5,
+    marginHorizontal: 10,
+  },
+  itemPhoto: {
+    width: 200,
+    height: 200,
+    borderRadius: 13,
   },
 
 });

@@ -1,16 +1,16 @@
+import { Entypo, FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import React, { useContext, useEffect, useState } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
-import AxiosInstance from '../../api/AxiosInstance';
-import { DataContext } from '../../context/DataContext';
 import StarRating from 'react-native-star-rating-widget';
-import ModalLivro from '../ModalLivro';
-import { Divider } from '@rneui/themed';
-import { FontAwesome5, FontAwesome, Entypo } from '@expo/vector-icons';
-import { sharedStyles, darkStyles, lightStyles } from '../../themes';
+import AxiosInstance from '../../api/AxiosInstance';
 import { AppearanceContext } from '../../context/AppearanceContext';
+import { DataContext } from '../../context/DataContext';
+import { darkStyles, lightStyles, sharedStyles } from '../../themes';
+import ModalLivro from '../ModalLivro';
 
 import {
+    ActivityIndicator,
     FlatList,
     Image,
     SafeAreaView,
@@ -19,7 +19,6 @@ import {
     Text,
     TouchableOpacity,
     View,
-    ActivityIndicator,
 } from 'react-native';
 
 const Home = () => {

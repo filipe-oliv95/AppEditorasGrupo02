@@ -6,6 +6,7 @@ import Busca from "../pages/Busca";
 import Favoritos from "../pages/Favoritos";
 import Carrinho from "../pages/Carrinho";
 import { AppearanceContext } from '../context/AppearanceContext';
+import Editoras from "../pages/AllEditoras"
 
 const Tab = createBottomTabNavigator();
 
@@ -29,6 +30,8 @@ function TabRoutes() {
               iconName = 'heart';
             } else if (route.name === 'Carrinho') {
               iconName = 'shopping-cart';
+            } else if (route.name === 'Editoras') {
+              iconName = 'book';
             }
 
             return <Icon name={iconName} size={size} color={color} />;
@@ -45,6 +48,10 @@ function TabRoutes() {
       <Tab.Screen
         name="Busca"
         component={Busca}
+      />
+       <Tab.Screen
+        name="Editoras"
+        component={Editoras}
       />
       <Tab.Screen
         name="Favoritos"
