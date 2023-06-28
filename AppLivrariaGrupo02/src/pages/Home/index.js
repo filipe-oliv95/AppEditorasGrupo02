@@ -73,7 +73,7 @@ const Home = () => {
                         style={sharedStyles.imgLivro}
                         source={{ uri: `data:image/png;base64,${img}` }}
                     />
-                    <Text style={[sharedStyles.text, {marginBottom: 10, fontSize: 18}]}>{nomeLivro}</Text>
+                    <Text style={[sharedStyles.text, {marginBottom: 10, fontSize: 18, textAlign: 'center'}]}>{nomeLivro}</Text>
                     <Text style={sharedStyles.textGrey}>{nomeAutor}</Text>
                 </View>
 

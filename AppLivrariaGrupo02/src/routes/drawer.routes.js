@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { AntDesign, Feather } from '@expo/vector-icons';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { useNavigation } from '@react-navigation/native';
-import { View, StyleSheet, Switch } from 'react-native';
+import { Text, View, StyleSheet, Switch } from 'react-native';
 import TabRoutes from './tab.routes';
 import { Logout } from '../pages/Logout';
 import { AppearanceContext } from '../context/AppearanceContext';
@@ -40,6 +40,7 @@ function DrawerRoutes() {
       initialRouteName="Main"
       drawerContent={DrawerContent}
       screenOptions={{
+        title: '',
         headerTintColor: '#66d2b1',
         headerStyle: {
           backgroundColor: isEnabled ? '#fff' : '#000',

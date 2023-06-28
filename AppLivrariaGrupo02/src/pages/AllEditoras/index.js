@@ -1,10 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image, StatusBar, SafeAreaView, ActivityIndicator, } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image, StatusBar, SafeAreaView, ActivityIndicator } from 'react-native';
 import { DataContext } from '../../context/DataContext';
 import AxiosInstance from '../../api/AxiosInstance';
-import { FontAwesome5, FontAwesome, Entypo } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { ScrollView } from 'react-native-gesture-handler';
 import { sharedStyles, darkStyles, lightStyles } from '../../themes';
 import { AppearanceContext } from '../../context/AppearanceContext';
 
@@ -12,8 +11,8 @@ const AllEditoras = () => {
     const { dadosUsuario } = useContext(DataContext);
     const [dadosEditora, setDadosEditora] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const { colorScheme } = useContext(AppearanceContext);
-    const style = colorScheme === 'light' ? lightStyles : darkStyles;
+    const { isEnabled } = useContext(AppearanceContext);
+    const style = isEnabled === true ? lightStyles : darkStyles;
 
     const ItemEditora = ({ img, id, nomeEditora }) => {
         const navigation = useNavigation();
@@ -29,7 +28,7 @@ const AllEditoras = () => {
                         style={styles.imgAllEditoras}
                         source={{ uri: `data:image/png;base64,${img}` }}
                     />
-                    <Text style={styles.itemTextEditoras}>{nomeEditora}</Text>
+                    <Text style={[sharedStyles.text, {fontSize: 18, textAlign: 'center'}]}>{nomeEditora}</Text> 
                 </View>
             </TouchableOpacity>
         )
@@ -55,13 +54,6 @@ const AllEditoras = () => {
 
     const [columns, setColumns] = useState(2); // Inicialmente, 2 colunas
   
-    const changeColumns = () => {
-      // Função para alterar o número de colunas
-      setColumns(columns === 2 ? 3 : 2);
-    }
-  
-
-
     if (isLoading) {
         return (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -82,7 +74,7 @@ const AllEditoras = () => {
                         </View>
                         <View style={{ width: '100%', height: 1, backgroundColor: '#9D9A9A' }}></View>
                     </View>
-                    <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '93%', width: '100%' }} >
+                    <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} >
                         <FlatList
                             numColumns={columns}
                             data={dadosEditora}
@@ -97,10 +89,6 @@ const AllEditoras = () => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        zIndex: 0,
-    },
     searchBar: {
         margin: 10,
     },
@@ -125,6 +113,7 @@ const styles = StyleSheet.create({
     },
     itemTextEditoras: {
         color: '#089A6E',
+        textAlign: 'center',
     },
     itemTextContainerEditora: {
         display: 'flex',
@@ -135,8 +124,8 @@ const styles = StyleSheet.create({
         position: 'absolute',
     },
     imgAllEditoras: {
-        width: 110,
-        height: 110,
+        width: 140,
+        height: 140,
         borderRadius: 5,
         borderWidth: 1,
         borderColor: '#089A6E'

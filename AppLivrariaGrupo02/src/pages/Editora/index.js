@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image, StatusBar, S
 import { DataContext } from '../../context/DataContext';
 import { Searchbar } from 'react-native-paper';
 import AxiosInstance from '../../api/AxiosInstance';
-import { Entypo } from '@expo/vector-icons';
+import { Entypo, FontAwesome5 } from '@expo/vector-icons';
 import ModalLivro from '../ModalLivro';
 import { AppearanceContext } from '../../context/AppearanceContext';
 import { sharedStyles, darkStyles, lightStyles } from '../../themes/index';
@@ -26,11 +26,11 @@ const Editora = ({ route }) => {
   
   const style = isEnabled ? lightStyles : darkStyles;
   
-  const showModal = ({ id }) => {
+  const showModal = ({ id, nomeAutor }) => {
     const livro = dadosLivro.find(livro => livro.codigoLivro === id);
-    setLivro(livro);
+    setLivro({... livro, nomeAutor});
     setVisible(true);
-};
+  };
 
   const hideModal = () => setVisible(false);
   
@@ -78,10 +78,10 @@ const Editora = ({ route }) => {
     );
   }
   
-  const LivrosEditora = ({ imagem, nomeLivro, id, showModal }) => {
+  const LivrosEditora = ({ imagem, nomeLivro, id, showModal, nomeAutor }) => {
   
     const handlePress = () => {
-      showModal({ id });
+      showModal({ id, nomeAutor });
     }
   
     return (
@@ -105,30 +105,37 @@ const Editora = ({ route }) => {
       </TouchableOpacity>
     )
   };
+
   return (
-    <SafeAreaView style={[sharedStyles.container, style.container, {flex: 1}]}>
+    <SafeAreaView style={[sharedStyles.container, style.container]}>
       <StatusBar style="light" />
-      <Text style={[sharedStyles.headerTwo, {margin: 10}]}>{editora.nomeEditora}</Text>
-      <Searchbar
-        placeholder="Busque pelo nome do livro"
-        style={styles.searchBar}
-        onChangeText={onChangeSearch}
-        value={searchQuery}
-      />
-      <View style={styles.itemsContainer}>
-        {livrosFiltrados.length === 0 ? (
-          <Text style={style.textOne}>Nenhum livro encontrado</Text>
-        ) : (
-          <FlatList
-            data={livrosFiltrados}
-            renderItem={({ item }) => <LivrosEditora imagem={item.imagem} nomeLivro={item.nomeLivro} id={item.codigoLivro} showModal={showModal} hideModal={hideModal} visible={visible}/>}
-            keyExtractor={item => item.codigoLivro}
-            showsHorizontalScrollIndicator={false}
-            showsVerticalScrollIndicator={false}
-          />
-        )}
+      <View style={{ flex: 1 }}>
+        <View style={styles.title}>
+            <FontAwesome5 name="book-reader" size={24} color="#089A6E" />
+            <Text style={[sharedStyles.headerThree, style.headerThree]}>{editora.nomeEditora}</Text>
+        </View>
+        <View style={{ width: '100%', height: 1, backgroundColor: '#9D9A9A' }}></View>
+        <Searchbar
+          placeholder="Busque pelo nome do livro"
+          style={styles.searchBar}
+          onChangeText={onChangeSearch}
+          value={searchQuery}
+        />
+        <View style={styles.itemsContainer}>
+          {livrosFiltrados.length === 0 ? (
+            <Text style={style.textOne}>Nenhum livro encontrado</Text>
+          ) : (
+            <FlatList
+              data={livrosFiltrados}
+              renderItem={({ item }) => <LivrosEditora imagem={item.imagem} nomeLivro={item.nomeLivro} id={item.codigoLivro} showModal={showModal} hideModal={hideModal} visible={visible}/>}
+              keyExtractor={item => item.codigoLivro}
+              showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={false}
+            />
+          )}
+        </View>
+        <ModalLivro visible={visible} hideModal={hideModal} livro={livro} />
       </View>
-      <ModalLivro visible={visible} hideModal={hideModal} livro={livro} />
     </SafeAreaView>
   );
 };
@@ -143,6 +150,15 @@ const styles = StyleSheet.create({
     padding: 10,
     width: '100%',
     height: '80%',
+  },
+  title: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    padding: 10,
+    gap: 5,
+    marginLeft: 10,
   },
   sectionHeader: {
     fontSize: 20,
@@ -174,8 +190,6 @@ const styles = StyleSheet.create({
     margin: 10,
     marginLeft: 30,
     alignItems: 'center',
-
-
 },
   itemTextLivros: {
     color: '#66d2b1',
@@ -202,6 +216,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'center',
     padding: 10,
+    width: 175,
 },
 });
 
