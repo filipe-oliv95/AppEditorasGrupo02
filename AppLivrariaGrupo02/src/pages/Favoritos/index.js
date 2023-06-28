@@ -16,7 +16,7 @@ const Favoritos = () => {
   const [favoriteBooks, setFavoriteBooks] = useState([]);
   const [rating, setRating] = useState({});
   const { isEnabled } = useContext(AppearanceContext);
-  
+
   const style = isEnabled ? lightStyles : darkStyles;
   // tem que usar esse useFocus para disparar getFavorite sempre que entrar nos Favoritos
   useFocusEffect(

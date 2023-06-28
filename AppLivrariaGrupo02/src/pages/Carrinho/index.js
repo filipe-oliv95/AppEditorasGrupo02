@@ -9,12 +9,8 @@ import { StyleSheet, View, Text, FlatList, Image, StatusBar, SafeAreaView, Touch
 const Carrinho = () => {
   const { carrinho, quantidade, removerDoCarrinho, limparCarrinho } = useContext(CartContext);
   const navigation = useNavigation();
-  const { colorScheme } = useContext(AppearanceContext);
-  const style = colorScheme === 'light' ? lightStyles : darkStyles;
-
-  React.useEffect(() => {
-    navigation.navigate('Home');
-  }, []);
+  const { isEnabled } = useContext(AppearanceContext);
+  const style = isEnabled ? lightStyles : darkStyles;
 
   const finalizarCompra = () => {
     if (quantidade === 0) {
