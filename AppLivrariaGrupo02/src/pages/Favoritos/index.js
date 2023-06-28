@@ -87,32 +87,36 @@ const Favoritos = () => {
           </View>
           <View style={{ width: '100%', height: 1, backgroundColor: '#9D9A9A' }}></View>
         </View>
+
+
         <FlatList
           data={favoriteBooks}
           keyExtractor={(item) => item.codigoLivro}
           renderItem={({ item }) => (
             <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
-              <View style={styles.contentContainer}>
+              <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', paddingVertical: 10, paddingHorizontal: 0, gap: 10}}>
                 <Image
-                  style={sharedStyles.imgLivroSearch}
+                  style={[sharedStyles.imgLivroSearch, { display:'flex', alignItems: 'center' }]}
                   source={{ uri: `data:image/png;base64,${item.img}` }}
                 />
-                <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 10 }}>
-                  <Text style={[sharedStyles.text, { fontSize: 18 }]}>{item.nomeLivro}</Text>
-                  {(
-                    <StarRating
-                      rating={rating[item.codigoLivro] || 0}
-                      onChange={(newRating) => setRating({ ...rating, [item.codigoLivro]: newRating })}
-                      color="#FFE500"
-                    />
-                  )}
-                  <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', backgroundColor: '#089A6E', borderRadius: 13, width: 220, alignItems: 'center', height: 30, justifyContent: 'center' }} onPress={() => adicionarAoCarrinho(item)}>
-                    <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16, }}>Adicionar ao carrinho</Text>
-                    <AntDesign style={{ paddingLeft: 15 }} name="shoppingcart" size={25} color="#fff" />
-                  </TouchableOpacity >
+                <View style={styles.contentContainer}>
+                  <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 10, width: 170 }}>
+                    <Text style={[sharedStyles.text, { fontSize: 18 }]}>{item.nomeLivro}</Text>
+                    {(
+                      <StarRating
+                        rating={rating[item.codigoLivro] || 0}
+                        onChange={(newRating) => setRating({ ...rating, [item.codigoLivro]: newRating })}
+                        color="#FFE500"
+                      />
+                    )}
+                    <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', backgroundColor: '#089A6E', borderRadius: 13, width: 210, alignItems: 'center', height: 30, justifyContent: 'center' }} onPress={() => adicionarAoCarrinho(item)}>
+                      <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16, }}>Adicionar ao carrinho</Text>
+                      <AntDesign style={{ paddingLeft: 15 }} name="shoppingcart" size={25} color="#fff" />
+                    </TouchableOpacity >
+                  </View>
                 </View>
-                <FontAwesome5 style={{ position: 'absolute', top: 0, right: 0, padding: 20 }} name="heart-broken" size={24} color="#66d2b1" onPress={() => handleRemove(item.codigoLivro)} />
               </View>
+              <FontAwesome5 style={{ position: 'absolute', top: 0, right: 0, padding: 10 }} name="heart-broken" size={24} color="#66d2b1" onPress={() => handleRemove(item.codigoLivro)} />
               <View style={{ width: '100%', height: 1, backgroundColor: '#9D9A9A' }}></View>
             </View>
           )}
@@ -124,6 +128,8 @@ const Favoritos = () => {
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
         />
+
+
       </SafeAreaView>
     );
   };
