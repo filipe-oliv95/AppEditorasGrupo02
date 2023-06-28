@@ -1,14 +1,26 @@
 import React, { useContext } from "react";
+import { useNavigation } from '@react-navigation/native';
 import { FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 import { CartContext } from '../../context/CartContext';
 import { AppearanceContext } from '../../context/AppearanceContext';
 import { sharedStyles, darkStyles, lightStyles } from '../../themes/index';
 import { StyleSheet, View, Text, FlatList, Image, StatusBar, SafeAreaView, TouchableOpacity } from 'react-native';;
 
-const Carrinho = () => {
-  const { carrinho, quantidade, removerDoCarrinho } = useContext(CartContext);
+const Carrinho = ({ navigation }) => {
+  const { carrinho, quantidade, removerDoCarrinho, limparCarrinho } = useContext(CartContext);
   const { colorScheme } = useContext(AppearanceContext);
   const style = colorScheme === 'light' ? lightStyles : darkStyles;
+
+  const finalizarCompra = () => {
+    if (quantidade === 0) {
+      alert("Não há livros no carrinho, adicione antes de clicar em confirmar!")
+    }
+    else {
+      alert("Compra realizada com sucesso");
+      limparCarrinho();
+      navigation.navigate('Home');
+    }
+  }
 
   return (
     <SafeAreaView style={[sharedStyles.container, style.container, { flex: 1 }]}>
@@ -41,7 +53,7 @@ const Carrinho = () => {
       />
       <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 10, alignItems: 'center' }}>
         <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 24 }} >Total de itens: {quantidade}</Text>
-        <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', backgroundColor: '#089A6E', borderRadius: 13, width: 220, alignItems: 'center', height: 30, justifyContent: 'center' }} onPress={() => console.log("comprar pressionado")}>
+        <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', backgroundColor: '#089A6E', borderRadius: 13, width: 220, alignItems: 'center', height: 30, justifyContent: 'center' }} onPress={finalizarCompra}>
           <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16, }}>Finalizar compra</Text>
           <MaterialCommunityIcons style={{ paddingLeft: 15 }} name="hand-heart" size={25} color="#fff" />
         </TouchableOpacity >

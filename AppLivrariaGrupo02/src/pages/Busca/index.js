@@ -29,9 +29,10 @@ const Busca = () => {
     const [visible, setVisible] = React.useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [livro, setLivro] = React.useState([]);
-    const { colorScheme } = useContext(AppearanceContext);
     
-    const style = colorScheme === 'light' ? lightStyles : darkStyles;
+    const { isEnabled } = useContext(AppearanceContext);
+  
+    const style = isEnabled ? lightStyles : darkStyles;
     
     const ItemEditora = ({ img, nomeEditora, id }) => {
         const navigation = useNavigation();
@@ -56,7 +57,7 @@ const Busca = () => {
                             <Text style={sharedStyles.textGrey}>Editora</Text>
                         </View>
                     </View>
-                    <Entypo style={styles.icon} name="chevron-thin-right" size={35} color="#fff" />
+                    <Entypo style={styles.icon} name="chevron-thin-right" size={35} color={isEnabled ? '#000' : '#fff'} />
                 </View>
                 <Divider color={'#9D9A9A'}/>
             </TouchableOpacity>
@@ -67,7 +68,6 @@ const Busca = () => {
         const handlePress = () => {
             showModal({ id });
         }
-    
     
         return (
             <TouchableOpacity onPress={handlePress}>
@@ -84,7 +84,7 @@ const Busca = () => {
                             <Text style={sharedStyles.textGrey}>{nomeAutor}</Text>
                         </View>
                     </View>
-                    <Entypo style={styles.icon} name="chevron-thin-right" size={35} color="#fff" />
+                    <Entypo style={styles.icon} name="chevron-thin-right" size={35} color={isEnabled ? '#000' : '#fff'} />
                 </View>
                 <Divider color={'#9D9A9A'}/>
             </TouchableOpacity>
