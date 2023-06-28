@@ -5,6 +5,7 @@ import Home from '../pages/Home'
 import Busca from "../pages/Busca";
 import Favoritos from "../pages/Favoritos";
 import Carrinho from "../pages/Carrinho";
+import Editoras from "../pages/AllEditoras"
 
 const Tab = createBottomTabNavigator();
 
@@ -34,6 +35,14 @@ function TabRoutes() {
           ),
         }}
       />
+        <Tab.Screen
+          name="Editoras"
+          component={Editoras}
+          options={{
+            tabBarIcon: (tabInfo) => (
+              <Icon name="open-book" size={24} color='#66d2b1' />
+            ),
+          }} />
       <Tab.Screen
         name="Favoritos"
         component={Favoritos}
