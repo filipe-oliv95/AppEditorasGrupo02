@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image, StatusBar, S
 import { DataContext } from '../../context/DataContext';
 import { Searchbar } from 'react-native-paper';
 import AxiosInstance from '../../api/AxiosInstance';
-import { Entypo } from '@expo/vector-icons';
+import { Entypo, FontAwesome5 } from '@expo/vector-icons';
 import ModalLivro from '../ModalLivro';
 import { AppearanceContext } from '../../context/AppearanceContext';
 import { sharedStyles, darkStyles, lightStyles } from '../../themes/index';
@@ -30,7 +30,7 @@ const Editora = ({ route }) => {
     const livro = dadosLivro.find(livro => livro.codigoLivro === id);
     setLivro({... livro, nomeAutor});
     setVisible(true);
-};
+  };
 
   const hideModal = () => setVisible(false);
   
@@ -105,11 +105,16 @@ const Editora = ({ route }) => {
       </TouchableOpacity>
     )
   };
+
   return (
     <SafeAreaView style={[sharedStyles.container, style.container]}>
       <StatusBar style="light" />
       <View style={{ flex: 1 }}>
-        <Text style={[sharedStyles.headerTwo, {margin: 10}]}>{editora.nomeEditora}</Text>
+        <View style={styles.title}>
+            <FontAwesome5 name="book-reader" size={24} color="#089A6E" />
+            <Text style={[sharedStyles.headerThree, style.headerThree]}>{editora.nomeEditora}</Text>
+        </View>
+        <View style={{ width: '100%', height: 1, backgroundColor: '#9D9A9A' }}></View>
         <Searchbar
           placeholder="Busque pelo nome do livro"
           style={styles.searchBar}
@@ -146,6 +151,15 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '80%',
   },
+  title: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    padding: 10,
+    gap: 5,
+    marginLeft: 10,
+  },
   sectionHeader: {
     fontSize: 20,
   },
@@ -176,8 +190,6 @@ const styles = StyleSheet.create({
     margin: 10,
     marginLeft: 30,
     alignItems: 'center',
-
-
 },
   itemTextLivros: {
     color: '#66d2b1',
@@ -204,6 +216,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'center',
     padding: 10,
+    width: 175,
 },
 });
 
