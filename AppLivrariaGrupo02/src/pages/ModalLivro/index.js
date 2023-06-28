@@ -10,6 +10,7 @@ import {
 import { Modal } from 'react-native-paper';
 import StarRating from 'react-native-star-rating-widget';
 import { AppearanceContext } from '../../context/AppearanceContext';
+import { FavoritesContext } from '../../context/FavoritesContext';
 import { CartContext } from '../../context/CartContext';
 import { getValueFor, saveIncremental } from '../../services/DataService';
 import { darkStyles, lightStyles, sharedStyles } from '../../themes/index';
@@ -18,6 +19,8 @@ function ModalLivro({ visible, hideModal, livro }) {
 
   const { colorScheme } = useContext(AppearanceContext);
   const { adicionarAoCarrinho } = useContext(CartContext);
+  const { contagemFavAtualizada } = useContext(FavoritesContext);
+
   const style = colorScheme === 'light' ? lightStyles : darkStyles;
   const [rating, setRating] = useState(4.5);
   const [dadosLivrosSecStore, setdadosLivrosSecStore] = useState();
@@ -32,7 +35,12 @@ function ModalLivro({ visible, hideModal, livro }) {
     console.log('livro.codigoLivro:', value);  // correto codigoLivro
 
     await saveIncremental(key, value);
-    setdadosLivrosSecStore(await getValueFor('favoriteBooks'))
+    console.log('Livro adicionado aos favoritos.');
+    setdadosLivrosSecStore(await getValueFor('favoriteBooks'));
+    console.log('Estado atualizado com novos favoritos.');
+
+    contagemFavAtualizada();
+    console.log('Contagem favoritos atualizada.');
 
     console.log("codigoLivro dentro do addToFavorites" + livro.codigoLivro)
   }

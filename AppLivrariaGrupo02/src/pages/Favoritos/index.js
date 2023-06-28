@@ -6,13 +6,15 @@ import AxiosInstance from '../../api/AxiosInstance';
 import { DataContext } from '../../context/DataContext';
 import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
 import { AppearanceContext } from '../../context/AppearanceContext';
-import { CartContext } from '../../context/CartContext'; // VERIFICANDO
+import { CartContext } from '../../context/CartContext';
+import { FavoritesContext } from '../../context/FavoritesContext';
 import { getValueFor, save } from '../../services/DataService';
 import { darkStyles, lightStyles, sharedStyles } from '../../themes/index';
 
 const Favoritos = () => {
   const { dadosUsuario } = useContext(DataContext);
-  const { adicionarAoCarrinho } = useContext(CartContext);  // VERIFICANDO
+  const { adicionarAoCarrinho } = useContext(CartContext);
+  const { contagemFavAtualizada } = useContext(FavoritesContext);
   const [favoriteBooks, setFavoriteBooks] = useState([]);
   const [rating, setRating] = useState({});
   const { isEnabled } = useContext(AppearanceContext);
@@ -35,6 +37,7 @@ const Favoritos = () => {
       await save('favoriteBooks', novoIdsLivrosFavoritos);
 
       setFavoriteBooks(prevState => prevState.filter(book => book.codigoLivro !== id));
+      contagemFavAtualizada();  // atualiza contagem na remoção dos favoritos
     } catch (error) {
       console.log('Erro removendo livro dos favoritos: ' + error);
     }

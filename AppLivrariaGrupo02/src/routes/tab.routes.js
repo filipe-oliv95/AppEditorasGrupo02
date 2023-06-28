@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { AppearanceContext } from '../context/AppearanceContext';
 import { CartContext } from '../context/CartContext';
+import { FavoritesContext } from '../context/FavoritesContext';
 import Editoras from "../pages/AllEditoras";
 import Busca from "../pages/Busca";
 import Carrinho from "../pages/Carrinho";
@@ -14,7 +15,7 @@ const Tab = createBottomTabNavigator();
 function TabRoutes() {
   const { isEnabled } = useContext(AppearanceContext);
   const { quantidade } = useContext(CartContext);
-
+  const { contagemFavoritos } = useContext(FavoritesContext);
 
   return (
     <Tab.Navigator
@@ -61,6 +62,9 @@ function TabRoutes() {
       <Tab.Screen
         name="Favoritos"
         component={Favoritos}
+        options={{
+          tabBarBadge: contagemFavoritos > 0 ? contagemFavoritos : null,
+        }}
       />
       <Tab.Screen
         name="Carrinho"
