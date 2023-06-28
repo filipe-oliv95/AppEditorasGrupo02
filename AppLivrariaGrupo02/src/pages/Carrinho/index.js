@@ -6,6 +6,8 @@ import { AppearanceContext } from '../../context/AppearanceContext';
 import { sharedStyles, darkStyles, lightStyles } from '../../themes/index';
 import { StyleSheet, View, Text, FlatList, Image, StatusBar, SafeAreaView, TouchableOpacity } from 'react-native';
 import Checkbox from 'expo-checkbox';
+import Toast from "react-native-toast-message";
+import { text } from "body-parser";
 
 const Carrinho = () => {
   const { carrinho, quantidade, removerDoCarrinho, limparCarrinho } = useContext(CartContext);
@@ -49,9 +51,11 @@ const Carrinho = () => {
         </View>
         <View style={{ width: '100%', height: 1, backgroundColor: '#9D9A9A' }}></View>
       </View>
-      <FlatList
+
+      <Toast ref={(ref) => { Toast.setRef(ref) }} />
+      <FlatList style={{ marginTop: 17,}}
         data={carrinho}
-        keyExtractor={(item) => item.codigoLivro.toString()}
+        keyExtractor={(item) => item.codigoLivro}
         renderItem={({ item }) => (
           <View style={styles.contentContainer}>
             <Text style={styles.itemTextLivros}>{item.nomeLivro}</Text>
@@ -59,9 +63,16 @@ const Carrinho = () => {
               style={styles.itemPhoto}
               source={{ uri: `data:image/png;base64,${item.img}` }}
             />
+
             <View style={styles.itemContent}>
-              <Text style={styles.itemTextLivros}>{item.autorDTO.nomeAutor}</Text>
-              <TouchableOpacity onPress={() => removerDoCarrinho(item.codigoLivro)}>
+              <TouchableOpacity onPress={() => {
+                removerDoCarrinho(item.codigoLivro),
+                  Toast.show({
+                    position: 'top',
+                    text1: 'Livro removido!',
+                    text2: 'Seu livro foi removido do carrinho com sucesso.'
+                  })
+              }} >
                 <FontAwesome5 name="trash" size={24} color="#089A6E" />
               </TouchableOpacity>
             </View>
