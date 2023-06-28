@@ -4,17 +4,15 @@ import { FlatList, Image, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOp
 import StarRating from 'react-native-star-rating-widget';
 import AxiosInstance from '../../api/AxiosInstance';
 import { DataContext } from '../../context/DataContext';
-
 import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
 import { AppearanceContext } from '../../context/AppearanceContext';
-// import { CartContext } from '../../context/CartContext'; // VERIFICANDO
+import { CartContext } from '../../context/CartContext'; // VERIFICANDO
 import { getValueFor, save } from '../../services/DataService';
 import { darkStyles, lightStyles, sharedStyles } from '../../themes/index';
 
-
 const Favoritos = () => {
   const { dadosUsuario } = useContext(DataContext);
-  // const { adicionarAoCarrinho } = useContext(CartContext);  // VERIFICANDO
+  const { adicionarAoCarrinho } = useContext(CartContext);  // VERIFICANDO
   const [favoriteBooks, setFavoriteBooks] = useState([]);
   const [rating, setRating] = useState({});
   const { isEnabled } = useContext(AppearanceContext);
@@ -61,7 +59,8 @@ const Favoritos = () => {
     }
   };
 
-  console.log("FAVORITOS" + favoriteBooks)
+  // console.log("FAVORITOS" + favoriteBooks)
+  // console.log('FAVORITOS' + JSON.stringify(favoriteBooks))
 
   return (
     <SafeAreaView style={[sharedStyles.container, style.container, { flex: 1 }]}>
@@ -90,10 +89,10 @@ const Favoritos = () => {
                     color="#FFE500"
                   />
                 )}
-                {/* <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', backgroundColor: '#089A6E', borderRadius: 13, width: 220, alignItems: 'center', height: 30, justifyContent: 'center' }} onPress={() => adicionarAoCarrinho(item.codigoLivro)}>
+                <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', backgroundColor: '#089A6E', borderRadius: 13, width: 220, alignItems: 'center', height: 30, justifyContent: 'center' }} onPress={() => adicionarAoCarrinho(item)}>
                   <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16, }}>Adicionar ao carrinho</Text>
                   <AntDesign style={{ paddingLeft: 15 }} name="shoppingcart" size={25} color="#fff" />
-                </TouchableOpacity > */}
+                </TouchableOpacity >
               </View>
               <FontAwesome5 style={{ position: 'absolute', top: 0, right: 0, padding: 20 }} name="heart-broken" size={24} color="#66d2b1" onPress={() => handleRemove(item.codigoLivro)} />
             </View>

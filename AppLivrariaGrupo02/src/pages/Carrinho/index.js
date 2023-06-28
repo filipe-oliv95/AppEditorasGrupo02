@@ -6,10 +6,15 @@ import { AppearanceContext } from '../../context/AppearanceContext';
 import { sharedStyles, darkStyles, lightStyles } from '../../themes/index';
 import { StyleSheet, View, Text, FlatList, Image, StatusBar, SafeAreaView, TouchableOpacity } from 'react-native';;
 
-const Carrinho = ({ navigation }) => {
+const Carrinho = () => {
   const { carrinho, quantidade, removerDoCarrinho, limparCarrinho } = useContext(CartContext);
+  const navigation = useNavigation();
   const { colorScheme } = useContext(AppearanceContext);
   const style = colorScheme === 'light' ? lightStyles : darkStyles;
+
+  React.useEffect(() => {
+    navigation.navigate('Home');
+  }, []);
 
   const finalizarCompra = () => {
     if (quantidade === 0) {
@@ -18,7 +23,9 @@ const Carrinho = ({ navigation }) => {
     else {
       alert("Compra realizada com sucesso");
       limparCarrinho();
-      navigation.navigate('Home');
+      setTimeout(() => {
+        navigation.navigate('Inicio');
+      }, 2200);
     }
   }
 
