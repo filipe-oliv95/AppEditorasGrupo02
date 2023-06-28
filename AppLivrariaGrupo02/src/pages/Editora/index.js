@@ -9,50 +9,23 @@ import { AppearanceContext } from '../../context/AppearanceContext';
 import { sharedStyles, darkStyles, lightStyles } from '../../themes/index';
 import { Divider } from '@rneui/themed';
 
-const LivrosEditora = ({ imagem, nomeLivro, id, showModal }) => {
-
-  const handlePress = () => {
-    showModal({ id });
-  }
-
-  return (
-    <TouchableOpacity onPress={handlePress}>
-      <View style={styles.containerItem}>
-        <View style={{paddingRight: 20, width: 115, display: 'flex', alignItems: 'center', justifyContent: 'flex-start'}}>
-            <Image
-              style={sharedStyles.imgLivroSearch}
-              source={{ uri: `data:image/png;base64,${imagem}` }}
-            />
-        </View>
-        <View style={styles.itemTextContainer}>
-          <View style={styles.itemBox}>
-            <Text style={[sharedStyles.text, {marginBottom: 20, fontSize: 18}]}>{nomeLivro}</Text>
-            <Text style={sharedStyles.textGrey}>ver livro</Text>
-          </View>
-        </View>
-        {/* <Entypo style={styles.icon} name="arrow-with-circle-right" size={40} color="#089A6E" /> */}
-      </View>
-      <Divider color={'#9D9A9A'}/>
-    </TouchableOpacity>
-  )
-};
 
 const Editora = ({ route }) => {
   const { dadosUsuario } = useContext(DataContext);
   const [editora, setEditora] = useState(null);
   const editoraId = route.params?.editoraId;
-
+  
   const [searchQuery, setSearchQuery] = React.useState('');
   const [livrosFiltrados, setLivrosFiltrados] = useState([]);
-
+  
   const [dadosLivro, setDadosLivro] = useState([]);
   const [visible, setVisible] = React.useState(false);
   const [livro, setLivro] = React.useState([]);
-
+  
   const { isEnabled } = useContext(AppearanceContext);
   
   const style = isEnabled ? lightStyles : darkStyles;
-
+  
   const showModal = ({ id }) => {
     const livro = dadosLivro.find(livro => livro.codigoLivro === id);
     setLivro(livro);
@@ -60,31 +33,31 @@ const Editora = ({ route }) => {
 };
 
   const hideModal = () => setVisible(false);
-      
+  
   useEffect(() => {
-      getEditoraById();
-      getAllLivros();
+    getEditoraById();
+    getAllLivros();
   }, [])
-
+  
   const onChangeSearch = query => setSearchQuery(query);
-
+  
   useEffect(() => {
     if (editora && editora.listaLivrosDTO) {
       const filteredLivros = editora.listaLivrosDTO.filter(item => item.nomeLivro.toLowerCase().includes(searchQuery.toLowerCase()));
       setLivrosFiltrados(filteredLivros);
     }
   }, [searchQuery, editora]);
-
+  
   const getAllLivros = async () => {
     await AxiosInstance.get(
-        '/livros',
+      '/livros',
         { headers: { 'Authorization': `Bearer ${dadosUsuario?.token}` } }
-    ).then(resultado => {
-        setDadosLivro(resultado.data);
-    }).catch((error) => {
-        console.log('Ocorreu um erro ao recuperar os dados dos Livros: ' + error);
-    })
-  }
+        ).then(resultado => {
+          setDadosLivro(resultado.data);
+        }).catch((error) => {
+          console.log('Ocorreu um erro ao recuperar os dados dos Livros: ' + error);
+        })
+      }
 
   const getEditoraById = async () => {
     try {
@@ -96,7 +69,7 @@ const Editora = ({ route }) => {
       console.log('Ocorreu um erro ao recuperar os dados da Editora: ' + error);
     }
   };
-
+  
   if (!editora) {
     return (
       <View style={styles.container}>
@@ -104,7 +77,34 @@ const Editora = ({ route }) => {
       </View>
     );
   }
-
+  
+  const LivrosEditora = ({ imagem, nomeLivro, id, showModal }) => {
+  
+    const handlePress = () => {
+      showModal({ id });
+    }
+  
+    return (
+      <TouchableOpacity onPress={handlePress}>
+        <View style={styles.containerItem}>
+          <View style={{paddingRight: 20, width: 115, display: 'flex', alignItems: 'center', justifyContent: 'flex-start'}}>
+              <Image
+                style={sharedStyles.imgLivroSearch}
+                source={{ uri: `data:image/png;base64,${imagem}` }}
+              />
+          </View>
+          <View style={styles.itemTextContainer}>
+            <View style={styles.itemBox}>
+              <Text style={[sharedStyles.text, {marginBottom: 20, fontSize: 18}]}>{nomeLivro}</Text>
+              <Text style={sharedStyles.textGrey}>ver livro</Text>
+            </View>
+          </View>
+          <Entypo style={styles.icon} name="chevron-thin-right" size={35} color={isEnabled ? '#000' : '#fff'} />
+        </View>
+        <Divider color={'#9D9A9A'}/>
+      </TouchableOpacity>
+    )
+  };
   return (
     <SafeAreaView style={[sharedStyles.container, style.container, {flex: 1}]}>
       <StatusBar style="light" />

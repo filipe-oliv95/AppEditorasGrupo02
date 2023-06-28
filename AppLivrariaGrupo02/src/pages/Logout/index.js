@@ -52,12 +52,12 @@ export function Logout({ navigation }) {
         }}></Image>
         <Text style={[sharedStyles.text, style.text, { fontSize: 18 }]} >Você será redirecionado para a tela de login em </Text>
         <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', margin: 10}}>
-          <Text style={{ fontSize: 20, color: '#fff' }}>{ count } </Text>
-          <ActivityIndicator style={{ margin: 10}} size="large" color="#fff" />
+          <Text style={[sharedStyles.text, style.text, { fontSize: 20 }]}>{ count } </Text>
+          <ActivityIndicator style={{ margin: 10}} size="large" color='#089A6E' />
         </View>
 
         <TouchableOpacity style={styles.button} onPress={() => handleLoginPage()} >
-          <Text style={[sharedStyles.textWhite, style.textWhite]}>Ou clique aqui para retornar agora</Text>
+          <Text style={sharedStyles.textWhite}>Ou clique aqui para retornar agora</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

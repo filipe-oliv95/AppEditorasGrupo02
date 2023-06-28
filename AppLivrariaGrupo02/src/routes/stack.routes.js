@@ -40,7 +40,6 @@ function StackRoutes() {
                 component={Editora}
                 options={{
                     headerStyle: {
-                        backgroundColor: '#07261d',
                     },
                     headerTintColor: '#66d2b1',
                 }}
@@ -50,7 +49,6 @@ function StackRoutes() {
                 component={Livro}
                 options={{
                     headerStyle: {
-                        backgroundColor: '#07261d',
                     },
                     headerTintColor: '#66d2b1',
                 }}

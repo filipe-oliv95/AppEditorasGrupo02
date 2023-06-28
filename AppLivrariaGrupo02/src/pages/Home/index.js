@@ -74,8 +74,8 @@ const Home = () => {
                         style={sharedStyles.imgLivro}
                         source={{ uri: `data:image/png;base64,${img}` }}
                     />
-                    <Text style={[sharedStyles.text, style.text]}>{nomeLivro}</Text>
-                    <Text style={[sharedStyles.text, style.text]}>{nomeAutor}</Text>
+                    <Text style={[sharedStyles.text, {marginBottom: 10, fontSize: 18}]}>{nomeLivro}</Text>
+                    <Text style={sharedStyles.textGrey}>{nomeAutor}</Text>
                 </View>
 
             </TouchableOpacity>

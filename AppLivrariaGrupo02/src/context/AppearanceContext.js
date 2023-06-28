@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 
 
 export const AppearanceContext = createContext({});
@@ -10,7 +10,6 @@ export const AppearanceProvider = ({ children }) => {
   //true para darkMode e false para lightMode
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
   
-
   return (
     <AppearanceContext.Provider value={{ isEnabled, toggleSwitch }}>
       {children}
