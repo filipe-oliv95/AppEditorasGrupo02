@@ -52,6 +52,7 @@ const sharedStyles = {
   imgEditora: {
     width: 110,
     height: 110,
+    backgroundColor: '#fff',
     borderRadius: 70,
     borderWidth: 1,
     borderColor: '#089A6E'
@@ -80,6 +81,9 @@ const sharedStyles = {
   itemLivro: {
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'space-between',
+    width: 210,
+    height: 315,
     padding: 10,
     backgroundColor: '#F6FFFC',
     margin: 10,

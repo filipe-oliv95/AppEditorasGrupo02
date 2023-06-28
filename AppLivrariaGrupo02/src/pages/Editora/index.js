@@ -106,29 +106,31 @@ const Editora = ({ route }) => {
     )
   };
   return (
-    <SafeAreaView style={[sharedStyles.container, style.container, {flex: 1}]}>
+    <SafeAreaView style={[sharedStyles.container, style.container]}>
       <StatusBar style="light" />
-      <Text style={[sharedStyles.headerTwo, {margin: 10}]}>{editora.nomeEditora}</Text>
-      <Searchbar
-        placeholder="Busque pelo nome do livro"
-        style={styles.searchBar}
-        onChangeText={onChangeSearch}
-        value={searchQuery}
-      />
-      <View style={styles.itemsContainer}>
-        {livrosFiltrados.length === 0 ? (
-          <Text style={style.textOne}>Nenhum livro encontrado</Text>
-        ) : (
-          <FlatList
-            data={livrosFiltrados}
-            renderItem={({ item }) => <LivrosEditora imagem={item.imagem} nomeLivro={item.nomeLivro} id={item.codigoLivro} showModal={showModal} hideModal={hideModal} visible={visible}/>}
-            keyExtractor={item => item.codigoLivro}
-            showsHorizontalScrollIndicator={false}
-            showsVerticalScrollIndicator={false}
-          />
-        )}
+      <View style={{ flex: 1 }}>
+        <Text style={[sharedStyles.headerTwo, {margin: 10}]}>{editora.nomeEditora}</Text>
+        <Searchbar
+          placeholder="Busque pelo nome do livro"
+          style={styles.searchBar}
+          onChangeText={onChangeSearch}
+          value={searchQuery}
+        />
+        <View style={styles.itemsContainer}>
+          {livrosFiltrados.length === 0 ? (
+            <Text style={style.textOne}>Nenhum livro encontrado</Text>
+          ) : (
+            <FlatList
+              data={livrosFiltrados}
+              renderItem={({ item }) => <LivrosEditora imagem={item.imagem} nomeLivro={item.nomeLivro} id={item.codigoLivro} showModal={showModal} hideModal={hideModal} visible={visible}/>}
+              keyExtractor={item => item.codigoLivro}
+              showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={false}
+            />
+          )}
+        </View>
+        <ModalLivro visible={visible} hideModal={hideModal} livro={livro} />
       </View>
-      <ModalLivro visible={visible} hideModal={hideModal} livro={livro} />
     </SafeAreaView>
   );
 };

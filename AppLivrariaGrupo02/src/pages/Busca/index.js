@@ -259,6 +259,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'flex-start',
         justifyContent: 'center',
+        width: 195,
         padding: 10,
     },
     errorText: {
