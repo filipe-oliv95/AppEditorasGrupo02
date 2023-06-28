@@ -68,10 +68,10 @@ const Carrinho = () => {
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
       />
-      <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 10, alignItems: 'center' }}>
-        <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 20 }} >Total de itens: {quantidade}</Text>
+      <View style={[sharedStyles.headerThree, style.headerThree, { display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 10, alignItems: 'center' }]}>
+        <Text style={[sharedStyles.headerThree, style.headerThree, { fontWeight: 'bold', fontSize: 20 }]} >Total de itens: {quantidade}</Text>
         <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 10, alignItems: 'flex-start' }}>
-          <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 20 }} >Pagamento:</Text>
+          <Text style={[sharedStyles.headerThree, style.headerThree, , { fontWeight: 'bold', fontSize: 20 }]} >Pagamento:</Text>
           <View style={styles.section}>
             <Checkbox
               style={styles.checkbox}
@@ -79,7 +79,7 @@ const Carrinho = () => {
               onValueChange={togglePixCheckbox}
               color={isPixChecked ? '#51cba6' : undefined}
             />
-            <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 10 }} >Pix:</Text>
+            <Text style={[sharedStyles.headerThree, style.headerThree, { fontWeight: 'bold', fontSize: 10 }]} >Pix:</Text>
           </View>
 
           <View style={styles.section}>
@@ -89,7 +89,7 @@ const Carrinho = () => {
               onValueChange={toggleCardCheckbox}
               color={isCardChecked ? '#51cba6' : undefined}
             />
-            <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 10 }} >Cartão de crédito:</Text>
+            <Text style={[sharedStyles.headerThree, style.headerThree, { fontWeight: 'bold', fontSize: 10 }]} >Cartão de crédito:</Text>
           </View>
         </View>
         <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', backgroundColor: '#089A6E', marginBottom: 10, borderRadius: 13, width: 220, alignItems: 'center', height: 30, justifyContent: 'center' }} onPress={finalizarCompra}>
