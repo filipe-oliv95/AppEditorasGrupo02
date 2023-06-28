@@ -53,6 +53,15 @@ const AllEditoras = () => {
         getAllEditoras();
     }, [])
 
+    const [columns, setColumns] = useState(2); // Inicialmente, 2 colunas
+  
+    const changeColumns = () => {
+      // Função para alterar o número de colunas
+      setColumns(columns === 2 ? 3 : 2);
+    }
+  
+
+
     if (isLoading) {
         return (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -75,6 +84,7 @@ const AllEditoras = () => {
                     </View>
                     <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '93%', width: '100%' }} >
                         <FlatList
+                            numColumns={columns}
                             data={dadosEditora}
                             renderItem={({ item }) => <ItemEditora nomeEditora={item.nomeEditora} img={item.img} id={item.codigoEditora} />}
                             keyExtractor={item => item.codigoEditora} 
