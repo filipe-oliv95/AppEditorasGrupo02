@@ -27,12 +27,12 @@ const Favoritos = () => {
 
   const handleRemove = async (id) => {
     try {
-      let favoriteBooksIds = await getValueFor('favoriteBooks');
-      favoriteBooksIds = favoriteBooksIds == null ? [] : JSON.parse(favoriteBooksIds);
+      let idsLivrosFavoritos = await getValueFor('favoriteBooks');
+      idsLivrosFavoritos = idsLivrosFavoritos == null ? [] : JSON.parse(idsLivrosFavoritos);
 
-      const newFavoriteBooksIds = favoriteBooksIds.filter(bookId => bookId !== id);
+      const novoIdsLivrosFavoritos = idsLivrosFavoritos.filter(bookId => bookId !== id);
 
-      await save('favoriteBooks', newFavoriteBooksIds);
+      await save('favoriteBooks', novoIdsLivrosFavoritos);
 
       setFavoriteBooks(prevState => prevState.filter(book => book.codigoLivro !== id));
     } catch (error) {
@@ -42,11 +42,11 @@ const Favoritos = () => {
 
   const getFavoriteBooks = async () => {
     try {
-      const storedFavoriteBooksIds = await getValueFor('favoriteBooks');
-      const favoriteBooksIds = storedFavoriteBooksIds == null ? [] : JSON.parse(storedFavoriteBooksIds);
+      const idsLivrosFavSalvos = await getValueFor('favoriteBooks');
+      const idsLivrosFavoritos = idsLivrosFavSalvos == null ? [] : JSON.parse(idsLivrosFavSalvos);
 
       const favoriteBooks = [];
-      for (const id of favoriteBooksIds) {
+      for (const id of idsLivrosFavoritos) {
         const response = await AxiosInstance.get(`/livros/${id}`, {
           headers: { Authorization: `Bearer ${dadosUsuario?.token}` },
         });
