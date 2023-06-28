@@ -29,8 +29,10 @@ const Home = () => {
     const [visible, setVisible] = React.useState(false);
     const [livro, setLivro] = React.useState([]);
     const [isLoading, setIsLoading] = useState(false); // importante para o loading
-    const { colorScheme } = useContext(AppearanceContext);
-    const style = colorScheme === 'light' ? lightStyles : darkStyles;
+    
+    const { isEnabled } = useContext(AppearanceContext);
+  
+    const style = isEnabled ? lightStyles : darkStyles;
 
     const ItemEditora = ({ img, id, destaque, showStars }) => {
         const navigation = useNavigation();
@@ -71,8 +73,8 @@ const Home = () => {
                         style={sharedStyles.imgLivro}
                         source={{ uri: `data:image/png;base64,${img}` }}
                     />
-                    <Text style={[sharedStyles.text, style.text]}>{nomeLivro}</Text>
-                    <Text style={[sharedStyles.text, style.text]}>{nomeAutor}</Text>
+                    <Text style={[sharedStyles.text, {marginBottom: 10, fontSize: 18}]}>{nomeLivro}</Text>
+                    <Text style={sharedStyles.textGrey}>{nomeAutor}</Text>
                 </View>
 
             </TouchableOpacity>

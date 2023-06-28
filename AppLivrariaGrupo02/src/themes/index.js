@@ -36,6 +36,11 @@ const sharedStyles = {
     paddingBottom: 5,
     fontWeight: 'bold',
   },
+  textWhite: {
+    fontSize: 16,
+    color: '#fff',
+    fontWeight: 'bold',
+  },
 
   textTwo: {
     fontSize: 16,

@@ -1,4 +1,5 @@
 
+import { useContext } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 // import { Feather } from '@expo/vector-icons'
 import Editora from "../pages/Editora";
@@ -6,10 +7,12 @@ import Livro from "../pages/Livro";
 import Login from "../pages/Login";
 import LoadingScreen from "../pages/Loading";
 import DrawerRoutes from './drawer.routes';
-
+import { AppearanceContext } from '../context/AppearanceContext';
 const Stack = createStackNavigator();
 
 function StackRoutes() {
+    const { isEnabled } = useContext(AppearanceContext);
+
     return (
         <Stack.Navigator initialRouteName='LoadingScreen'>
             <Stack.Screen
@@ -40,9 +43,9 @@ function StackRoutes() {
                 component={Editora}
                 options={{
                     headerStyle: {
-                        backgroundColor: '#07261d',
+                        backgroundColor: isEnabled ? '#fff' : '#000'
                     },
-                    headerTintColor: '#66d2b1',
+                    headerTintColor: '#089A6E',
                 }}
             />
             <Stack.Screen
@@ -50,9 +53,9 @@ function StackRoutes() {
                 component={Livro}
                 options={{
                     headerStyle: {
-                        backgroundColor: '#07261d',
+                        backgroundColor: isEnabled ? '#fff' : '#000'
                     },
-                    headerTintColor: '#66d2b1',
+                    headerTintColor: '#089A6E',
                 }}
             />
         </Stack.Navigator>
