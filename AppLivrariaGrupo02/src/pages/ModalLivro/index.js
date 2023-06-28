@@ -1,18 +1,17 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { Modal } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { save, getValueFor, saveIncremental } from '../../services/DataService';
+import { AntDesign, Entypo, Fontisto } from '@expo/vector-icons';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Image,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Entypo, Fontisto, AntDesign } from '@expo/vector-icons';
+import { Modal } from 'react-native-paper';
+import StarRating from 'react-native-star-rating-widget';
 import { AppearanceContext } from '../../context/AppearanceContext';
 import { CartContext } from '../../context/CartContext';
-import { sharedStyles, darkStyles, lightStyles } from '../../themes/index';
-import StarRating from 'react-native-star-rating-widget';
+import { getValueFor, saveIncremental } from '../../services/DataService';
+import { darkStyles, lightStyles, sharedStyles } from '../../themes/index';
 
 function ModalLivro({ visible, hideModal, livro }) {
   const { colorScheme } = useContext(AppearanceContext);
