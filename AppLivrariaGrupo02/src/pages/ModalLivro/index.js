@@ -54,19 +54,23 @@ function ModalLivro({ visible, hideModal, livro }) {
   }, [livro]);
 
   return (
-    <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
+    <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle} keyboardShouldPersistTaps="always">
 
       <View style={{
         backgroundColor: '#fff',
-        flex: 1,
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
         borderTopLeftRadius: 50,
         borderTopRightRadius: 50,
         marginHorizontal: 20,
         marginTop: 20,
         padding: 20,
       }}>
-        <View style={{ height: '100%', display: 'flex', justifyContent: 'space-around', flexDirection: 'column', alignItems: 'center', padding: 10, borderRadius: 13, borderTopLeftRadius: 5, borderBottomRightRadius: 5 }}>
-          <Text style={[sharedStyles.headerTwo, { color: '#08513C' }]}>{livro.nomeLivro}</Text>
+        <View style={{ flex: 1, justifyContent: 'space-around', flexDirection: 'column', alignItems: 'center', padding: 10, borderRadius: 13, borderTopLeftRadius: 5, borderBottomRightRadius: 5 }}>
+          <Text style={[sharedStyles.headerTwo, { color: '#08513C', textAlign: 'center' }]}>{livro.nomeLivro}</Text>
           <View style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <Entypo name="chevron-left" style={{ width: 40 }} onPress={hideModal} size={50} color="#08513C" />
             <Image
