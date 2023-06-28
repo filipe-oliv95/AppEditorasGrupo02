@@ -89,7 +89,7 @@ const Favoritos = () => {
         </View>
         <FlatList
           data={favoriteBooks}
-          keyExtractor={(item) => item.codigoLivro.toString()}
+          keyExtractor={(item) => item.codigoLivro}
           renderItem={({ item }) => (
             <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
               <View style={styles.contentContainer}>
@@ -99,7 +99,6 @@ const Favoritos = () => {
                 />
                 <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 10 }}>
                   <Text style={[sharedStyles.text, { fontSize: 18 }]}>{item.nomeLivro}</Text>
-                  <Text style={sharedStyles.textGrey}>{item.autorDTO.nomeAutor}</Text>
                   {(
                     <StarRating
                       rating={rating[item.codigoLivro] || 0}
