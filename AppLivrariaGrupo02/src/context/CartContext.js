@@ -14,9 +14,14 @@ export const CartProvider = ({ children }) => {
   // console.log(carrinho)
   console.log(quantidade)
 
+  const removerDoCarrinho = (codigoLivro) => {
+    setCarrinho(carrinhoAtual => carrinhoAtual.filter(item => item.codigoLivro !== codigoLivro));
+    setQuantidade(quantidadeCarrinho => quantidadeCarrinho - 1);
+  }
+
   return (
     <CartContext.Provider
-      value={{ carrinho, quantidade, adicionarAoCarrinho }}>
+      value={{ carrinho, quantidade, adicionarAoCarrinho, removerDoCarrinho }}>
       {children}
     </CartContext.Provider>
   )
