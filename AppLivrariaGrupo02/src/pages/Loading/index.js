@@ -6,9 +6,9 @@ import { sharedStyles, darkStyles, lightStyles } from '../../themes/index';
 
 const LoadingScreen = ({ navigation }) => {
   const [count, setCount] = useState(1);
-  const { colorScheme } = useContext(AppearanceContext);
+  const { isEnabled } = useContext(AppearanceContext);
   
-  const styles = colorScheme === 'light' ? lightStyles : darkStyles;
+  const style = isEnabled ? lightStyles : darkStyles;
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -24,9 +24,9 @@ const LoadingScreen = ({ navigation }) => {
   }, [count, navigation]);
 
   return (
-    <SafeAreaView style={[sharedStyles.container, styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+    <SafeAreaView style={[sharedStyles.container, style.container, { justifyContent: 'center', alignItems: 'center' }]}>
       <StatusBar style="light" />
-      <Text style={[sharedStyles.headerOne, styles.headerOne]} >LIVRARIA</Text>
+      <Text style={[sharedStyles.headerOne, style.headerOne]} >LIVRARIA</Text>
       <Image 
         style ={{ width: 300, height: 200}}
         source={{

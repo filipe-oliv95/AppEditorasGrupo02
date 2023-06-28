@@ -17,9 +17,9 @@ const Favoritos = () => {
   // const { adicionarAoCarrinho } = useContext(CartContext);  // VERIFICANDO
   const [favoriteBooks, setFavoriteBooks] = useState([]);
   const [rating, setRating] = useState({});
-  const { colorScheme } = useContext(AppearanceContext);
-
-  const style = colorScheme === 'light' ? lightStyles : darkStyles;
+  const { isEnabled } = useContext(AppearanceContext);
+  
+  const style = isEnabled ? lightStyles : darkStyles;
   // tem que usar esse useFocus para disparar getFavorite sempre que entrar nos Favoritos
   useFocusEffect(
     React.useCallback(() => {

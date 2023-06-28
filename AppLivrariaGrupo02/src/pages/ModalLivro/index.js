@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+
 import { Modal } from 'react-native-paper';
 import StarRating from 'react-native-star-rating-widget';
 import { AppearanceContext } from '../../context/AppearanceContext';
@@ -14,6 +15,7 @@ import { getValueFor, saveIncremental } from '../../services/DataService';
 import { darkStyles, lightStyles, sharedStyles } from '../../themes/index';
 
 function ModalLivro({ visible, hideModal, livro }) {
+
   const { colorScheme } = useContext(AppearanceContext);
   const { adicionarAoCarrinho } = useContext(CartContext);
   const style = colorScheme === 'light' ? lightStyles : darkStyles;
