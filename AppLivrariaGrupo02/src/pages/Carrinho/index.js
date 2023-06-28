@@ -42,9 +42,12 @@ const Carrinho = () => {
   return (
     <SafeAreaView style={[sharedStyles.container, style.container, { flex: 1 }]}>
       <StatusBar style="light" />
-      <View style={styles.title}>
-        <FontAwesome5 name="shopping-cart" size={24} color="#089A6E" />
-        <Text style={[sharedStyles.headerThree, style.headerThree]}>Carrinho</Text>
+      <View style={{ display: 'flex', flexDirection: 'column' }}>
+        <View style={styles.title}>
+          <FontAwesome5 name="shopping-cart" size={24} color="#089A6E" />
+          <Text style={[sharedStyles.headerThree, style.headerThree]}>CARRINHO</Text>
+        </View>
+        <View style={{ width: '100%', height: 1, backgroundColor: '#9D9A9A' }}></View>
       </View>
       <FlatList
         data={carrinho}
@@ -64,6 +67,11 @@ const Carrinho = () => {
             </View>
           </View>
         )
+        }
+        ListEmptyComponent={
+          <Text style={{ fontSize: 20, textAlign: 'center', marginTop: 50, color: 'grey' }}>
+            O carrinho está vazio.
+          </Text>
         }
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
