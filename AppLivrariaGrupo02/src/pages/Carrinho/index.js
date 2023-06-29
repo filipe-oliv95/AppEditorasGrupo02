@@ -34,8 +34,10 @@ const Carrinho = () => {
     if (quantidade === 0) {
       alert("Não há livros no carrinho, adicione antes de clicar em confirmar!")
     }
-    else {
-      alert("Compra realizada com sucesso");
+    else if (!isPixChecked && !isCardChecked) {
+        alert("Selecione uma das formas de pagamento");
+    } else {
+      alert("Compra realizada com sucesso!");
       limparCarrinho();
       setTimeout(() => {
         navigation.navigate('Inicio');
@@ -64,9 +66,11 @@ const Carrinho = () => {
                 style={sharedStyles.imgLivroSearch}
                 source={{ uri: `data:image/png;base64,${item.img}` }}
               />
-              <View style={{ width: 200 }}>
+              <View style={{ width: 180, marginLeft: 10 }}>
                 <Text style={[sharedStyles.text, { fontSize: 18 }]}>{item.nomeLivro}</Text>
                 <Text style={sharedStyles.textGrey}>{item.nomeAutor}</Text>
+                <Text style={[sharedStyles.text, {fontSize: 30}]}>R$ 29.90</Text>
+
                 <View style={styles.addItemContainer}>
                   <View style={styles.addItemContainer}>
                     <TouchableOpacity onPress={() => diminuirQuantidade(item.codigoLivro)}>
@@ -104,34 +108,34 @@ const Carrinho = () => {
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
       />
-      <View style={[sharedStyles.headerThree, style.headerThree, { display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 10, alignItems: 'center' }]}>
-        <Text style={[sharedStyles.headerThree, style.headerThree, { fontWeight: 'bold', fontSize: 20 }]} >Total de itens: {quantidade}</Text>
-        <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 10, alignItems: 'flex-start' }}>
-          <Text style={[sharedStyles.headerThree, style.headerThree, , { fontWeight: 'bold', fontSize: 20 }]} >Pagamento:</Text>
-          <View style={styles.section}>
-            <Checkbox
-              style={styles.checkbox}
-              value={isPixChecked}
-              onValueChange={togglePixCheckbox}
-              color={isPixChecked ? '#51cba6' : undefined}
-            />
-            <Text style={[sharedStyles.headerThree, style.headerThree, { fontWeight: 'bold', fontSize: 10 }]} >Pix:</Text>
+      <View style={[sharedStyles.headerThree, style.headerThree, { display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center' }]}>
+        <View>
+          <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+            <Text style={[sharedStyles.textGrey, {paddingBottom: 0}]} >Pagamento:</Text>
+              <Checkbox
+                style={styles.checkbox}
+                value={isPixChecked}
+                onValueChange={togglePixCheckbox}
+                color={isPixChecked ? '#51cba6' : undefined}
+              />
+              <Text style={[sharedStyles.textGrey, { fontWeight: 'bold', fontSize: 13, paddingBottom: 0 }]} >Pix</Text>
+              <Checkbox
+                style={styles.checkbox}
+                value={isCardChecked}
+                onValueChange={toggleCardCheckbox}
+                color={isCardChecked ? '#51cba6' : undefined}
+              />
+              <Text style={[sharedStyles.textGrey, { fontWeight: 'bold', fontSize: 13, paddingBottom: 0 }]} >Cartão de crédito</Text>
+            </View>
           </View>
-
-          <View style={styles.section}>
-            <Checkbox
-              style={styles.checkbox}
-              value={isCardChecked}
-              onValueChange={toggleCardCheckbox}
-              color={isCardChecked ? '#51cba6' : undefined}
-            />
-            <Text style={[sharedStyles.headerThree, style.headerThree, { fontWeight: 'bold', fontSize: 10 }]} >Cartão de crédito:</Text>
+          <View style={{ width: '100%', height: 1, backgroundColor: '#9D9A9A' }}></View>
+          <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', height: 70, gap: 10, marginRight: 60}}>
+              <Text style={[sharedStyles.textGrey, {padding: 0}]} >Subtotal:</Text>
+              <Text style={[sharedStyles.headerThree, { fontWeight: 'bold', fontSize: 25, paddingBottom: 0 }]} >R$ {(quantidade * 29.9).toFixed(2)}</Text>
           </View>
-        </View>
-        <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', backgroundColor: '#089A6E', marginBottom: 10, borderRadius: 13, width: 220, alignItems: 'center', height: 30, justifyContent: 'center' }} onPress={finalizarCompra}>
-          <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16, }}>Finalizar compra</Text>
-          <MaterialCommunityIcons style={{ paddingLeft: 15 }} name="hand-heart" size={25} color="#fff" />
-        </TouchableOpacity >
+            <TouchableOpacity style={{ position: 'absolute', right: 0, bottom: 0, display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', backgroundColor: '#089A6E', marginBottom: 10, marginRight: 10, borderRadius: 13, width: 90, height: 50 }} onPress={finalizarCompra}>
+              <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16, textAlign: 'center' }}>Finalizar compra</Text>
+            </TouchableOpacity >
       </View>
     </SafeAreaView >
   );
@@ -161,9 +165,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     position: 'relative',
     padding: 15,
-    // borderRadius: 13,
     gap: 10,
-    // marginTop: 10,
   },
   addItemContainer: {
     display: 'flex',
@@ -171,11 +173,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     width: 100,
-    padding: 20,
     gap: 20
   },
   itemContent: {
-    // margin: 10,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
