@@ -17,26 +17,32 @@ No projeto construímos um aplicativo mobile e-commerce de livros, utilizando AP
 ## Screnshots 
 
 - Tela de login
-<img src="https://github.com/filipe-oliv95/AppEditorasGrupo02/blob/main/AppLivrariaGrupo02/imagens/pagina-login-G2-livraria.png?raw=true" >
+<img src="https://github.com/filipe-oliv95/AppEditorasGrupo02/blob/main/AppLivrariaGrupo02/imagens/pagina-login-G2-livraria.png?raw=true" width="300" height="643">
 
 - Tela Home
 
-<img src="https://github.com/filipe-oliv95/AppEditorasGrupo02/blob/main/AppLivrariaGrupo02/imagens/pagina-home-G2-livraria.png?raw=true" >
+<img src="https://github.com/filipe-oliv95/AppEditorasGrupo02/blob/main/AppLivrariaGrupo02/imagens/pagina-home-G2-livraria.png?raw=true" width="300" height="643">
 
 - Tela carrinho
 
-<img src="https://github.com/filipe-oliv95/AppEditorasGrupo02/blob/main/AppLivrariaGrupo02/imagens/pagina-carrinho-G2-livraria.png?raw=true" >
+<img src="https://github.com/filipe-oliv95/AppEditorasGrupo02/blob/main/AppLivrariaGrupo02/imagens/pagina-carrinho-G2-livraria.png?raw=true" width="300" height="643">
 
 
   ## Stack utilizada
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+
 ![React_Native](https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+
 ![](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+
 ![](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+
 ![VSCode](https://img.shields.io/badge/Made%20for-VSCode-1f425f.svg)
+
 ![Expo](https://img.shields.io/badge/expo-1C1E24?style=for-the-badge&logo=expo&logoColor=#D04A37)
+
 ![Android Studio](https://img.shields.io/badge/Android_Studio-3DDC84?style=for-the-badge&logo=android-studio&logoColor=white)
 
- <img src="" >
+ <img src="https://github.com/filipe-oliv95/AppEditorasGrupo02/blob/main/AppLivrariaGrupo02/imagens/logo-serratec.png?raw=true" >
 
 
