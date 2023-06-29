@@ -16,7 +16,7 @@ export const CartProvider = ({ children }) => {
     }
   }
   // console.log(carrinho)
-  console.log(quantidade)
+  console.log("Quantidade CartContext" + quantidade)
 
   const removerDoCarrinho = (codigoLivro) => {
     setCarrinho(carrinhoAtual => carrinhoAtual.filter(item => item.codigoLivro !== codigoLivro));
@@ -35,7 +35,9 @@ export const CartProvider = ({ children }) => {
       carrinhoAtualizado = carrinhoAtualizado.filter(item => item.codigoLivro !== codigoLivro);
     }
     setCarrinho(carrinhoAtualizado);
-    setQuantidade(quantidadeCarrinho => quantidadeCarrinho - 1);
+    if (quantidade > 0) {
+      setQuantidade(quantidadeCarrinho => quantidadeCarrinho - 1);
+    }
   };
 
   const limparCarrinho = () => {

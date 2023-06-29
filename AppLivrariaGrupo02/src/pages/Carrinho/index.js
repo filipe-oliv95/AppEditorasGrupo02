@@ -24,6 +24,7 @@ const Carrinho = () => {
   const toggleCardCheckbox = () => {
     setCardChecked(!isCardChecked);
     if (isPixChecked) setPixChecked(!isPixChecked);
+    console.log("Quantidade ao clicar toggleCard " + quantidade)  // verificar quantidade atualizada
   };
 
 
@@ -32,6 +33,7 @@ const Carrinho = () => {
       alert("Não há livros no carrinho, adicione antes de clicar em confirmar!")
     }
     else {
+
       alert("Compra realizada com sucesso");
       limparCarrinho();
       setTimeout(() => {
@@ -39,7 +41,7 @@ const Carrinho = () => {
       }, 2200);
     }
   }
-
+  console.log("Quantidade no Carrinho " + quantidade)  // verificar quantidade atualizada
   return (
     <SafeAreaView style={[sharedStyles.container, style.container, { flex: 1 }]}>
       <StatusBar style="light" />
@@ -69,7 +71,7 @@ const Carrinho = () => {
                     <TouchableOpacity onPress={() => diminuirQuantidade(item.codigoLivro)}>
                       <AntDesign name="minus" size={24} color={isEnabled ? '#000' : '#fff'} />
                     </TouchableOpacity>
-                    <Text style={[style.textOne, { fontSize: 25 }]}>{item.quantidade}</Text>
+                    <Text style={[style.textOne, { fontSize: 25 }]}>{quantidade}</Text>
                     <TouchableOpacity onPress={() => aumentarQuantidade(item.codigoLivro)}>
                       <AntDesign name="plus" size={24} color={isEnabled ? '#000' : '#fff'} />
                     </TouchableOpacity>
