@@ -7,12 +7,11 @@ Atividade final da disciplina de Desenvolvimento Mobile ministrada pelo prof. Al
 No projeto construímos um aplicativo mobile e-commerce de livros, utilizando API fornecida pelo professor. 
 
 - [@DriRSantos](https://github.com/DriRSantos)
+- [@brunaalves21](https://github.com/brunaalves21)
 - [@caioOliveiraF](https://github.com/caioOliveiraF)
 - [@filipe-oliv95](https://github.com/filipe-oliv95)
 - [@JullianCarlo](https://github.com/JullianCarlo)
 - [@larissrosa ](https://github.com/larissrosa)
-- [@brunaalves21](https://github.com/brunaalves21)
-
 
 ## Screnshots 
 
