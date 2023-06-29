@@ -32,12 +32,24 @@ const Carrinho = () => {
 
   const finalizarCompra = () => {
     if (quantidade === 0) {
-      alert("Não há livros no carrinho, adicione antes de clicar em confirmar!")
+      Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: 'Não há livros no carrinho.',
+        text2: 'Adicione antes de clicar em confirmar!'
+      })
     }
     else if (!isPixChecked && !isCardChecked) {
-        alert("Selecione uma das formas de pagamento");
+      Toast.show({
+        type: 'error',
+        text1: 'Selecione uma das formas de pagamento.',
+        text2: 'Pix ou cartão de crédito'
+      })
     } else {
-      alert("Compra realizada com sucesso!");
+      Toast.show({
+        text1: 'Compra realizada com sucesso!',
+        text2: 'Volte sempre!'
+      })
       limparCarrinho();
       setTimeout(() => {
         navigation.navigate('Inicio');
@@ -55,7 +67,6 @@ const Carrinho = () => {
         </View>
         <View style={{ width: '100%', height: 1, backgroundColor: '#9D9A9A' }}></View>
       </View>
-      <Toast ref={(ref) => { Toast.setRef(ref) }} />
       <FlatList style={{ marginTop: 17 }}
         data={carrinho}
         keyExtractor={(item) => item.codigoLivro}
@@ -69,7 +80,7 @@ const Carrinho = () => {
               <View style={{ width: 180, marginLeft: 10 }}>
                 <Text style={[sharedStyles.text, { fontSize: 18 }]}>{item.nomeLivro}</Text>
                 <Text style={sharedStyles.textGrey}>{item.nomeAutor}</Text>
-                <Text style={[sharedStyles.text, {fontSize: 30}]}>R$ 29.90</Text>
+                <Text style={[sharedStyles.text, { fontSize: 30 }]}>R$ 29.90</Text>
 
                 <View style={styles.addItemContainer}>
                   <View style={styles.addItemContainer}>
@@ -108,34 +119,35 @@ const Carrinho = () => {
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
       />
+      <Toast ref={(ref) => { Toast.setRef(ref) }} />
       <View style={[sharedStyles.headerThree, style.headerThree, { display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center' }]}>
         <View>
-          <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-            <Text style={[sharedStyles.textGrey, {paddingBottom: 0}]} >Pagamento:</Text>
-              <Checkbox
-                style={styles.checkbox}
-                value={isPixChecked}
-                onValueChange={togglePixCheckbox}
-                color={isPixChecked ? '#51cba6' : undefined}
-              />
-              <Text style={[sharedStyles.textGrey, { fontWeight: 'bold', fontSize: 13, paddingBottom: 0 }]} >Pix</Text>
-              <Checkbox
-                style={styles.checkbox}
-                value={isCardChecked}
-                onValueChange={toggleCardCheckbox}
-                color={isCardChecked ? '#51cba6' : undefined}
-              />
-              <Text style={[sharedStyles.textGrey, { fontWeight: 'bold', fontSize: 13, paddingBottom: 0 }]} >Cartão de crédito</Text>
-            </View>
+          <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Text style={[sharedStyles.textGrey, { paddingBottom: 0 }]} >Pagamento:</Text>
+            <Checkbox
+              style={styles.checkbox}
+              value={isPixChecked}
+              onValueChange={togglePixCheckbox}
+              color={isPixChecked ? '#51cba6' : undefined}
+            />
+            <Text style={[sharedStyles.textGrey, { fontWeight: 'bold', fontSize: 13, paddingBottom: 0 }]} >Pix</Text>
+            <Checkbox
+              style={styles.checkbox}
+              value={isCardChecked}
+              onValueChange={toggleCardCheckbox}
+              color={isCardChecked ? '#51cba6' : undefined}
+            />
+            <Text style={[sharedStyles.textGrey, { fontWeight: 'bold', fontSize: 13, paddingBottom: 0 }]} >Cartão de crédito</Text>
           </View>
-          <View style={{ width: '100%', height: 1, backgroundColor: '#9D9A9A' }}></View>
-          <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', height: 70, gap: 10, marginRight: 60}}>
-              <Text style={[sharedStyles.textGrey, {padding: 0}]} >Subtotal:</Text>
-              <Text style={[sharedStyles.headerThree, { fontWeight: 'bold', fontSize: 25, paddingBottom: 0 }]} >R$ {(quantidade * 29.9).toFixed(2)}</Text>
-          </View>
-            <TouchableOpacity style={{ position: 'absolute', right: 0, bottom: 0, display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', backgroundColor: '#089A6E', marginBottom: 10, marginRight: 10, borderRadius: 13, width: 90, height: 50 }} onPress={finalizarCompra}>
-              <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16, textAlign: 'center' }}>Finalizar compra</Text>
-            </TouchableOpacity >
+        </View>
+        <View style={{ width: '100%', height: 1, backgroundColor: '#9D9A9A' }}></View>
+        <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', height: 70, gap: 10, marginRight: 60 }}>
+          <Text style={[sharedStyles.textGrey, { padding: 0 }]} >Subtotal:</Text>
+          <Text style={[sharedStyles.headerThree, { fontWeight: 'bold', fontSize: 25, paddingBottom: 0 }]} >R$ {(quantidade * 29.9).toFixed(2)}</Text>
+        </View>
+        <TouchableOpacity style={{ position: 'absolute', right: 0, bottom: 0, display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', backgroundColor: '#089A6E', marginBottom: 10, marginRight: 10, borderRadius: 13, width: 90, height: 50 }} onPress={finalizarCompra}>
+          <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16, textAlign: 'center' }}>Finalizar compra</Text>
+        </TouchableOpacity >
       </View>
     </SafeAreaView >
   );
