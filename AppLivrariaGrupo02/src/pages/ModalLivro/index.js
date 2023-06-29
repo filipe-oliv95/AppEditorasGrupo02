@@ -71,14 +71,14 @@ function ModalLivro({ visible, hideModal, livro }) {
         padding: 20,
       }}>
         <View style={{ flex: 1, justifyContent: 'space-around', flexDirection: 'column', alignItems: 'center', padding: 10, borderRadius: 13, borderTopLeftRadius: 5, borderBottomRightRadius: 5 }}>
-          <Text style={[sharedStyles.headerTwo, { color: '#08513C', textAlign: 'center' }]}>{livro.nomeLivro}</Text>
+          <Text style={[sharedStyles.headerTwo, { textAlign: 'center' }]}>{livro.nomeLivro}</Text>
           <View style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Entypo name="chevron-left" style={{ width: 40 }} onPress={hideModal} size={50} color="#08513C" />
+            <Entypo name="chevron-left" style={{ width: 40 }} onPress={hideModal} size={50} color="#089A6E" />
             <Image
               style={sharedStyles.imgLivroModal}
               source={{ uri: `data:image/png;base64,${livro.img}` }}
             />
-            <Fontisto name="favorite" style={{ width: 40 }} size={40} color="#08513C" onPress={() => {
+            <Fontisto name="favorite" style={{ width: 40 }} size={40} color="#089A6E" onPress={() => {
               addToFavorites('favoriteBooks', livro.codigoLivro),
                 Toast.show({
                   position: 'top',
@@ -91,6 +91,7 @@ function ModalLivro({ visible, hideModal, livro }) {
           <View style={{ width: 200, height: 1, backgroundColor: '#9D9A9A' }}></View>
           <StarRating color={'#FFE500'} rating={rating} onChange={setRating} />
           <Text style={[sharedStyles.textGrey, { marginVertical: 5, marginHorizontal: 10 }]}>{livro.nomeAutor}</Text>
+          <Text style={[sharedStyles.text, { fontSize: 30, marginHorizontal: 10 }]}>R$ 29.90</Text>
           <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', backgroundColor: '#089A6E', borderRadius: 13, width: 250, alignItems: 'center', height: 50, justifyContent: 'center' }}
             onPress={() => {
               adicionarAoCarrinho(livro),
