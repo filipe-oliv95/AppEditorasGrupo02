@@ -12,6 +12,8 @@ const AllEditoras = () => {
     const [dadosEditora, setDadosEditora] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const { isEnabled } = useContext(AppearanceContext);
+    const [qtd, setQtd] = useState(3);
+    const [pagina, setPagina] = useState(0);
     const style = isEnabled === true ? lightStyles : darkStyles;
 
     const ItemEditora = ({ img, id, nomeEditora }) => {
@@ -28,32 +30,36 @@ const AllEditoras = () => {
                         style={styles.imgAllEditoras}
                         source={{ uri: `data:image/png;base64,${img}` }}
                     />
-                    <Text style={[sharedStyles.text, {fontSize: 18, textAlign: 'center'}]}>{nomeEditora}</Text> 
+                    <Text style={[sharedStyles.text, { fontSize: 18, textAlign: 'center' }]}>{nomeEditora}</Text>
                 </View>
             </TouchableOpacity>
         )
     };
 
-    const getAllEditoras = async () => {
-        setIsLoading(true);
-        await AxiosInstance.get(
-            '/editoras',
-            { headers: { 'Authorization': `Bearer ${dadosUsuario?.token}` } }
-        ).then(resultado => {
-            setDadosEditora(resultado.data);
-            setIsLoading(false);
-        }).catch((error) => {
-            console.log('Ocorreu um erro ao recuperar os dados das Editoras: ' + error);
-            setIsLoading(false);
-        })
-    }
-
     useEffect(() => {
         getAllEditoras();
     }, [])
 
-    const [columns, setColumns] = useState(2); // Inicialmente, 2 colunas
-  
+    const getAllEditoras = async () => {
+        setIsLoading(true);
+        await AxiosInstance.get(
+            `/editoras?pagina=${pagina}&qtdRegistros=${qtd}`,
+            { headers: { 'Authorization': `Bearer ${dadosUsuario?.token}` } }
+        ).then(resultado => {
+            console.log(resultado.data);
+            // Merge old and new data
+            setDadosEditora([...dadosEditora, ...resultado.data]);
+            setPagina(pagina + 1);
+            setIsLoading(false);
+        }).catch((error) => {
+            console.log('Ocorreu um erro ao recuperar os dados das Editoras: ' + error);
+            // setIsLoading(false);
+        })
+    }
+
+    console.log(dadosEditora.map(item => item.codigoEditora));
+    console.log(dadosEditora)
+
     if (isLoading) {
         return (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -74,13 +80,14 @@ const AllEditoras = () => {
                         </View>
                         <View style={{ width: '100%', height: 1, backgroundColor: '#9D9A9A' }}></View>
                     </View>
-                    <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} >
+                    <View style={styles.itemsContainer}>
                         <FlatList
-                            numColumns={columns}
+                            numColumns={2}
                             data={dadosEditora}
+                            keyExtractor={item => item.codigoEditora.toString()}
                             renderItem={({ item }) => <ItemEditora nomeEditora={item.nomeEditora} img={item.img} id={item.codigoEditora} />}
-                            keyExtractor={item => item.codigoEditora} 
-                            showsVerticalScrollIndicator={false}/>
+                            showsVerticalScrollIndicator={false}
+                        />
                     </View>
                 </View>
             </SafeAreaView>
@@ -91,6 +98,14 @@ const AllEditoras = () => {
 const styles = StyleSheet.create({
     searchBar: {
         margin: 10,
+    },
+
+    itemsContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        padding: 10,
+        width: '100%',
+        height: '92%',
     },
     title: {
         display: 'flex',
@@ -103,8 +118,8 @@ const styles = StyleSheet.create({
     },
     itemEditora: {
         margin: 10,
-        position: 'relative',
-        backgroundColor:'#F6FFFC',
+        // position: 'relative',
+        backgroundColor: '#F6FFFC',
         borderRadius: 5,
         borderWidth: 1,
         borderColor: '#089A6E',
@@ -124,12 +139,12 @@ const styles = StyleSheet.create({
         position: 'absolute',
     },
     imgAllEditoras: {
-        width: 140,
-        height: 140,
+        width: 160,
+        height: 160,
         borderRadius: 5,
         borderWidth: 1,
         borderColor: '#089A6E'
-      },
+    },
 });
 
 export default AllEditoras;
