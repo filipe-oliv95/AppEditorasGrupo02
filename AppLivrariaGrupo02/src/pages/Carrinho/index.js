@@ -61,7 +61,7 @@ const Carrinho = () => {
 
 
 
-          <View style={{display: 'flex', flexDirection: 'column'}}>
+          <View style={{display: 'flex', flexDirection: 'column', marginRight: 10}}>
             <View style={styles.contentContainer}>
                 <Image
                   style={sharedStyles.imgLivroSearch}
@@ -71,9 +71,9 @@ const Carrinho = () => {
                   <Text style={[sharedStyles.text, {fontSize: 18}]}>{item.nomeLivro}</Text>
                   <Text style={sharedStyles.textGrey}>{item.nomeAutor}</Text>
                   <View style={styles.addItemContainer}>
-                    <AntDesign name="minus" size={24} color="black" />
+                    <AntDesign name="minus" size={24} color= { isEnabled ? '#000' : '#fff'} />
                     <Text style={[style.textOne, {fontSize: 25}]}>2</Text>
-                    <AntDesign name="plus" size={24} color="black" />
+                    <AntDesign name="plus" size={24} color= { isEnabled ? '#000' : '#fff'} />
                   </View>
                 </View>
                 <View style={styles.itemContent}>
