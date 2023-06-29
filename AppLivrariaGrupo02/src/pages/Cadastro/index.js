@@ -1,61 +1,75 @@
 import {
+  Image,
+  SafeAreaView,
+  StatusBar,
   StyleSheet,
   Text,
-  View,
   TextInput,
   TouchableOpacity,
-  StatusBar,
-  SafeAreaView,
-  Image
-}
-  from "react-native";
-
-import React, { useState, useContext } from "react";
-import AxiosInstance from "../../api/AxiosInstance";
-import { DataContext } from "../../context/DataContext";
+  View
+} from "react-native";
 import { Ionicons } from '@expo/vector-icons';
+import React, { useContext, useState } from "react";
+import AxiosInstance from "../../api/AxiosInstance";
 import { AppearanceContext } from '../../context/AppearanceContext';
-import { sharedStyles, darkStyles, lightStyles } from '../../themes/index';
+import { DataContext } from "../../context/DataContext";
+import { darkStyles, lightStyles, sharedStyles } from '../../themes/index';
 
 const Cadastro = ({ navigation }) => {
-  const [nome, setNome] = useState('');
-  const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
-  // const [confSenha, setConfSenha] = useState('');
+  const [nome, setNome] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [senha, setSenha] = React.useState('');
   const [hidePass, setHidePass] = useState(true);
   const [error, setError] = useState('');
   const { isEnabled } = useContext(AppearanceContext);
-
+  const { armazenarDadosUsuario } = useContext(DataContext);
   const styles = isEnabled ? lightStyles : darkStyles;
 
-
   const handleSignup = async () => {
+    console.log("A")
     if (!nome | !email | !senha) {
       setError("preencha todos os campos");
       return;
-      // } else if (senha !== confSenha) {
-      //   setError("as senhas não são iguais");
-      //   return;
     } else if (senha.length < 6) {
       setError("a senha tem que ter mais que seis dígitos");
       return;
-      // } else if (nome.length > 11) {
-      //   setError("O nome escolhido é muito grande!");
-      //   return;
     }
 
     try {
-      await AxiosInstance.post("/auth/signup", {
+      const resultado = await AxiosInstance.post('/auth/signup', {
         username: nome,
         email: email,
         password: senha,
-        role: ["user"],
+        role: ["user"]
       });
 
-      alert("usuário cadatrado com sucesso! Você será redirecionado para login");
-      navigation.navigate("/login");
+      if (resultado.status === 200) {
+        console.log(resultado)
+        try {
+          const resultadoSignin = await AxiosInstance.post('/auth/signin', {
+            username: nome,
+            password: senha
+          });
+          console.log(nome)
+          console.log(senha)
+
+          if (resultadoSignin.status === 200) {
+            var jwtToken = resultadoSignin.data;
+            armazenarDadosUsuario(jwtToken["accessToken"]);
+            navigation.navigate('Home');
+          } else {
+            console.log('erro ao realizar o login');
+          }
+        } catch {
+          console.log(error);
+          setError("Ocorreu um erro login.");
+        }
+      }
+      else {
+        console.log("Erro ao realizar o cadastro")
+      }
     } catch (error) {
-      console.log('erro durante o processo de cadastro: ' + error);
+      console.log(error);
       setError("Ocorreu um erro ao salvar os dados.");
     }
   };
@@ -74,7 +88,7 @@ const Cadastro = ({ navigation }) => {
         <Text style={[sharedStyles.textOne, styles.textOne]} >Nome</Text>
         <TextInput
           style={[style.input, error && style.inputError]}
-          placeholder=''
+          placeholder='Nome usuário'
           onChangeText={setNome}
           value={nome}
         />
@@ -83,7 +97,7 @@ const Cadastro = ({ navigation }) => {
         <Text style={[sharedStyles.textOne, styles.textOne]} >Email</Text>
         <TextInput
           style={[style.input, error && style.inputError]}
-          placeholder=''
+          placeholder='Email'
           onChangeText={setEmail}
           value={email}
         />
@@ -93,7 +107,7 @@ const Cadastro = ({ navigation }) => {
         <View style={style.inputArea}>
           <TextInput
             style={[style.inputSenha, error && style.inputError]}
-            placeholder=''
+            placeholder='Senha'
             onChangeText={setSenha}
             value={senha}
             secureTextEntry={hidePass}
@@ -106,27 +120,9 @@ const Cadastro = ({ navigation }) => {
             }
           </TouchableOpacity>
         </View>
-
-        {/* <Text style={[sharedStyles.textOne, styles.textOne]} >Repetir senha:</Text>
-        <View style={style.inputArea}>
-          <TextInput
-            style={[style.inputSenha, error && style.inputError]}
-            placeholder=''
-            onChangeText={setConfSenha}
-            value={confSenha}
-            secureTextEntry={hidePass}
-          />
-          <TouchableOpacity style={style.icon} onPress={() => setHidePass(!hidePass)}>
-            {hidePass ?
-              <Ionicons name="eye" color="#07261d" size={18} />
-              :
-              <Ionicons name="eye-off" color="#07261d" size={18} />
-            }
-          </TouchableOpacity>
-        </View> */}
         <View style={{ display: 'flex', alignItems: 'center' }}>
           <Text style={{ color: 'red', margin: 'auto', paddingTop: 10 }}>{error}</Text>
-          <TouchableOpacity style={style.button} onPress={() => handleSignup()} >
+          <TouchableOpacity style={style.button} onPress={handleSignup} >
             <Text style={style.txtButton}>Confirmar cadastro</Text>
           </TouchableOpacity>
           <Text style={[sharedStyles.textOne, styles.textOne, { marginTop: 10 }]} >Já possui conta? Faça login <Text style={{ color: '#089A6E' }} onPress={() => navigation.navigate("Login")}>aqui</Text></Text>

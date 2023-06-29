@@ -19,7 +19,7 @@ import { sharedStyles, darkStyles, lightStyles } from '../../themes/index';
 
 const Login = ({ navigation }) => {
 
-    const [email, setEmail] = useState('');
+    const [nome, setNome] = useState('');
     const [senha, setSenha] = useState('');
     const { armazenarDadosUsuario } = useContext(DataContext);
     const [hidePass, setHidePass] = useState(true);
@@ -31,13 +31,13 @@ const Login = ({ navigation }) => {
     const handleLogin = async () => {
 
         try {
-            if (!email | !senha) {
+            if (!nome | !senha) {
                 setError("Preencha todos os campos");
                 return;
             }
 
             const resultado = await AxiosInstance.post('/auth/signin', {
-                username: email,
+                username: nome,
                 password: senha
             });
 
@@ -50,7 +50,7 @@ const Login = ({ navigation }) => {
             }
         } catch (error) {
             console.log('erro durante o processo de login: ' + error);
-            setError("E-mail ou senha incorretos");
+            setError("Nome ou senha incorretos");
         }
     }
 
@@ -67,12 +67,12 @@ const Login = ({ navigation }) => {
             <Text style={[sharedStyles.headerTwo, styles.headerTwo]} >Bem Vindo(a)</Text>
 
             <View style={style.inputContainer}>
-                <Text style={[sharedStyles.textOne, styles.textOne]} >Email:</Text>
+                <Text style={[sharedStyles.textOne, styles.textOne]} >Nome:</Text>
                 <TextInput
                     style={[style.input, error && style.inputError]}
                     placeholder=''
-                    onChangeText={setEmail}
-                    value={email}
+                    onChangeText={setNome}
+                    value={nome}
                 />
             </View>
             <View style={style.inputContainer}>
