@@ -7,7 +7,6 @@ import { sharedStyles, darkStyles, lightStyles } from '../../themes/index';
 import { StyleSheet, View, Text, FlatList, Image, StatusBar, SafeAreaView, TouchableOpacity } from 'react-native';
 import Checkbox from 'expo-checkbox';
 import Toast from "react-native-toast-message";
-import { text } from "body-parser";
 
 const Carrinho = () => {
   const { carrinho, quantidade, removerDoCarrinho, limparCarrinho } = useContext(CartContext);

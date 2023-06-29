@@ -27,12 +27,12 @@ const saveIncremental = async (key, value) => {
       arrayIncremental = arrayDadosAtuais;
 
       if (arrayIncremental.includes(value)) { // checa se já está nos favoritos
-        alert('O livro já está na lista de favoritos!');
+        console.log('O livro já está na lista de favoritos!');
         return;
       } else {
         arrayIncremental.push(value);
         await save(key, arrayIncremental);
-        alert('Livro adicionado aos favoritos!');
+        console.log('Livro adicionado aos favoritos!');
       }
 
       console.log('Dados livros salvos depois de null: ' + JSON.stringify(arrayDadosAtuais))
@@ -41,7 +41,7 @@ const saveIncremental = async (key, value) => {
     else {  // se não existe, insere
       arrayIncremental.push(value);
       await save(key, arrayIncremental);
-      alert('Livro adicionado aos favoritos!');
+      console.log('Livro adicionado aos favoritos!');
     }
   } catch (error) {
     console.log('Error ao persistir dados' + error);
