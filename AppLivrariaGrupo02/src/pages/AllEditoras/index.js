@@ -52,9 +52,8 @@ const AllEditoras = () => {
             setIsLoading(false);
         })
     }
-
-    console.log(dadosEditora.map(item => item.codigoEditora));
-    console.log(dadosEditora)
+    // console.log(dadosEditora.map(item => item.codigoEditora));
+    // console.log(dadosEditora)
 
     if (isLoading) {
         return (

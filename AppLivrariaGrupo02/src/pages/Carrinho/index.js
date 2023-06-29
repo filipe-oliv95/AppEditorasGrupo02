@@ -56,7 +56,7 @@ const Carrinho = () => {
       }, 2200);
     }
   }
-  console.log("Quantidade no Carrinho " + quantidade)  // verificar quantidade atualizada
+  // console.log("Quantidade no Carrinho " + quantidade)  // verificar quantidade atualizada
   return (
     <SafeAreaView style={[sharedStyles.container, style.container, { flex: 1 }]}>
       <StatusBar style="light" />

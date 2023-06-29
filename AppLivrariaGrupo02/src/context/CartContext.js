@@ -7,7 +7,7 @@ export const CartProvider = ({ children }) => {
 
   const totalQuantidade = carrinho.reduce((total, item) => total + item.quantidade, 0);
 
-  console.log("Adicionado ao carrinho")
+  // console.log("Adicionado ao carrinho")
   const adicionarAoCarrinho = (item) => {
     if (!carrinho.some((cartItem) => cartItem.codigoLivro === item.codigoLivro)) {
       setCarrinho(carrinhoAtual => [...carrinhoAtual, { ...item, quantidade: 1 }]);
@@ -16,7 +16,7 @@ export const CartProvider = ({ children }) => {
     }
   }
 
-  console.log("Quantidade CartContext" + totalQuantidade)
+  // console.log("Quantidade CartContext" + totalQuantidade)
 
   const removerDoCarrinho = (codigoLivro) => {
     setCarrinho(carrinho.filter(item => item.codigoLivro !== codigoLivro));

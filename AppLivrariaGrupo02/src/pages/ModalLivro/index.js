@@ -29,18 +29,17 @@ function ModalLivro({ visible, hideModal, livro }) {
   };
 
   const addToFavorites = async (key, value) => {
-    console.log('addToFavorites no ModalLivro:', saveIncremental); // entra na funcao
-    console.log('livro.codigoLivro:', value);  // correto codigoLivro
+    // console.log('addToFavorites no ModalLivro:', saveIncremental); // entra na funcao
+    // console.log('livro.codigoLivro:', value);  // correto codigoLivro
 
     await saveIncremental(key, value);
-    console.log('Livro adicionado aos favoritos.');
+    // console.log('Livro adicionado aos favoritos.');
     setdadosLivrosSecStore(await getValueFor('favoriteBooks'));
-    console.log('Estado atualizado com novos favoritos.');
+    // console.log('Estado atualizado com novos favoritos.');
 
     contagemFavAtualizada();
-    console.log('Contagem favoritos atualizada.');
-
-    console.log("codigoLivro dentro do addToFavorites" + livro.codigoLivro)
+    // console.log('Contagem favoritos atualizada.');
+    // console.log("codigoLivro dentro do addToFavorites" + livro.codigoLivro)
   }
 
   useEffect(() => {

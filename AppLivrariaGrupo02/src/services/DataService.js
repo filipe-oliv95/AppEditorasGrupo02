@@ -8,7 +8,7 @@ const save = async (key, value) => {
     console.log('Erro ao persistir dados: ' + error);
   }
   let livros = await getValueFor(key);
-  console.log('Livro armazenado SAVE: ' + JSON.stringify(livros))
+  // console.log('Livro armazenado SAVE: ' + JSON.stringify(livros))
 }
 
 const saveIncremental = async (key, value) => {
@@ -32,23 +32,23 @@ const saveIncremental = async (key, value) => {
       } else {
         arrayIncremental.push(value);
         await save(key, arrayIncremental);
-        console.log('Livro adicionado aos favoritos!');
+        // console.log('Livro adicionado aos favoritos!');
       }
 
-      console.log('Dados livros salvos depois de null: ' + JSON.stringify(arrayDadosAtuais))
+      // console.log('Dados livros salvos depois de null: ' + JSON.stringify(arrayDadosAtuais))
       // console.log('Dados livros salvos atualmente: ' + JSON.stringify(arrayIncremental))
     }
     else {  // se não existe, insere
       arrayIncremental.push(value);
       await save(key, arrayIncremental);
-      console.log('Livro adicionado aos favoritos!');
+      // console.log('Livro adicionado aos favoritos!');
     }
   } catch (error) {
     console.log('Error ao persistir dados' + error);
   }
 
   let livros = await getValueFor(key);
-  console.log('Stored data: ' + JSON.stringify(livros));
+  // console.log('Stored data: ' + JSON.stringify(livros));
 }
 
 const getValueFor = async (key) => {
@@ -62,7 +62,7 @@ const getValueFor = async (key) => {
 }
 
 const deleteLivros = async (key) => {
-  console.log("ENTROU DELETE id:" + key);
+  // console.log("ENTROU DELETE id:" + key);
 
   await SecureStore.deleteItemAsync(key);
 };

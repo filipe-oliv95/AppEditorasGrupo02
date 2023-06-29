@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { SafeAreaView, StatusBar, Text, StyleSheet, ActivityIndicator, Image } from 'react-native';
-import { Entypo } from '@expo/vector-icons'; 
+import { Entypo } from '@expo/vector-icons';
 import { AppearanceContext } from '../../context/AppearanceContext';
 import { sharedStyles, darkStyles, lightStyles } from '../../themes/index';
 
 const LoadingScreen = ({ navigation }) => {
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState(5);
   const { isEnabled } = useContext(AppearanceContext);
-  
+
   const style = isEnabled ? lightStyles : darkStyles;
 
   useEffect(() => {
@@ -27,15 +27,15 @@ const LoadingScreen = ({ navigation }) => {
     <SafeAreaView style={[sharedStyles.container, style.container, { justifyContent: 'center', alignItems: 'center' }]}>
       <StatusBar style="light" />
       <Text style={[sharedStyles.headerOne, style.headerOne]} >LIVRARIA</Text>
-      <Image 
-        style ={{ width: 300, height: 200}}
+      <Image
+        style={{ width: 300, height: 200 }}
         source={{
           uri: 'https://i.imgur.com/Mbm6xQl.png',
         }}></Image>
       <Entypo name="book" size={35} color='#089A6E'
-        style={{position: 'absolute', right: 0, bottom: 0, margin: 10, marginRight: 50}}
+        style={{ position: 'absolute', right: 0, bottom: 0, margin: 10, marginRight: 50 }}
       />
-      <ActivityIndicator style={{ position: 'absolute', right: 0, bottom: 0, margin: 10}} size="large" color="#089A6E" />
+      <ActivityIndicator style={{ position: 'absolute', right: 0, bottom: 0, margin: 10 }} size="large" color="#089A6E" />
     </SafeAreaView>
   );
 };
