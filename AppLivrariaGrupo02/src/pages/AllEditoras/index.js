@@ -12,8 +12,6 @@ const AllEditoras = () => {
     const [dadosEditora, setDadosEditora] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const { isEnabled } = useContext(AppearanceContext);
-    const [qtd, setQtd] = useState(3);
-    const [pagina, setPagina] = useState(0);
     const style = isEnabled === true ? lightStyles : darkStyles;
 
     const ItemEditora = ({ img, id, nomeEditora }) => {
@@ -43,17 +41,15 @@ const AllEditoras = () => {
     const getAllEditoras = async () => {
         setIsLoading(true);
         await AxiosInstance.get(
-            `/editoras?pagina=${pagina}&qtdRegistros=${qtd}`,
+            `/editoras`,
             { headers: { 'Authorization': `Bearer ${dadosUsuario?.token}` } }
         ).then(resultado => {
             console.log(resultado.data);
-            // Merge old and new data
-            setDadosEditora([...dadosEditora, ...resultado.data]);
-            setPagina(pagina + 1);
+            setDadosEditora(resultado.data);
             setIsLoading(false);
         }).catch((error) => {
             console.log('Ocorreu um erro ao recuperar os dados das Editoras: ' + error);
-            // setIsLoading(false);
+            setIsLoading(false);
         })
     }
 
@@ -84,7 +80,7 @@ const AllEditoras = () => {
                         <FlatList
                             numColumns={2}
                             data={dadosEditora}
-                            keyExtractor={item => item.codigoEditora.toString()}
+                            keyExtractor={item => item.codigoEditora}
                             renderItem={({ item }) => <ItemEditora nomeEditora={item.nomeEditora} img={item.img} id={item.codigoEditora} />}
                             showsVerticalScrollIndicator={false}
                         />
