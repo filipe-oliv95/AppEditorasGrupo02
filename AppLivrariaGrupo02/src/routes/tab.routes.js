@@ -14,8 +14,11 @@ const Tab = createBottomTabNavigator();
 
 function TabRoutes() {
   const { isEnabled } = useContext(AppearanceContext);
-  const { quantidade } = useContext(CartContext);
   const { contagemFavoritos } = useContext(FavoritesContext);
+
+  const { carrinho } = useContext(CartContext);
+  const quantidade = carrinho.reduce((total, item) => total + item.quantidade, 0);
+
 
   return (
     <Tab.Navigator

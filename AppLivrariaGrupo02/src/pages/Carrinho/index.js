@@ -33,7 +33,6 @@ const Carrinho = () => {
       alert("Não há livros no carrinho, adicione antes de clicar em confirmar!")
     }
     else {
-
       alert("Compra realizada com sucesso");
       limparCarrinho();
       setTimeout(() => {
@@ -71,7 +70,7 @@ const Carrinho = () => {
                     <TouchableOpacity onPress={() => diminuirQuantidade(item.codigoLivro)}>
                       <AntDesign name="minus" size={24} color={isEnabled ? '#000' : '#fff'} />
                     </TouchableOpacity>
-                    <Text style={[style.textOne, { fontSize: 25 }]}>{quantidade}</Text>
+                    <Text style={[style.textOne, { fontSize: 25 }]}>{item.quantidade}</Text>
                     <TouchableOpacity onPress={() => aumentarQuantidade(item.codigoLivro)}>
                       <AntDesign name="plus" size={24} color={isEnabled ? '#000' : '#fff'} />
                     </TouchableOpacity>
@@ -93,10 +92,6 @@ const Carrinho = () => {
             </View>
             <View style={{ width: '100%', height: 1, backgroundColor: '#9D9A9A' }}></View>
           </View>
-
-
-
-
         )
         }
         ListEmptyComponent={

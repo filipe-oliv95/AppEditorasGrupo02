@@ -80,12 +80,12 @@ function ModalLivro({ visible, hideModal, livro }) {
             />
             <Fontisto name="favorite" style={{ width: 40 }} size={40} color="#08513C" onPress={() => {
               addToFavorites('favoriteBooks', livro.codigoLivro),
-              Toast.show({
-                position: 'top',
-                text1: 'Favoritado!',
-                text2: 'Seu livro foi adicionado aos favoritos com sucesso.'
-              })
-              }} />
+                Toast.show({
+                  position: 'top',
+                  text1: 'Favoritado!',
+                  text2: 'Seu livro foi adicionado aos favoritos com sucesso.'
+                })
+            }} />
           </View>
           <Toast ref={(ref) => { Toast.setRef(ref) }} />
           <View style={{ width: 200, height: 1, backgroundColor: '#9D9A9A' }}></View>
