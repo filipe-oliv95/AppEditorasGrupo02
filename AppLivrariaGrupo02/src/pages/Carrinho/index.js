@@ -9,7 +9,7 @@ import Checkbox from 'expo-checkbox';
 import Toast from "react-native-toast-message";
 
 const Carrinho = () => {
-  const { carrinho, quantidade, removerDoCarrinho, limparCarrinho } = useContext(CartContext);
+  const { carrinho, quantidade, removerDoCarrinho, limparCarrinho, diminuirQuantidade, aumentarQuantidade } = useContext(CartContext);
   const navigation = useNavigation();
   const [isPixChecked, setPixChecked] = useState(false);
   const [isCardChecked, setCardChecked] = useState(false);
@@ -51,46 +51,46 @@ const Carrinho = () => {
         <View style={{ width: '100%', height: 1, backgroundColor: '#9D9A9A' }}></View>
       </View>
       <Toast ref={(ref) => { Toast.setRef(ref) }} />
-      <FlatList style={{ marginTop: 17}}
+      <FlatList style={{ marginTop: 17 }}
         data={carrinho}
         keyExtractor={(item) => item.codigoLivro}
         renderItem={({ item }) => (
-
-
-
-
-
-
-          <View style={{display: 'flex', flexDirection: 'column', marginRight: 10}}>
+          < View style={{ display: 'flex', flexDirection: 'column', marginRight: 10 }}>
             <View style={styles.contentContainer}>
-                <Image
-                  style={sharedStyles.imgLivroSearch}
-                  source={{ uri: `data:image/png;base64,${item.img}` }}
-                />
-                <View style={{width: 200}}>
-                  <Text style={[sharedStyles.text, {fontSize: 18}]}>{item.nomeLivro}</Text>
-                  <Text style={sharedStyles.textGrey}>{item.nomeAutor}</Text>
+              <Image
+                style={sharedStyles.imgLivroSearch}
+                source={{ uri: `data:image/png;base64,${item.img}` }}
+              />
+              <View style={{ width: 200 }}>
+                <Text style={[sharedStyles.text, { fontSize: 18 }]}>{item.nomeLivro}</Text>
+                <Text style={sharedStyles.textGrey}>{item.nomeAutor}</Text>
+                <View style={styles.addItemContainer}>
                   <View style={styles.addItemContainer}>
-                    <AntDesign name="minus" size={24} color= { isEnabled ? '#000' : '#fff'} />
-                    <Text style={[style.textOne, {fontSize: 25}]}>2</Text>
-                    <AntDesign name="plus" size={24} color= { isEnabled ? '#000' : '#fff'} />
+                    <TouchableOpacity onPress={() => diminuirQuantidade(item.codigoLivro)}>
+                      <AntDesign name="minus" size={24} color={isEnabled ? '#000' : '#fff'} />
+                    </TouchableOpacity>
+                    <Text style={[style.textOne, { fontSize: 25 }]}>{item.quantidade}</Text>
+                    <TouchableOpacity onPress={() => aumentarQuantidade(item.codigoLivro)}>
+                      <AntDesign name="plus" size={24} color={isEnabled ? '#000' : '#fff'} />
+                    </TouchableOpacity>
                   </View>
                 </View>
-                <View style={styles.itemContent}>
-                  <TouchableOpacity onPress={() => {
-                    removerDoCarrinho(item.codigoLivro),
-                    Toast.show({
-                        position: 'top',
-                        text1: 'Livro removido!',
-                        text2: 'Seu livro foi removido do carrinho com sucesso.'
-                      })
-                    }} >
-                    <FontAwesome5 name="trash" size={24} color="#089A6E" />
-                  </TouchableOpacity>
-                </View>
               </View>
-              <View style={{ width: '100%', height: 1, backgroundColor: '#9D9A9A' }}></View>
+              <View style={styles.itemContent}>
+                <TouchableOpacity onPress={() => {
+                  removerDoCarrinho(item.codigoLivro),
+                    Toast.show({
+                      position: 'top',
+                      text1: 'Livro removido!',
+                      text2: 'Seu livro foi removido do carrinho com sucesso.'
+                    })
+                }} >
+                  <FontAwesome5 name="trash" size={24} color="#089A6E" />
+                </TouchableOpacity>
+              </View>
             </View>
+            <View style={{ width: '100%', height: 1, backgroundColor: '#9D9A9A' }}></View>
+          </View>
 
 
 
@@ -167,11 +167,11 @@ const styles = StyleSheet.create({
     // marginTop: 10,
   },
   addItemContainer: {
-    display: 'flex', 
-    flexDirection: 'row', 
-    alignItems: 'center', 
-    justifyContent: 'flex-start', 
-    width: 100, 
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    width: 100,
     padding: 20,
     gap: 20
   },

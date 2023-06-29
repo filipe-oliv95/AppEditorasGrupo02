@@ -23,6 +23,21 @@ export const CartProvider = ({ children }) => {
     setQuantidade(quantidadeCarrinho => quantidadeCarrinho - 1);
   }
 
+  const aumentarQuantidade = (codigoLivro) => {
+    setCarrinho(carrinhoAtual => carrinhoAtual.map(item => item.codigoLivro === codigoLivro ? { ...item, quantidade: item.quantidade + 1 } : item));
+    setQuantidade(quantidadeCarrinho => quantidadeCarrinho + 1);
+  };
+
+  const diminuirQuantidade = (codigoLivro) => {
+    let carrinhoAtualizado = carrinho.map(item => item.codigoLivro === codigoLivro ? { ...item, quantidade: item.quantidade - 1 } : item);
+    let reduzirItem = carrinhoAtualizado.find(item => item.codigoLivro === codigoLivro);
+    if (reduzirItem.quantidade === 0) {
+      carrinhoAtualizado = carrinhoAtualizado.filter(item => item.codigoLivro !== codigoLivro);
+    }
+    setCarrinho(carrinhoAtualizado);
+    setQuantidade(quantidadeCarrinho => quantidadeCarrinho - 1);
+  };
+
   const limparCarrinho = () => {
     setCarrinho([]);
     setQuantidade(0);
@@ -30,7 +45,7 @@ export const CartProvider = ({ children }) => {
 
   return (
     <CartContext.Provider
-      value={{ carrinho, quantidade, adicionarAoCarrinho, removerDoCarrinho, limparCarrinho }}>
+      value={{ carrinho, quantidade, adicionarAoCarrinho, removerDoCarrinho, limparCarrinho, aumentarQuantidade, diminuirQuantidade }}>
       {children}
     </CartContext.Provider>
   )
