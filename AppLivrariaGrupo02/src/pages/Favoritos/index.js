@@ -10,6 +10,7 @@ import { CartContext } from '../../context/CartContext';
 import { FavoritesContext } from '../../context/FavoritesContext';
 import { getValueFor, save } from '../../services/DataService';
 import { darkStyles, lightStyles, sharedStyles } from '../../themes/index';
+import ModalLivro from '../ModalLivro';
 
 const Favoritos = () => {
   const { dadosUsuario } = useContext(DataContext);
@@ -19,6 +20,10 @@ const Favoritos = () => {
   const [rating, setRating] = useState({});
   const { isEnabled } = useContext(AppearanceContext);
   const [isLoading, setIsLoading] = useState(false);
+  const [livro, setLivro] = useState([]);
+
+  const [visible, setVisible] = React.useState(false);
+  const hideModal = () => setVisible(false);
 
   const style = isEnabled ? lightStyles : darkStyles;
   // tem que usar esse useFocus para disparar getFavorite sempre que entrar nos Favoritos
@@ -28,6 +33,11 @@ const Favoritos = () => {
     }, [])
   );
 
+  const showModal = ({ id }) => {
+    const livro = favoriteBooks.find(livro => livro.codigoLivro === id);
+    setLivro(livro);
+    setVisible(true);
+};
   const handleRemove = async (id) => {
     try {
       let idsLivrosFavoritos = await getValueFor('favoriteBooks');
@@ -95,10 +105,12 @@ const Favoritos = () => {
           renderItem={({ item }) => (
             <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
               <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', paddingVertical: 10, paddingHorizontal: 0, gap: 10}}>
-                <Image
-                  style={[sharedStyles.imgLivroSearch, { display:'flex', alignItems: 'center' }]}
-                  source={{ uri: `data:image/png;base64,${item.img}` }}
-                />
+                <TouchableOpacity onPress={() => showModal({id: item.codigoLivro})}>
+                  <Image
+                    style={[sharedStyles.imgLivroSearch, { display:'flex', alignItems: 'center' }]}
+                    source={{ uri: `data:image/png;base64,${item.img}` }}
+                  />
+                </TouchableOpacity>
                 <View style={styles.contentContainer}>
                   <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 10, width: 170 }}>
                     <Text style={[sharedStyles.text, { fontSize: 18 }]}>{item.nomeLivro}</Text>
@@ -129,7 +141,7 @@ const Favoritos = () => {
           showsVerticalScrollIndicator={false}
         />
 
-
+      <ModalLivro visible={visible} hideModal={hideModal} livro={livro} />
       </SafeAreaView>
     );
   };
