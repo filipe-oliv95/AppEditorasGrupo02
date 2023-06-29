@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useNavigation } from '@react-navigation/native';
-import { FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
+import { FontAwesome5, MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
 import { CartContext } from '../../context/CartContext';
 import { AppearanceContext } from '../../context/AppearanceContext';
 import { sharedStyles, darkStyles, lightStyles } from '../../themes/index';
@@ -50,32 +50,51 @@ const Carrinho = () => {
         </View>
         <View style={{ width: '100%', height: 1, backgroundColor: '#9D9A9A' }}></View>
       </View>
-
       <Toast ref={(ref) => { Toast.setRef(ref) }} />
-      <FlatList style={{ marginTop: 17,}}
+      <FlatList style={{ marginTop: 17}}
         data={carrinho}
         keyExtractor={(item) => item.codigoLivro}
         renderItem={({ item }) => (
-          <View style={styles.contentContainer}>
-            <Text style={styles.itemTextLivros}>{item.nomeLivro}</Text>
-            <Image
-              style={styles.itemPhoto}
-              source={{ uri: `data:image/png;base64,${item.img}` }}
-            />
 
-            <View style={styles.itemContent}>
-              <TouchableOpacity onPress={() => {
-                removerDoCarrinho(item.codigoLivro),
-                  Toast.show({
-                    position: 'top',
-                    text1: 'Livro removido!',
-                    text2: 'Seu livro foi removido do carrinho com sucesso.'
-                  })
-              }} >
-                <FontAwesome5 name="trash" size={24} color="#089A6E" />
-              </TouchableOpacity>
+
+
+
+
+
+          <View style={{display: 'flex', flexDirection: 'column', marginRight: 10}}>
+            <View style={styles.contentContainer}>
+                <Image
+                  style={sharedStyles.imgLivroSearch}
+                  source={{ uri: `data:image/png;base64,${item.img}` }}
+                />
+                <View style={{width: 200}}>
+                  <Text style={[sharedStyles.text, {fontSize: 18}]}>{item.nomeLivro}</Text>
+                  <Text style={sharedStyles.textGrey}>{item.nomeAutor}</Text>
+                  <View style={styles.addItemContainer}>
+                    <AntDesign name="minus" size={24} color= { isEnabled ? '#000' : '#fff'} />
+                    <Text style={[style.textOne, {fontSize: 25}]}>2</Text>
+                    <AntDesign name="plus" size={24} color= { isEnabled ? '#000' : '#fff'} />
+                  </View>
+                </View>
+                <View style={styles.itemContent}>
+                  <TouchableOpacity onPress={() => {
+                    removerDoCarrinho(item.codigoLivro),
+                    Toast.show({
+                        position: 'top',
+                        text1: 'Livro removido!',
+                        text2: 'Seu livro foi removido do carrinho com sucesso.'
+                      })
+                    }} >
+                    <FontAwesome5 name="trash" size={24} color="#089A6E" />
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <View style={{ width: '100%', height: 1, backgroundColor: '#9D9A9A' }}></View>
             </View>
-          </View>
+
+
+
+
         )
         }
         ListEmptyComponent={
@@ -131,20 +150,30 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     padding: 10,
     gap: 5,
     marginLeft: 10,
   },
   contentContainer: {
-    padding: 15,
-    borderRadius: 13,
     display: 'flex',
-    gap: 10,
-    flexDirection: 'column',
+    flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 10,
+    justifyContent: 'space-between',
     position: 'relative',
+    padding: 15,
+    // borderRadius: 13,
+    gap: 10,
+    // marginTop: 10,
+  },
+  addItemContainer: {
+    display: 'flex', 
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    justifyContent: 'flex-start', 
+    width: 100, 
+    padding: 20,
+    gap: 20
   },
   itemContent: {
     // margin: 10,
