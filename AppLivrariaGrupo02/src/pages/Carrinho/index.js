@@ -9,12 +9,14 @@ import Checkbox from 'expo-checkbox';
 import Toast from "react-native-toast-message";
 
 const Carrinho = () => {
-  const { carrinho, quantidade, removerDoCarrinho, limparCarrinho, diminuirQuantidade, aumentarQuantidade } = useContext(CartContext);
+  const { carrinho, removerDoCarrinho, limparCarrinho, diminuirQuantidade, aumentarQuantidade } = useContext(CartContext);
   const navigation = useNavigation();
   const [isPixChecked, setPixChecked] = useState(false);
   const [isCardChecked, setCardChecked] = useState(false);
   const { isEnabled } = useContext(AppearanceContext);
   const style = isEnabled ? lightStyles : darkStyles;
+
+  const quantidade = carrinho.reduce((total, item) => total + item.quantidade, 0);
 
   const togglePixCheckbox = () => {
     setPixChecked(!isPixChecked);
