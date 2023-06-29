@@ -14,9 +14,9 @@ import { AppearanceContext } from '../../context/AppearanceContext';
 import { sharedStyles, darkStyles, lightStyles } from '../../themes/index';
 
 export function Logout({ navigation }) {
-  const [count, setCount] = useState(10);
+  const [count, setCount] = useState(5);
   const { isEnabled } = useContext(AppearanceContext);
-  
+
   const style = isEnabled ? lightStyles : darkStyles;
 
   useEffect(() => {
@@ -41,19 +41,19 @@ export function Logout({ navigation }) {
   }
 
   return (
-    <SafeAreaView style={[sharedStyles.container, style.container, {flex: 1, flexDirection: 'column', alignItems:'center', justifyContent:'space-between'}]}>
+    <SafeAreaView style={[sharedStyles.container, style.container, { flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }]}>
       <View style={styles.contentContainer}>
         <StatusBar style="light" />
         <Text style={[sharedStyles.headerOne, style.headerOne]} >Tenha um bom dia!</Text>
-        <Image 
-        style ={{ width: 300, height: 200}}
-        source={{
-          uri: 'https://i.imgur.com/Mbm6xQl.png',
-        }}></Image>
+        <Image
+          style={{ width: 300, height: 200 }}
+          source={{
+            uri: 'https://i.imgur.com/Mbm6xQl.png',
+          }}></Image>
         <Text style={[sharedStyles.text, style.text, { fontSize: 18 }]} >Você será redirecionado para a tela de login em </Text>
-        <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', margin: 10}}>
-          <Text style={[sharedStyles.text, style.text, { fontSize: 20 }]}>{ count } </Text>
-          <ActivityIndicator style={{ margin: 10}} size="large" color='#089A6E' />
+        <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', margin: 10 }}>
+          <Text style={[sharedStyles.text, style.text, { fontSize: 20 }]}>{count} </Text>
+          <ActivityIndicator style={{ margin: 10 }} size="large" color='#089A6E' />
         </View>
 
         <TouchableOpacity style={styles.button} onPress={() => handleLoginPage()} >

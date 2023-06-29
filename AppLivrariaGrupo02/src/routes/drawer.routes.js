@@ -30,11 +30,11 @@ function DrawerContent() {
 }
 
 function DrawerRoutes() {
-    const { isEnabled, toggleSwitch } = useContext(AppearanceContext);
-  
-    const onToggleSwitch = () => {
-        toggleSwitch();
-    }
+  const { isEnabled, toggleSwitch } = useContext(AppearanceContext);
+
+  const onToggleSwitch = () => {
+    toggleSwitch();
+  }
   return (
     <Drawer.Navigator
       initialRouteName="Main"
@@ -56,8 +56,8 @@ function DrawerRoutes() {
           headerRight: () => (
             <View style={styles.settingsButtonContainer}>
               <Switch
-                trackColor={{false: '#767577', true: '#81b0ff'}}
-                thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+                trackColor={{ false: '#767577', true: '#767577' }}
+                thumbColor={isEnabled ? '#66d2b1' : '#f4f3f4'}
                 ios_backgroundColor="#3e3e3e"
                 onValueChange={onToggleSwitch}
                 value={isEnabled}
