@@ -25,7 +25,7 @@ const Login = ({ navigation }) => {
     const [hidePass, setHidePass] = useState(true);
     const [error, setError] = useState("");
     const { isEnabled } = useContext(AppearanceContext);
-  
+
     const styles = isEnabled ? lightStyles : darkStyles;
 
     const handleLogin = async () => {
@@ -58,22 +58,22 @@ const Login = ({ navigation }) => {
         <SafeAreaView style={[sharedStyles.container, styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
             <StatusBar style="light" />
             <Image
-            style={{ width: 150, height: 100, marginBottom: 15,}}
-            source={{
-                uri: 'https://i.imgur.com/Mbm6xQl.png'
-            }}
+                style={{ width: 150, height: 100, marginBottom: 15, }}
+                source={{
+                    uri: 'https://i.imgur.com/Mbm6xQl.png'
+                }}
             ></Image>
-    
+
             <Text style={[sharedStyles.headerTwo, styles.headerTwo]} >Bem Vindo(a)</Text>
 
             <View style={style.inputContainer}>
                 <Text style={[sharedStyles.textOne, styles.textOne]} >Email:</Text>
-                    <TextInput
-                        style={[style.input, error && style.inputError]}
-                        placeholder=''
-                        onChangeText={setEmail}
-                        value={email}
-                    />
+                <TextInput
+                    style={[style.input, error && style.inputError]}
+                    placeholder=''
+                    onChangeText={setEmail}
+                    value={email}
+                />
             </View>
             <View style={style.inputContainer}>
                 <Text style={[sharedStyles.textOne, styles.textOne]} >Senha:</Text>
@@ -87,18 +87,20 @@ const Login = ({ navigation }) => {
                     />
                     <TouchableOpacity style={style.icon} onPress={() => setHidePass(!hidePass)}>
                         {hidePass ?
-                            <Ionicons name="eye" color="#07261d" size={18}/>
+                            <Ionicons name="eye" color="#07261d" size={18} />
                             :
                             <Ionicons name="eye-off" color="#07261d" size={18} />
                         }
                     </TouchableOpacity>
                 </View>
-                <View style={{display: 'flex', alignItems: 'center'}}>
-                    <Text style={{ color: 'red', margin: 'auto', paddingTop: 10}}>{error}</Text>
+                <View style={{ display: 'flex', alignItems: 'center' }}>
+                    <Text style={{ color: 'red', margin: 'auto', paddingTop: 10 }}>{error}</Text>
                     <TouchableOpacity style={style.button} onPress={() => handleLogin()} >
                         <Text style={style.txtButton}>Login</Text>
                     </TouchableOpacity>
-                    <Text style={[sharedStyles.textOne, styles.textOne, {marginTop: 10}]} >Não possui conta? Registre-se <Text style={{color: '#089A6E'}}>aqui</Text></Text>
+                    <Text style={[sharedStyles.textOne, styles.textOne, { marginTop: 10 }]} >Não possui conta? Registre-se
+
+                        <Text style={{ color: '#089A6E' }} onPress={() => navigation.navigate("Cadastro")}> aqui</Text></Text>
                 </View>
             </View>
         </SafeAreaView>

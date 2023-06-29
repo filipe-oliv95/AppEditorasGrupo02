@@ -2,6 +2,7 @@
 import { useContext } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 // import { Feather } from '@expo/vector-icons'
+import Cadastro from '../pages/Cadastro';
 import Editora from "../pages/Editora";
 import Livro from "../pages/Livro";
 import Login from "../pages/Login";
@@ -26,6 +27,13 @@ function StackRoutes() {
             <Stack.Screen
                 name='Login'
                 component={Login}
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen
+                name='Cadastro'
+                component={Cadastro}
                 options={{
                     headerShown: false,
                 }}
